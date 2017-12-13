@@ -18,9 +18,12 @@ This is a small free program written with Delphi, which is able to format sql qu
 ### Soon 
 * xml output of parsed tree, and xml reader to script an xml back +small dedicated tools for those tasks
 * parsing of functional blocks (functions, procedures and triggers)
+* external (command line) tools: sql2xmltree, xmltree2sql, sqlformat 
+* many internal structure improvements to simple and clarify their usage
 ### General ideas
 * format of script selected part or even selected part of single query
 * inscript tags with used format options, required to apply same formatting rules to edited queries
+* keep comments, now they are removed while formatting
 * general parser rework to support BNF grammar definitions (biggest task)
 ### Nice to have
 * some query converters ie. old joins to ansi joins, in conditions with subqueries to joins, single column fetching joins to subqueries etc. 

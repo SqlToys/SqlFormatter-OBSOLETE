@@ -28,4 +28,4 @@ This is a small free program written with Delphi, which is able to format sql qu
 ### Nice to have
 * some query converters ie. old joins to ansi joins, in conditions with subqueries to joins, single column fetching joins to subqueries etc. 
 * converters between dialects (ie. ORALCE to MS SQL? :)
-
+* query analizer to check queries against some known problems that may occur during their lifetime ie. column subquery returns more that single value per row, possible NULL values inside IN condition (for ORACLE), maybe checks for possible table mutations (?) etc.

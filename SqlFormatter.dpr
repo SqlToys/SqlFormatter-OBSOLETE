@@ -4,7 +4,7 @@ uses
   Forms,
   Vcl.Themes,
   Vcl.Styles,
-  SqlVersion in '..\SqlVersion.pas',
+  SqlVersion in '..\SqlParser\SqlVersion.pas',
   GtContainers in '..\SqlParser\GtContainers.pas',
   GtExtUnit in '..\SqlParser\GtExtUnit.pas',
   GtStandard in '..\SqlParser\GtStandard.pas',

@@ -16,9 +16,9 @@ This is a small free program written with Delphi, which is able to format sql qu
 
 ## Things to do 
 ### Soon 
-* xml output of parsed tree, and xml reader to script an xml back +small dedicated tools for those tasks
+* xml output of parsed tree, and xml reader to script an xml back +small dedicated tools for those tasks -- DONE.
 * parsing of functional blocks (functions, procedures and triggers)
-* external (command line) tools: sql2xmltree, xmltree2sql, sqlformat 
+* external (command line) tools: sql2xmltree, xmltree2sql, sqlformat -- DONE.
 * many internal structure improvements to simple and clarify their usage
 ### General ideas
 * format of script selected part or even selected part of single query

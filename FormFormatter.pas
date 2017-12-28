@@ -128,6 +128,7 @@ type
     RibbonGroupConvertIdentCase: TRibbonGroup;
     RibbonPageCase: TRibbonPage;
     actFilesExportXML: TAction;
+    actFilesImportXml: TAction;
 
     { form & control events }
     procedure FormCreate(Sender: TObject);
@@ -247,6 +248,7 @@ begin
   actFilesSaveAs.OnExecute        := FrameScriptEdit.actFilesSaveAsExecute;
   actFilesExit.OnExecute          := FrameScriptEdit.actFilesExitExecute;
   actFilesExportXML.OnExecute     := FrameScriptEdit.actFilesExportXMLExecute;
+  actFilesImportXML.OnExecute     := FrameScriptEdit.actFilesImportXMLExecute;
 
   actToolsFormat.OnExecute        := FrameScriptEdit.actToolsFormatExecute;
   actToolsCompact.OnExecute       := FrameScriptEdit.actToolsCompactExecute;

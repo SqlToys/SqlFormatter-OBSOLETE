@@ -1,4 +1,4 @@
-﻿(* $Header: /SQL Toys/SqlFormatter/FrameScriptEdit.pas 49    17-12-16 19:58 Tomek $
+﻿(* $Header: /SQL Toys/SqlFormatter/FrameScriptEdit.pas 52    17-12-26 19:23 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2014.08.16                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -63,6 +63,7 @@ type
     actToolsFormat: TAction;
     actToolsListByTokens: TAction;
     actFilesExportXML: TAction;
+    actFilesImportXML: TAction;
 
     procedure ScriptEditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     // procedure ScriptEditKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -110,6 +111,7 @@ type
     procedure actToolsFormatExecute(Sender: TObject);
     procedure actToolsListByTokensExecute(Sender: TObject);
     procedure actFilesExportXMLExecute(Sender: TObject);
+    procedure actFilesImportXMLExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -144,7 +146,6 @@ type
     procedure ScriptOpenFromFile (aFileName: String);
     procedure ScriptSaveToFile;
     procedure ScriptTabToSpaces(aSL: TStrings);
-    procedure ScriptExportToXML(aFileName: String; aFullList: Boolean = False);
 
     function  ScriptEdit_ActiveControl: Boolean;
     function  ScriptEdit_GetCurrQuery: TGtSqlNode;
@@ -385,26 +386,38 @@ end;
 { UWAGA: nie dziala gdy sa wlaczone automatyczne akceleratory dla menu RecentFiles }
 procedure TFrameScriptEdit.ScriptOpenFromFile;
 var SL: TStringList;
+    ScriptLister: TGtSqlFormatLister;
 begin
+  if not ScriptCloseFile then Exit;
   RecentFiles_Remove(aFileName);
 
   ScriptEdit.Lines.Clear;
 
   if not FileExists( aFileName ) then begin
     if Application.MainForm.Visible then ShowMessage('File "' + aFileName + '" does not exists.');
+    Exit;
+  end;
+
+  ScriptFileName := aFileName;
+  Application.MainForm.Caption := VER_CAPTION + ' - ' + ScriptFileName;
+
+  if ExtractFileExt(aFileName) = '.xml' then begin
+    if not Assigned(Parser) then ParseScript(nil, False);
+    XmlToParseTree( aFileName, Parser.QueryList );
+
+    ScriptLister := TGtSqlFormatLister.Create;
+    try
+      ScriptLister.FormattingMode  := gtfoText;
+      SetScriptListerOptions(ScriptLister);
+      SetScriptFormatOptions(ScriptLister, True);
+      ScriptLister.List_SqlParser(Parser);
+      ScriptEdit.Font.Style := [];
+      ScriptTabToSpaces(ScriptLister.SL);
+      StringListToScriptEdit(ScriptLister.SL);
+    finally
+      ScriptLister.Free;
+    end;
   end else begin
-    ScriptFileName := aFileName;
-    Application.MainForm.Caption := VER_CAPTION + ' - ' + ScriptFileName;
-
-    { ukrywa nawigator dla duzych plikow }
-//    if actViewNavigator.Checked and ( GtFileSize(ScriptFileName) > 100000 ) then begin
-//        actViewNavigator.Checked := False;
-//
-//        SetVisibleControls;
-//        Application.ProcessMessages;
-//      end;
-//    end;
-
     SL := TStringList.Create;
     try
       SL.LoadFromFile( ScriptFileName );
@@ -417,7 +430,6 @@ begin
 
   ParseScript;
   ListScriptByToken;
-//  MainForm.FrameNavigator.ListNavigator;
 
   ScriptEdit.Modified := False;
 
@@ -430,39 +442,38 @@ procedure TFrameScriptEdit.ScriptSaveToFile;
 var lSL: TStringList;
     lBackupFileName, lBackupFileExt: String;
 begin
-  lSL := TStringList.Create;
   try
-    try
-      { find proper backup file name }
-      lBackupFileExt := ExtractFileExt(ScriptFileName);
+    { find proper backup file name }
+    lBackupFileExt := StringReplace(ExtractFileExt(ScriptFileName), '.', '.~', [rfReplaceAll]);
 
-      { do the backup }
-      if lBackupFileExt <> '' then begin
-        lBackupFileName := ExtractFilePath(ScriptFileName) +
-                           ChangeFileExt(ExtractFileName(ScriptFileName), lBackupFileExt );
+    { do the backup }
+    if lBackupFileExt <> '' then begin
+      lBackupFileName := ExtractFilePath(ScriptFileName) +
+                         ChangeFileExt(ExtractFileName(ScriptFileName), lBackupFileExt );
 
-        SysUtils.DeleteFile(lBackupFileName);
-        if FileExists(ScriptFileName) then RenameFile(ScriptFileName, lBackupFileName);
-      end;
-    except
+      SysUtils.DeleteFile(lBackupFileName);
+      if FileExists(ScriptFileName) then RenameFile(ScriptFileName, lBackupFileName);
     end;
+  except
+  end;
 
-    { save file }
-    lSL.AddStrings(ScriptEdit.Lines);
-    lSL.SaveToFile(ScriptFileName);
-  finally
-    lSL.Free;
+  if ExtractFileExt(ScriptFileName) = '.xml' then begin
+//    ParseScript(ScriptLister.SL);
+//    ListScriptByToken;
+    {if not Assigned(Parser) then} ParseScript(nil, False);
+    ParseTreeToXml (Parser.QueryList, ScriptFileName);
+  end else begin
+    lSL := TStringList.Create;
+    try
+      lSL.AddStrings(ScriptEdit.Lines);
+      lSL.SaveToFile(ScriptFileName);
+    finally
+      lSL.Free;
+    end;
   end;
 
   Application.MainForm.Caption := VER_CAPTION + ' - ' + ScriptFileName;
-end;
-
-{ exports to XML }
-procedure TFrameScriptEdit.ScriptExportToXML(aFileName: String; aFullList: Boolean = False);
-begin
-  if not Assigned(Parser) then ParseScript(nil, False);
-
-  ParseTreeToXml (Parser.QueryList, aFileName);
+  if ScriptEdit.Visible then ScriptEdit.SetFocus;
 end;
 
 { changes tabs to spaces }
@@ -755,7 +766,20 @@ begin
     (MessageDlg('Overwrite file ' {+ lFileName} + ' ?', mtWarning, [mbYes, mbNo, mbCancel], 0) <> mrYes)
      then Exit;
 
-    ScriptExportToXML(lFileName);
+  {if not Assigned(Parser) then} ParseScript(nil, False);
+  ParseTreeToXml (Parser.QueryList, lFileName);
+
+  if ScriptEdit.Visible then ScriptEdit.SetFocus;
+end;
+
+{ action Files, Import from XML }
+procedure TFrameScriptEdit.actFilesImportXMLExecute(Sender: TObject);
+var lFileName: String;
+begin
+  if not ScriptCloseFile then Exit;
+  if not GtOpenXmlFile( lFileName ) then Exit;
+
+  ScriptOpenFromFile (lFileName);
 
   if ScriptEdit.Visible then ScriptEdit.SetFocus;
 end;

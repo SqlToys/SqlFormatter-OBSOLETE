@@ -260,5 +260,10 @@ object FrameScriptEdit: TFrameScriptEdit
       Caption = 'Export to XML'
       OnExecute = actFilesExportXMLExecute
     end
+    object ActFilesImportXML: TAction
+      Category = 'Files'
+      Caption = 'Import from XML'
+      OnExecute = ActFilesImportXMLExecute
+    end
   end
 end

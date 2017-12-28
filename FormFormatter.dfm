@@ -33,6 +33,8 @@ object MainForm: TMainForm
     inherited ScriptEdit: TRichEdit
       Width = 1016
       Height = 374
+      ExplicitLeft = -1
+      ExplicitTop = 2
       ExplicitWidth = 1016
       ExplicitHeight = 374
     end
@@ -408,8 +410,13 @@ object MainForm: TMainForm
                 ImageIndex = 3
               end
               item
+                Action = actFilesImportXml
+                ImageIndex = 1
+              end
+              item
                 Action = actFilesExportXML
                 Caption = '&Export to XML'
+                ImageIndex = 3
               end>
             Caption = '&ActionClientItem0'
             KeyTip = 'F'
@@ -1180,6 +1187,11 @@ object MainForm: TMainForm
       Category = 'Files'
       Caption = 'Export to XML'
       ImageIndex = 3
+    end
+    object actFilesImportXml: TAction
+      Category = 'Files'
+      Caption = 'Import from XML'
+      ImageIndex = 1
     end
   end
   object ImageList16: TImageList

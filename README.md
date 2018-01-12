@@ -20,6 +20,8 @@ This is a small free program written with Delphi, which is able to format sql qu
 * parsing of functional blocks (functions, procedures and triggers)
 * external (command line) tools: sql2xmltree, xmltree2sql, sqlformat -- <B>DONE</B>.
 * many internal structure improvements to simple and clarify their usage
+  * format lister should be minimial ie. only each clause, expression and joins at new line
+  * other format options should be realized as parse tree modifications (converters) -- <B>IN PROGRESS</B>
 ### General ideas
 * format of script selected part or even selected part of single query
 * inscript tags with used format options, required to apply same formatting rules to edited queries

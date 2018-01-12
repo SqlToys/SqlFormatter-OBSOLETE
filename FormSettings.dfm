@@ -709,6 +709,12 @@ object FormSettings: TFormSettings
       Width = 176
       Height = 17
       Caption = 'ON cond. left side references'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsUnderline]
+      ParentFont = False
       TabOrder = 4
     end
     object ChkBoxInnerJoins: TCheckBox
@@ -763,7 +769,7 @@ object FormSettings: TFormSettings
       Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'MS Sans Serif'
-      Font.Style = []
+      Font.Style = [fsUnderline, fsStrikeOut]
       ParentFont = False
       TabOrder = 6
     end

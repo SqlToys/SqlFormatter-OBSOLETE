@@ -33,8 +33,6 @@ object MainForm: TMainForm
     inherited ScriptEdit: TRichEdit
       Width = 1016
       Height = 374
-      ExplicitLeft = -1
-      ExplicitTop = 2
       ExplicitWidth = 1016
       ExplicitHeight = 374
     end
@@ -106,8 +104,12 @@ object MainForm: TMainForm
       item
         Caption = 'Cases'
         Page = RibbonPageCase
+      end
+      item
+        Caption = 'Others'
+        Page = RibbonPageOthers
       end>
-    TabIndex = 2
+    TabIndex = 1
     OnRecentItemClick = RibbonRecentItemClick
     DesignSize = (
       1016
@@ -129,6 +131,112 @@ object MainForm: TMainForm
           Tag = 0
         end>
       RecentItems = <>
+    end
+    object RibbonPageCase: TRibbonPage
+      Left = 0
+      Top = 50
+      Width = 1015
+      Height = 93
+      Caption = 'Cases'
+      Index = 2
+      object RibbonGroupConvertKeywordCase: TRibbonGroup
+        Left = 4
+        Top = 3
+        Width = 65
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Keywords case'
+        GroupIndex = 5
+      end
+      object RibbonGroupConvertTableCase: TRibbonGroup
+        Left = 71
+        Top = 3
+        Width = 65
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Table case'
+        GroupIndex = 6
+      end
+      object RibbonGroupConvertColumnCase: TRibbonGroup
+        Left = 138
+        Top = 3
+        Width = 65
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Column case'
+        GroupIndex = 7
+      end
+      object RibbonGroupConvertTabAliasCase: TRibbonGroup
+        Left = 205
+        Top = 3
+        Width = 65
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Tab alias case'
+        GroupIndex = 8
+      end
+      object RibbonGroupConvertColAliasCase: TRibbonGroup
+        Left = 272
+        Top = 3
+        Width = 65
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Column alias'
+        GroupIndex = 9
+      end
+      object RibbonGroupConvertParamCase: TRibbonGroup
+        Left = 339
+        Top = 3
+        Width = 65
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Param case'
+        GroupIndex = 10
+      end
+      object RibbonGroupConvertFuncCase: TRibbonGroup
+        Left = 406
+        Top = 3
+        Width = 65
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Func case'
+        GroupIndex = 11
+      end
+      object RibbonGroupConvertColQuotedAliasCase: TRibbonGroup
+        Left = 473
+        Top = 3
+        Width = 65
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Quoted col alias case'
+        GroupIndex = 12
+      end
+      object RibbonGroupConvertIdentCase: TRibbonGroup
+        Left = 540
+        Top = 3
+        Width = 65
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Identifier case'
+        GroupIndex = 13
+      end
+    end
+    object RibbonPageOthers: TRibbonPage
+      Left = 0
+      Top = 50
+      Width = 1015
+      Height = 93
+      Caption = 'Others'
+      Index = 3
+      object RibbonGroupConvertJoinsCond: TRibbonGroup
+        Left = 4
+        Top = 3
+        Width = 68
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Join conditions'
+        GroupIndex = 0
+      end
     end
     object RibbonPageGeneral: TRibbonPage
       Left = 0
@@ -245,95 +353,6 @@ object MainForm: TMainForm
         GroupIndex = 4
       end
     end
-    object RibbonPageCase: TRibbonPage
-      Left = 0
-      Top = 50
-      Width = 1015
-      Height = 93
-      Caption = 'Cases'
-      Index = 2
-      object RibbonGroupConvertKeywordCase: TRibbonGroup
-        Left = 4
-        Top = 3
-        Width = 65
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Keywords case'
-        GroupIndex = 5
-      end
-      object RibbonGroupConvertTableCase: TRibbonGroup
-        Left = 71
-        Top = 3
-        Width = 65
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Table case'
-        GroupIndex = 6
-      end
-      object RibbonGroupConvertColumnCase: TRibbonGroup
-        Left = 138
-        Top = 3
-        Width = 65
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Column case'
-        GroupIndex = 7
-      end
-      object RibbonGroupConvertTabAliasCase: TRibbonGroup
-        Left = 205
-        Top = 3
-        Width = 65
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Tab alias case'
-        GroupIndex = 8
-      end
-      object RibbonGroupConvertColAliasCase: TRibbonGroup
-        Left = 272
-        Top = 3
-        Width = 65
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Column alias'
-        GroupIndex = 9
-      end
-      object RibbonGroupConvertParamCase: TRibbonGroup
-        Left = 339
-        Top = 3
-        Width = 65
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Param case'
-        GroupIndex = 10
-      end
-      object RibbonGroupConvertFuncCase: TRibbonGroup
-        Left = 406
-        Top = 3
-        Width = 65
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Func case'
-        GroupIndex = 11
-      end
-      object RibbonGroupConvertColQuotedAliasCase: TRibbonGroup
-        Left = 473
-        Top = 3
-        Width = 65
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Quoted col alias case'
-        GroupIndex = 12
-      end
-      object RibbonGroupConvertIdentCase: TRibbonGroup
-        Left = 540
-        Top = 3
-        Width = 65
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Identifier case'
-        GroupIndex = 13
-      end
-    end
   end
   object ActionList: TActionList
     Left = 513
@@ -411,6 +430,7 @@ object MainForm: TMainForm
               end
               item
                 Action = actFilesImportXml
+                Caption = '&Import from XML'
                 ImageIndex = 1
               end
               item
@@ -834,6 +854,14 @@ object MainForm: TMainForm
             ImageIndex = 51
           end>
         ActionBar = RibbonGroupConvertIdentCase
+      end
+      item
+        Items = <
+          item
+            Action = actConvertJoinCondRefToLeft
+            Caption = '&refs to left'
+          end>
+        ActionBar = RibbonGroupConvertJoinsCond
       end>
     DisabledImages = ImageList16disabled
     LargeDisabledImages = ImageList32disabled
@@ -1192,6 +1220,11 @@ object MainForm: TMainForm
       Category = 'Files'
       Caption = 'Import from XML'
       ImageIndex = 1
+    end
+    object actConvertJoinCondRefToLeft: TAction
+      Category = 'Convert JoinCond'
+      Caption = 'refs to left'
+      OnExecute = actConvertJoinCondRefToLeftExecute
     end
   end
   object ImageList16: TImageList

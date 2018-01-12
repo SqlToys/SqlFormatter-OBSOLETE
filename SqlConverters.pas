@@ -1,20 +1,30 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 12    17-12-16 19:58 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 14    18-01-08 9:38 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
 
 interface
 
-uses SqlTokenizers, SqlStructs;
+uses SqlTokenizers, SqlStructs, SqlLister;
 
 {---------------------------- Navigation procedures ---------------------------}
 
 type TSqlNodeProcedure = procedure (aNode: TGtSqlNode);
+type TSqlNodeCaseProcedure = procedure (aNode: TGtSqlNode; aCase: TGtSqlCaseOption);
 
+{ TODO: move to TGtSqlNode.ForEach, TGtSqlNode.ForEachAndDeepInside }
 procedure SqlToysExec_ForEach_Node       ( aProc: TSqlNodeProcedure;       aNode: TGtSqlNode;
+                                           aKind: TGtSqlNodeKind=gtsiNone; aKeyword: TGtLexTokenDef=nil; aName: String='');
+procedure SqlToysExec_ForEach_Node_Case  ( aProc: TSqlNodeCaseProcedure;   aNode: TGtSqlNode;
+                                           aCase: TGtSqlCaseOption = gtcoNoChange;
                                            aKind: TGtSqlNodeKind=gtsiNone; aKeyword: TGtLexTokenDef=nil; aName: String='');
 procedure SqlToysExec_ForEach_DeepInside ( aProc: TSqlNodeProcedure; aNode: TGtSqlNode;
                                            aKind: TGtSqlNodeKind=gtsiNone; aKeyword: TGtLexTokenDef=nil; aName: String='');
+
+{----------------------------------- General ----------------------------------}
+
+procedure SqlToysConvert_ExecuteAll(aNode: TGtSqlNode; aOptions: TGtListerSettingsArray;
+                                    aCaseOpt: TGtListerCaseSettingsArray);
 
 {------------------------------ Alias Converters ------------------------------}
 
@@ -29,27 +39,35 @@ procedure SqlToysConvert_TableAlias_RemoveKeyword_AS(aNode: TGtSqlNode);
 procedure SqlToysConvert_CaseKeyword_Lower(aNode: TGtSqlNode);
 procedure SqlToysConvert_CaseKeyword_Upper(aNode: TGtSqlNode);
 
+procedure SqlToysConvert_CaseTableName(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
 procedure SqlToysConvert_CaseTableName_Lower(aNode: TGtSqlNode);
 procedure SqlToysConvert_CaseTableName_Upper(aNode: TGtSqlNode);
 
+procedure SqlToysConvert_CaseColumnName(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
 procedure SqlToysConvert_CaseColumnName_Lower(aNode: TGtSqlNode);
 procedure SqlToysConvert_CaseColumnName_Upper(aNode: TGtSqlNode);
 
+procedure SqlToysConvert_CaseTableAlias(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
 procedure SqlToysConvert_CaseTableAlias_Lower(aNode: TGtSqlNode);
 procedure SqlToysConvert_CaseTableAlias_Upper(aNode: TGtSqlNode);
 
+procedure SqlToysConvert_CaseColumnAlias(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
 procedure SqlToysConvert_CaseColumnAlias_Lower(aNode: TGtSqlNode);
 procedure SqlToysConvert_CaseColumnAlias_Upper(aNode: TGtSqlNode);
 
+procedure SqlToysConvert_CaseColumnQuotedAlias(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
 procedure SqlToysConvert_CaseColumnQuotedAlias_Lower(aNode: TGtSqlNode);
 procedure SqlToysConvert_CaseColumnQuotedAlias_Upper(aNode: TGtSqlNode);
 
+procedure SqlToysConvert_CaseParam(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
 procedure SqlToysConvert_CaseParam_Lower(aNode: TGtSqlNode);
 procedure SqlToysConvert_CaseParam_Upper(aNode: TGtSqlNode);
 
+procedure SqlToysConvert_CaseFunc(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
 procedure SqlToysConvert_CaseFunc_Lower(aNode: TGtSqlNode);
 procedure SqlToysConvert_CaseFunc_Upper(aNode: TGtSqlNode);
 
+procedure SqlToysConvert_CaseIdentifier(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
 procedure SqlToysConvert_CaseIdentifier_Lower(aNode: TGtSqlNode);
 procedure SqlToysConvert_CaseIdentifier_Upper(aNode: TGtSqlNode);
 
@@ -73,9 +91,128 @@ procedure SqlToysConvert_Joins_RemoveInner(aNode: TGtSqlNode);
 procedure SqlToysConvert_Joins_AddOuter(aNode: TGtSqlNode);
 procedure SqlToysConvert_Joins_RemoveOuter(aNode: TGtSqlNode);
 
+{-------------------------- JOIN condition Converters -------------------------}
+
+procedure SqlToysConvert_JoinCond_RefToLeft(aNode: TGtSqlNode);
+
 implementation
 
 uses SysUtils;
+
+{----------------------------------- General ----------------------------------}
+
+procedure SqlToysConvert_ExecuteAll(aNode: TGtSqlNode; aOptions: TGtListerSettingsArray;
+                                    aCaseOpt: TGtListerCaseSettingsArray);
+begin
+{------------------------------ Alias Converters ------------------------------}
+  if aOptions[ gtstTableAsKeywordCONVERTER ]
+    then SqlToysConvert_TableAlias_AddKeyword_AS( aNode )
+    else SqlToysConvert_TableAlias_RemoveKeyword_AS( aNode );
+
+  if aOptions[ gtstExprAsKeywordCONVERTER ]
+    then SqlToysConvert_ExprAlias_AddKeyword_AS( aNode )
+    else SqlToysConvert_ExprAlias_RemoveKeyword_AS( aNode );
+{------------------------------ Case Converters -------------------------------}
+//procedure SqlToysConvert_CaseKeyword_Lower(aNode: TGtSqlNode);
+//procedure SqlToysConvert_CaseKeyword_Upper(aNode: TGtSqlNode);
+
+  SqlToysConvert_CaseTableName( aNode, aCaseOpt[ gtlcTableCONVERTER ] );
+//  case aCaseOpt[ gtlcTableCONVERTER ] of
+//    gtcoNoChange       : ;
+//    gtcoUpperCase      : SqlToysConvert_CaseTableName_Upper( aNode );
+//    gtcoLowerCase      : SqlToysConvert_CaseTableName_Lower( aNode );
+//    gtcoFirstCharUpper : ;
+//    gtcoFirstUseCase   : ;
+//  end;
+
+  SqlToysConvert_CaseColumnName( aNode, aCaseOpt[ gtlcColumnCONVERTER ] );
+//  case aCaseOpt[ gtlcColumnCONVERTER ] of
+//    gtcoNoChange       : ;
+//    gtcoUpperCase      : SqlToysConvert_CaseColumnName_Upper( aNode );
+//    gtcoLowerCase      : SqlToysConvert_CaseColumnName_Lower( aNode );
+//    gtcoFirstCharUpper : ;
+//    gtcoFirstUseCase   : ;
+//  end;
+
+  SqlToysConvert_CaseTableAlias( aNode, aCaseOpt[ gtlcTableAliasCONVERTER ] );
+//  case aCaseOpt[ gtlcTableAliasCONVERTER ] of
+//    gtcoNoChange       : ;
+//    gtcoUpperCase      : SqlToysConvert_CaseTableAlias_Upper( aNode );
+//    gtcoLowerCase      : SqlToysConvert_CaseTableAlias_Lower( aNode );
+//    gtcoFirstCharUpper : ;
+//    gtcoFirstUseCase   : ;
+//  end;
+
+  SqlToysConvert_CaseColumnAlias( aNode, aCaseOpt[ gtlcColumnAliasCONVERTER ] );
+//  case aCaseOpt[ gtlcColumnAliasCONVERTER ] of
+//    gtcoNoChange       : ;
+//    gtcoUpperCase      : SqlToysConvert_CaseColumnAlias_Upper( aNode );
+//    gtcoLowerCase      : SqlToysConvert_CaseColumnAlias_Lower( aNode );
+//    gtcoFirstCharUpper : ;
+//    gtcoFirstUseCase   : ;
+//  end;
+
+  SqlToysConvert_CaseColumnQuotedAlias( aNode, aCaseOpt[ gtlcColumnQuotedAliasCONVERTER ] );
+//  case aCaseOpt[ gtlcColumnQuotedAliasCONVERTER ] of
+//    gtcoNoChange       : ;
+//    gtcoUpperCase      : SqlToysConvert_CaseColumnQuotedAlias_Upper( aNode );
+//    gtcoLowerCase      : SqlToysConvert_CaseColumnQuotedAlias_Lower( aNode );
+//    gtcoFirstCharUpper : ;
+//    gtcoFirstUseCase   : ;
+//  end;
+
+  SqlToysConvert_CaseParam( aNode, aCaseOpt[ gtlcParameterCONVERTER ] );
+//  case aCaseOpt[ gtlcParameterCONVERTER ] of
+//    gtcoNoChange       : ;
+//    gtcoUpperCase      : SqlToysConvert_CaseParam_Upper( aNode );
+//    gtcoLowerCase      : SqlToysConvert_CaseParam_Lower( aNode );
+//    gtcoFirstCharUpper : ;
+//    gtcoFirstUseCase   : ;
+//  end;
+
+  SqlToysConvert_CaseFunc( aNode, aCaseOpt[ gtlcFunctionCONVERTER ] );
+//  case aCaseOpt[ gtlcFunctionCONVERTER ] of
+//    gtcoNoChange       : ;
+//    gtcoUpperCase      : SqlToysConvert_CaseFunc_Upper( aNode );
+//    gtcoLowerCase      : SqlToysConvert_CaseFunc_Lower( aNode );
+//    gtcoFirstCharUpper : ;
+//    gtcoFirstUseCase   : ;
+//  end;
+
+  SqlToysConvert_CaseIdentifier( aNode, aCaseOpt[ gtlcIdentifierCONVERTER ] );
+//  case aCaseOpt[ gtlcIdentifierCONVERTER ] of
+//    gtcoNoChange       : ;
+//    gtcoUpperCase      : SqlToysConvert_CaseIdentifier_Upper( aNode );
+//    gtcoLowerCase      : SqlToysConvert_CaseIdentifier_Lower( aNode );
+//    gtcoFirstCharUpper : ;
+//    gtcoFirstUseCase   : ;
+//  end;
+{---------------------------- Sort Order Converters ---------------------------}
+  if aOptions[ gtstSortShortCONVERTER ]
+    then SqlToysConvert_SortOrder_ShortKeywords( aNode )
+    else SqlToysConvert_SortOrder_LongKeywords( aNode );
+
+  if aOptions[ gtstSkipAscendingCONVERTER ]
+    then SqlToysConvert_SortOrder_RemoveDefaultKeywords( aNode )
+    else SqlToysConvert_SortOrder_AddDefaultKeywords( aNode );
+{---------------------------- Datatype Converters -----------------------------}
+
+//procedure SqlToysConvert_DataType_IntToInteger(aNode: TGtSqlNode);
+//procedure SqlToysConvert_DataType_IntegerToInt(aNode: TGtSqlNode);
+
+{------------------------------- JOIN Converters ------------------------------}
+  if aOptions[ gtstInnerJoinCONVERTER ]
+    then SqlToysConvert_Joins_AddInner( aNode )
+    else SqlToysConvert_Joins_RemoveInner( aNode );
+
+  if aOptions[ gtstOuterJoinCONVERTER ]
+    then SqlToysConvert_Joins_AddOuter( aNode )
+    else SqlToysConvert_Joins_RemoveOuter( aNode );
+{-------------------------- JOIN condition Converters -------------------------}
+//  if aOptions[ gtstOnCondRefsFirstCONVERTER ]
+  if aOptions[ gtstJoinCondLeftSideOrderCONVERTER ]
+    then SqlToysConvert_JoinCond_RefToLeft( aNode );
+end;
 
 {---------------------------- Navigation procedures ---------------------------}
 
@@ -87,6 +224,15 @@ begin
 
   for i := 0 to aNode.Count -1 do
     if aNode[i].Check(aKind, aKeyword, aName) then aProc(aNode[i]);
+end;
+
+procedure SqlToysExec_ForEach_Node_Case;
+var i: Integer;
+begin
+  if not Assigned(aNode) then Exit;
+
+  for i := 0 to aNode.Count -1 do
+    if aNode[i].Check(aKind, aKeyword, aName) then aProc(aNode[i], aCase);
 end;
 
 { calls aProc for each node and its subnodes in aNode list }
@@ -206,6 +352,16 @@ begin
   SqlToysExec_ForEach_Node( SqlToysConvert_CaseKeyword_Upper, aNode );
 end;
 
+procedure SqlToysConvert_CaseTableName(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if aNode.Kind = gtsiTableRef
+    then aNode.Name := UpperLowerStr( aNode.Name, aCase );
+
+  SqlToysExec_ForEach_Node_Case( SqlToysConvert_CaseTableName, aNode, aCase );
+end;
+
 procedure SqlToysConvert_CaseTableName_Lower(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
@@ -226,6 +382,16 @@ begin
   SqlToysExec_ForEach_Node( SqlToysConvert_CaseTableName_Upper, aNode );
 end;
 
+procedure SqlToysConvert_CaseTableAlias(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if aNode.Kind = gtsiTableRef
+    then aNode.AliasName := UpperLowerStr( aNode.AliasName, aCase );
+
+  SqlToysExec_ForEach_Node_Case( SqlToysConvert_CaseTableAlias, aNode, aCase );
+end;
+
 procedure SqlToysConvert_CaseTableAlias_Lower(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
@@ -244,6 +410,17 @@ begin
     then aNode.AliasName := AnsiUpperCase( aNode.AliasName );
 
   SqlToysExec_ForEach_Node( SqlToysConvert_CaseTableAlias_Upper, aNode );
+end;
+
+procedure SqlToysConvert_CaseColumnName(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Kind = gtsiExpr) and (aNode.Keyword <> gttkParameterName) and (aNode.Name <> '')
+                             and (aNode.Keyword <> gtkwFunction)
+    then aNode.Name := UpperLowerStr( aNode.Name, aCase );
+
+  SqlToysExec_ForEach_Node_Case( SqlToysConvert_CaseColumnName, aNode, aCase );
 end;
 
 procedure SqlToysConvert_CaseColumnName_Lower(aNode: TGtSqlNode);
@@ -268,6 +445,16 @@ begin
   SqlToysExec_ForEach_Node( SqlToysConvert_CaseColumnName_Upper, aNode );
 end;
 
+procedure SqlToysConvert_CaseColumnAlias(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Kind = gtsiExprTree) and (aNode.AliasName <> '') and (Copy(aNode.AliasName,1,1) <> '"')
+    then aNode.AliasName := UpperLowerStr( aNode.AliasName, aCase );
+
+  SqlToysExec_ForEach_Node_Case( SqlToysConvert_CaseColumnAlias, aNode, aCase );
+end;
+
 procedure SqlToysConvert_CaseColumnAlias_Lower(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
@@ -286,6 +473,16 @@ begin
     then aNode.AliasName := AnsiUpperCase( aNode.AliasName );
 
   SqlToysExec_ForEach_Node( SqlToysConvert_CaseColumnAlias_Upper, aNode );
+end;
+
+procedure SqlToysConvert_CaseParam(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Kind = gtsiExpr) and (aNode.Keyword = gttkParameterName) and (aNode.Name <> '')
+    then aNode.Name := UpperLowerStr( aNode.Name, aCase );
+
+  SqlToysExec_ForEach_Node_Case( SqlToysConvert_CaseParam, aNode, aCase );
 end;
 
 procedure SqlToysConvert_CaseParam_Lower(aNode: TGtSqlNode);
@@ -308,6 +505,16 @@ begin
   SqlToysExec_ForEach_Node( SqlToysConvert_CaseParam_Upper, aNode );
 end;
 
+procedure SqlToysConvert_CaseFunc(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Kind = gtsiExpr) and (aNode.Name <> '') and (aNode.Keyword = gtkwFunction)
+    then aNode.Name := UpperLowerStr( aNode.Name, aCase );
+
+  SqlToysExec_ForEach_Node_Case( SqlToysConvert_CaseFunc, aNode, aCase );
+end;
+
 procedure SqlToysConvert_CaseFunc_Lower(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
@@ -328,6 +535,16 @@ begin
   SqlToysExec_ForEach_Node( SqlToysConvert_CaseFunc_Upper, aNode );
 end;
 
+procedure SqlToysConvert_CaseColumnQuotedAlias(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Kind = gtsiExprTree) and (aNode.AliasName <> '') and (Copy(aNode.AliasName,1,1) = '"')
+    then aNode.AliasName := UpperLowerStr( aNode.AliasName, aCase );
+
+  SqlToysExec_ForEach_Node_Case( SqlToysConvert_CaseColumnQuotedAlias, aNode, aCase );
+end;
+
 procedure SqlToysConvert_CaseColumnQuotedAlias_Lower(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
@@ -346,6 +563,16 @@ begin
     then aNode.AliasName := AnsiUpperCase( aNode.AliasName );
 
   SqlToysExec_ForEach_Node( SqlToysConvert_CaseColumnQuotedAlias_Upper, aNode );
+end;
+
+procedure SqlToysConvert_CaseIdentifier(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Kind = gtsiExpr) and (aNode.Name <> '') and (aNode.Keyword = gttkIdentifier)
+    then aNode.Name := UpperLowerStr( aNode.Name, aCase );
+
+  SqlToysExec_ForEach_Node_Case( SqlToysConvert_CaseIdentifier, aNode, aCase );
 end;
 
 procedure SqlToysConvert_CaseIdentifier_Lower(aNode: TGtSqlNode);
@@ -503,6 +730,51 @@ begin
   if (aNode.JoinOp = gtkwLeft) or (aNode.JoinOp = gtkwRight) or (aNode.JoinOp = gtkwFull) then aNode.JoinOuterKeyword := False;
 
   SqlToysExec_ForEach_DeepInside ( SqlToysConvert_Joins_RemoveOuter, aNode );
+end;
+
+{-------------------------- JOIN condition Converters -------------------------}
+
+{ converts join condition }
+procedure SqlToysConvert_JoinCond_RefToLeft(aNode: TGtSqlNode);
+// gtstJoinCondLeftSideOrder => gtloCondLeftSideOrder => gtloCondEqualSwap
+// gtstOnCondRefsFirst => moves conds w. refs to top and conds wo. refs to bottom
+
+var sTableNameOrAlias: String;
+
+  procedure CheckAndSwapCondExpressions(aCond: TGtSqlNode);
+  begin
+    if not Assigned(aCond) then Exit;
+    if aCond.Kind <> gtsiCond then Exit;
+    if aCond.CompOp <> gttkEqual then Exit;
+    if aCond.Count <> 2 then Exit;
+
+    if aCond[0].ExprHasReferenceTo(sTableNameOrAlias) then Exit;
+    if not aCond[1].ExprHasReferenceTo(sTableNameOrAlias) then Exit;
+
+    { swaps condition sides }
+    aCond[0].Name := '2';
+    aCond[1].Name := '1';
+  end;
+
+  procedure CondTreeGoDeepInside(aCondTree: TGtSqlNode);
+  var i: Integer;
+  begin
+    if not Assigned(aCondTree) then Exit;
+
+    for i := 0 to aCondTree.Count - 1 do
+      if aCondTree[i].Kind = gtsiCond then CheckAndSwapCondExpressions(aCondTree[i]) else
+      if aCondTree[i].Kind = gtsiCondTree then CondTreeGoDeepInside(aCondTree[i]);
+  end;
+
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Kind = gtsiCondTree) and (aNode.Keyword = gtkwOn) then begin
+    sTableNameOrAlias := aNode.OwnerTableNameOrAlias ;
+    CondTreeGoDeepInside(aNode);
+  end else begin
+    SqlToysExec_ForEach_DeepInside ( SqlToysConvert_JoinCond_RefToLeft, aNode );
+  end;
 end;
 
 end.

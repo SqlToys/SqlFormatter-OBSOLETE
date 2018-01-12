@@ -1,4 +1,4 @@
-﻿(* $Header: /SQL Toys/SqlFormatter/FrameScriptEdit.pas 52    17-12-26 19:23 Tomek $
+﻿(* $Header: /SQL Toys/SqlFormatter/FrameScriptEdit.pas 53    18-01-08 9:37 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2014.08.16                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -325,6 +325,10 @@ begin
 
     SetScriptListerOptions(ScriptLister);
     SetScriptFormatOptions(ScriptLister, aScriptFormat);
+
+    StatusLogStartTime;
+    SqlToysConvert_ExecuteAll(Parser.QueryList, ScriptLister.Options, ScriptLister.CaseOpt);
+    StatusLogStopTime('Converts');
 
     StatusLogStartTime;
     ScriptLister.List_SqlParser(Parser);

@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormFormatter.pas 56    17-12-16 19:57 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormFormatter.pas 58    17-12-28 20:03 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2011.07.24                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -129,6 +129,9 @@ type
     RibbonPageCase: TRibbonPage;
     actFilesExportXML: TAction;
     actFilesImportXml: TAction;
+    RibbonPageOthers: TRibbonPage;
+    actConvertJoinCondRefToLeft: TAction;
+    RibbonGroupConvertJoinsCond: TRibbonGroup;
 
     { form & control events }
     procedure FormCreate(Sender: TObject);
@@ -193,6 +196,7 @@ type
     procedure actConvertCaseColQuoteAliasUpperExecute(Sender: TObject);
     procedure actConvertCaseIdentUpperExecute(Sender: TObject);
     procedure actConvertCaseIdentLowerExecute(Sender: TObject);
+    procedure actConvertJoinCondRefToLeftExecute(Sender: TObject);
   public
     Before_FullScreen_State: TWindowState;
     Before_FullScreen_Top,   Before_FullScreen_Left,
@@ -807,6 +811,14 @@ begin
 end;
 
 { action Convert }
+procedure TMainForm.actConvertJoinCondRefToLeftExecute(Sender: TObject);
+begin
+  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_JoinCond_RefToLeft );
+
+//  actConvertDatatypeIntToInteger.Enabled := False;
+//  actConvertDatatypeIntegerToInt.Enabled := True;
+end;
+
 procedure TMainForm.actConvertJoinsAddInnerExecute(Sender: TObject);
 begin
   FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_Joins_AddInner );

@@ -1,0 +1,200 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{84C0E812-7761-4EFC-A6DD-084DD6C4BFCA}</ProjectGuid>
+        <MainSource>SqlFormatter.dpr</MainSource>
+        <Base>True</Base>
+        <Config Condition="'$(Config)'==''">Debug</Config>
+        <TargetedPlatforms>1</TargetedPlatforms>
+        <AppType>Application</AppType>
+        <FrameworkType>VCL</FrameworkType>
+        <ProjectVersion>16.0</ProjectVersion>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
+        <Cfg_1_Win32>true</Cfg_1_Win32>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <BRCC_IncludePath>..\pas;$(BRCC_IncludePath)</BRCC_IncludePath>
+        <DCC_ImageBase>00400000</DCC_ImageBase>
+        <DCC_DebugInformation>1</DCC_DebugInformation>
+        <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;Winapi;System.Win;$(DCC_Namespace)</DCC_Namespace>
+        <DCC_MaxStackSize>16777216</DCC_MaxStackSize>
+        <DCC_N>true</DCC_N>
+        <DCC_F>false</DCC_F>
+        <DCC_SymbolReferenceInfo>1</DCC_SymbolReferenceInfo>
+        <VerInfo_Locale>1045</VerInfo_Locale>
+        <DCC_Define>_GtUniListDebug;_GtGarbageCollector;$(DCC_Define)</DCC_Define>
+        <DCC_UsePackage>vclx;vcldb;dbrtl;dsnapcon;dsnap;adortl;bdertl;vcldbx;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_E>false</DCC_E>
+        <SanitizedProjectName>SqlFormatter</SanitizedProjectName>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <DCC_S>false</DCC_S>
+        <DCC_DcuOutput>..\dcu</DCC_DcuOutput>
+        <DCC_K>false</DCC_K>
+        <DCC_AssertionsAtRuntime>false</DCC_AssertionsAtRuntime>
+        <DCC_ExeOutput>..</DCC_ExeOutput>
+        <DCC_Optimize>false</DCC_Optimize>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <VerInfo_Keys>CompanyName=;FileDescription=SQL code formatter, beautifier or pretty printer.;FileVersion=0.81.0.628;InternalName=;LegalCopyright=Tomasz Gierka;LegalTrademarks=;OriginalFilename=SQL Formatter;ProductName=SQL Formatter;ProductVersion=0.81;Comments=</VerInfo_Keys>
+        <VerInfo_Build>628</VerInfo_Build>
+        <VerInfo_AutoGenVersion>true</VerInfo_AutoGenVersion>
+        <VerInfo_MinorVer>81</VerInfo_MinorVer>
+        <VerInfo_MajorVer>0</VerInfo_MajorVer>
+        <DCC_UsePackage>xmlrtl;rtl;vclimg;vcl;vclactnband;vclribbon;$(DCC_UsePackage)</DCC_UsePackage>
+        <Icon_MainIcon>SqlToysFormatter_Icon.ico</Icon_MainIcon>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <DCC_Namespace>Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <Icon_MainIcon>SqlToysFormatter_Icon.ico</Icon_MainIcon>
+        <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+        <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+        <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+        <DCC_DebugInformation>0</DCC_DebugInformation>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <Debugger_LoadAllSymbols>false</Debugger_LoadAllSymbols>
+        <DCC_ImportedDataReferences>false</DCC_ImportedDataReferences>
+        <VerInfo_AutoGenVersion>true</VerInfo_AutoGenVersion>
+        <DCC_CodePage>1250</DCC_CodePage>
+        <VerInfo_Build>684</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=;FileDescription=SQL code formatter, beautifier or pretty printer.;FileVersion=0.81.0.684;InternalName=;LegalCopyright=Tomasz Gierka;LegalTrademarks=;OriginalFilename=SQL Formatter;ProductName=SQL Formatter;ProductVersion=0.81;Comments=</VerInfo_Keys>
+        <VerInfo_MajorVer>0</VerInfo_MajorVer>
+        <VerInfo_MinorVer>81</VerInfo_MinorVer>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <Icon_MainIcon>SqlToysFormatter_Icon.ico</Icon_MainIcon>
+        <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+        <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Build>684</VerInfo_Build>
+        <VerInfo_Private>true</VerInfo_Private>
+        <VerInfo_AutoGenVersion>true</VerInfo_AutoGenVersion>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=0.81.0.684;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=0.81;Comments=;PrivateBuild=</VerInfo_Keys>
+        <VerInfo_MinorVer>81</VerInfo_MinorVer>
+        <VerInfo_MajorVer>0</VerInfo_MajorVer>
+    </PropertyGroup>
+    <ItemGroup>
+        <DelphiCompile Include="$(MainSource)">
+            <MainSource>MainSource</MainSource>
+        </DelphiCompile>
+        <DCCReference Include="..\SqlParser\SqlVersion.pas"/>
+        <DCCReference Include="..\SqlParser\GtContainers.pas"/>
+        <DCCReference Include="..\SqlParser\GtExtUnit.pas"/>
+        <DCCReference Include="..\SqlParser\GtStandard.pas"/>
+        <DCCReference Include="..\SqlParser\SqlStructs.pas"/>
+        <DCCReference Include="..\SqlParser\SqlTokenizers.pas"/>
+        <DCCReference Include="..\SqlParser\SqlParser.pas"/>
+        <DCCReference Include="..\SqlParser\SqlTest0.pas"/>
+        <DCCReference Include="..\SqlXmlTree\SqlXmlTree.pas"/>
+        <DCCReference Include="..\SqlFormat\SqlCommon.pas"/>
+        <DCCReference Include="SqlConverters.pas"/>
+        <DCCReference Include="..\SqlFormat\SqlLister.pas"/>
+        <DCCReference Include="..\SqlFormat\GtRegistry.pas"/>
+        <DCCReference Include="GtVisual.pas"/>
+        <DCCReference Include="FrameScriptEdit.pas">
+            <Form>FrameScriptEdit</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="FormAbout.pas">
+            <Form>FormAboutYetAnother</Form>
+        </DCCReference>
+        <DCCReference Include="FormColors.pas">
+            <Form>FormColors</Form>
+        </DCCReference>
+        <DCCReference Include="FormFind.pas">
+            <Form>FormFindReplace</Form>
+        </DCCReference>
+        <DCCReference Include="FormSettings.pas">
+            <Form>FormSettings</Form>
+        </DCCReference>
+        <DCCReference Include="FormFormatter.pas">
+            <Form>MainForm</Form>
+        </DCCReference>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Delphi.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Delphi.Personality>
+                <Source>
+                    <Source Name="MainSource">SqlFormatter.dpr</Source>
+                </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\applet210.bpl">Embarcadero Control Panel Applet Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcl31w210.bpl">Delphi 1.0 Compatibility Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclsmp210.bpl">Embarcadero Sample Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclsmpedit210.bpl">Embarcadero Editor Script Enhancements</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcltouch210.bpl">Embarcadero Touch Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclMetropolisUILiveTile210.bpl">Embarcadero Metropolis UI Live Tile Standard Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclbindcompvcl210.bpl">Embarcadero LiveBindings Components VCL</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclnetwiz210.bpl">Embarcadero Internet Server Wizards</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclvcldb210.bpl">Embarcadero VCL Database Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclmid210.bpl">Embarcadero MyBase DataAccess Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclxml210.bpl">Embarcadero XML Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\gitide210.bpl">Embarcadero Git Integration</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\svnide210.bpl">Embarcadero Subversion Integration</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclrtl210.bpl">Embarcadero - RTL Component Editors</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcltethering210.bpl">Embarcadero - Tethering Component Editors</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclemacsedit210.bpl">Embarcadero Editor Emacs Enhancements</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclmlwiz210.bpl">Embarcadero Markup Language Wizards</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\samplevisualizers210.bpl">Embarcadero Sample Debugger Visualizers</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclIndyProtocols210.bpl">Indy 10 Protocols Design Time</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclfmxstd210.bpl">Embarcadero FMX Standard Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclbindcompfmx210.bpl">Embarcadero LiveBindings Components FireMonkey</Excluded_Packages>
+                </Excluded_Packages>
+            </Delphi.Personality>
+            <Platforms>
+                <Platform value="Win32">True</Platform>
+            </Platforms>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
+    <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
+</Project>

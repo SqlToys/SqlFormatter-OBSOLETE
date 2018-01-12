@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 97    17-12-18 1:09 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 98    18-01-08 9:37 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -303,8 +303,8 @@ begin
 
   { general }
   LocalAction (aAction, gtstNoSemicolonOnSingleQuery,ChkBoxNoSemicolonOnSingleQuery);
-  LocalAction (aAction, gtstJoinCondLeftSideOrder,   CheckBoxJoinCondLeftSideOrder);
-  LocalAction (aAction, gtstOnCondRefsFirst,         CheckBoxJoinCondRefsFirst);
+  LocalAction (aAction, gtstJoinCondLeftSideOrderCONVERTER,CheckBoxJoinCondLeftSideOrder);
+  LocalAction (aAction, gtstOnCondRefsFirstCONVERTER,CheckBoxJoinCondRefsFirst);
 
   { lines }
   LocalAction(aAction, gtstLineAfterQuery,          ChkBoxEmptyLineAfterQuery);
@@ -345,13 +345,13 @@ begin
   LocalAction(aAction, gtstOnCondIntend,            ChkBoxOnCondIntend);
 
   { keywords }
-  LocalAction(aAction, gtstExprAsKeyword,           ChkBoxExprAs);
-  LocalAction(aAction, gtstTableAsKeyword,          ChkBoxTableAs);
+  LocalAction(aAction, gtstExprAsKeywordCONVERTER,  ChkBoxExprAs);
+  LocalAction(aAction, gtstTableAsKeywordCONVERTER, ChkBoxTableAs);
   LocalAction(aAction, gtstColumnConstraint,        ChkBoxColumnConstraint);
-  LocalAction(aAction, gtstInnerJoin,               ChkBoxInnerJoins);
-  LocalAction(aAction, gtstOuterJoin,               ChkBoxOuterJoins);
-  LocalAction(aAction, gtstSortShort,               ChkBoxSortShort);
-  LocalAction(aAction, gtstSkipAscending,           ChkBoxSkipAscending);
+  LocalAction(aAction, gtstInnerJoinCONVERTER,      ChkBoxInnerJoins);
+  LocalAction(aAction, gtstOuterJoinCONVERTER,      ChkBoxOuterJoins);
+  LocalAction(aAction, gtstSortShortCONVERTER,      ChkBoxSortShort);
+  LocalAction(aAction, gtstSkipAscendingCONVERTER,  ChkBoxSkipAscending);
 
   { case }
   LocalAction(aAction, gtstSelectAliasIntend,       ChkBoxSelectAliasIntend);
@@ -370,15 +370,15 @@ procedure TFormSettings.ComboAction(aAction: TYaSettingsAction);
   end;
 
 begin
-  LocalAction (aAction, gtlcTable,             ComboBoxTableNameCase);
-  LocalAction (aAction, gtlcColumn,            ComboBoxColumnNameCase);
-  LocalAction (aAction, gtlcTableAlias,        ComboBoxTableAliasCase);
-  LocalAction (aAction, gtlcColumnAlias,       ComboBoxColumnAliasCase);
-  LocalAction (aAction, gtlcColumnQuotedAlias, ComboBoxColumnQuotedAliasCase);
-  LocalAction (aAction, gtlcParameter,         ComboBoxParameterCase);
-  LocalAction (aAction, gtlcIdentifier,        ComboBoxIdentifierCase);
-  LocalAction (aAction, gtlcKeyword,           ComboBoxKeywordCase);
-  LocalAction (aAction, gtlcFunction,          ComboBoxFunctionCase);
+  LocalAction (aAction, gtlcTableCONVERTER,            ComboBoxTableNameCase);
+  LocalAction (aAction, gtlcColumnCONVERTER,           ComboBoxColumnNameCase);
+  LocalAction (aAction, gtlcTableAliasCONVERTER,       ComboBoxTableAliasCase);
+  LocalAction (aAction, gtlcColumnAliasCONVERTER,      ComboBoxColumnAliasCase);
+  LocalAction (aAction, gtlcColumnQuotedAliasCONVERTER,ComboBoxColumnQuotedAliasCase);
+  LocalAction (aAction, gtlcParameterCONVERTER,        ComboBoxParameterCase);
+  LocalAction (aAction, gtlcIdentifierCONVERTER,       ComboBoxIdentifierCase);
+  LocalAction (aAction, gtlcKeyword,                   ComboBoxKeywordCase);
+  LocalAction (aAction, gtlcFunctionCONVERTER,         ComboBoxFunctionCase);
 end;
 
 { sets chain between visual controls and their ids }

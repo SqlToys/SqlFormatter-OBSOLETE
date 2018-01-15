@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormFormatter.pas 58    17-12-28 20:03 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormFormatter.pas 60    18-01-14 8:09 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2011.07.24                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -217,7 +217,7 @@ implementation
 uses Windows, ShellApi, Graphics, SysUtils, Dialogs,
      GtStandard, GtVisual, GtRegistry, SqlTokenizers, GtExtUnit,
      {$IFDEF DEBUG} SqlTest0, {$ENDIF}
-     SqlCommon, SqlConverters, SqlVersion,
+     SqlCommon, SqlLister, SqlConverters, SqlVersion,
      FormSettings, FormColors, FormAbout;
 
 {$R *.dfm}
@@ -632,7 +632,7 @@ end;
 { action Convert }
 procedure TMainForm.actConvertDatatypeIntegerToIntExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_Datatype_IntegerToInt );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_Datatype_IntegerToInt );
 
   actConvertDatatypeIntToInteger.Enabled := True;
   actConvertDatatypeIntegerToInt.Enabled := False;
@@ -641,7 +641,7 @@ end;
 { action Convert }
 procedure TMainForm.actConvertDatatypeIntToIntegerExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_Datatype_IntToInteger );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_Datatype_IntToInteger );
 
   actConvertDatatypeIntToInteger.Enabled := False;
   actConvertDatatypeIntegerToInt.Enabled := True;
@@ -650,7 +650,7 @@ end;
 { action Convert }
 procedure TMainForm.actConvertCaseColAliasLowerExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_CaseColumnAlias_Lower );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseColumnAlias_Lower );
 
   actConvertCaseColAliasLower.Enabled := False;
   actConvertCaseColAliasUpper.Enabled := True;
@@ -658,7 +658,7 @@ end;
 
 procedure TMainForm.actConvertCaseColAliasUpperExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_CaseColumnAlias_Upper );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseColumnAlias_Upper );
 
   actConvertCaseColAliasLower.Enabled := True;
   actConvertCaseColAliasUpper.Enabled := False;
@@ -666,7 +666,7 @@ end;
 
 procedure TMainForm.actConvertCaseColQuoteAliasLowerExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_CaseColumnQuotedAlias_Lower );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseColumnQuotedAlias_Lower );
 
   actConvertCaseColQuoteAliasLower.Enabled := False;
   actConvertCaseColQuoteAliasUpper.Enabled := True;
@@ -674,7 +674,7 @@ end;
 
 procedure TMainForm.actConvertCaseColQuoteAliasUpperExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_CaseColumnQuotedAlias_Upper );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseColumnQuotedAlias_Upper );
 
   actConvertCaseColQuoteAliasLower.Enabled := True;
   actConvertCaseColQuoteAliasUpper.Enabled := False;
@@ -682,7 +682,7 @@ end;
 
 procedure TMainForm.actConvertCaseColumnLowerExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_CaseColumnName_Lower );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseColumnName_Lower );
 
   actConvertCaseColumnLower.Enabled := False;
   actConvertCaseColumnUpper.Enabled := True;
@@ -690,7 +690,7 @@ end;
 
 procedure TMainForm.actConvertCaseColumnUpperExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_CaseColumnName_Upper );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseColumnName_Upper );
 
   actConvertCaseColumnUpper.Enabled := False;
   actConvertCaseColumnLower.Enabled := True;
@@ -698,7 +698,7 @@ end;
 
 procedure TMainForm.actConvertCaseFuncLowerExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_CaseFunc_Lower );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseFunc_Lower );
 
   actConvertCaseFuncLower.Enabled := False;
   actConvertCaseFuncUpper.Enabled := True;
@@ -706,7 +706,7 @@ end;
 
 procedure TMainForm.actConvertCaseFuncUpperExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_CaseFunc_Upper );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseFunc_Upper );
 
   actConvertCaseFuncLower.Enabled := True;
   actConvertCaseFuncUpper.Enabled := False;
@@ -714,7 +714,7 @@ end;
 
 procedure TMainForm.actConvertCaseIdentLowerExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_CaseIdentifier_Lower );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseIdentifier_Lower );
 
   actConvertCaseIdentLower.Enabled := False;
   actConvertCaseIdentUpper.Enabled := True;
@@ -722,7 +722,7 @@ end;
 
 procedure TMainForm.actConvertCaseIdentUpperExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_CaseIdentifier_Upper );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseIdentifier_Upper );
 
   actConvertCaseIdentLower.Enabled := True;
   actConvertCaseIdentUpper.Enabled := False
@@ -730,7 +730,7 @@ end;
 
 procedure TMainForm.actConvertCaseKeywordLowerExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_CaseKeyword_Lower );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseKeyword_Lower );
 
   actConvertCaseKeywordLower.Enabled := False;
   actConvertCaseKeywordUpper.Enabled := True;
@@ -738,7 +738,7 @@ end;
 
 procedure TMainForm.actConvertCaseKeywordUpperExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_CaseKeyword_Upper );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseKeyword_Upper );
 
   actConvertCaseKeywordLower.Enabled := True;
   actConvertCaseKeywordUpper.Enabled := False;
@@ -746,7 +746,7 @@ end;
 
 procedure TMainForm.actConvertCaseParamLowerExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_CaseParam_Lower );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseParam_Lower );
 
   actConvertCaseParamLower.Enabled := False;
   actConvertCaseParamUpper.Enabled := True;
@@ -754,7 +754,7 @@ end;
 
 procedure TMainForm.actConvertCaseParamUpperExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_CaseParam_Upper );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseParam_Upper );
 
   actConvertCaseParamLower.Enabled := True;
   actConvertCaseParamUpper.Enabled := False;
@@ -762,7 +762,7 @@ end;
 
 procedure TMainForm.actConvertCaseTabAliasLowerExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_CaseTableAlias_Lower );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseTableAlias_Lower );
 
   actConvertCaseTabAliasLower.Enabled := False;
   actConvertCaseTabAliasUpper.Enabled := True;
@@ -770,7 +770,7 @@ end;
 
 procedure TMainForm.actConvertCaseTabAliasUpperExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_CaseTableAlias_Upper );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseTableAlias_Upper );
 
   actConvertCaseTabAliasUpper.Enabled := False;
   actConvertCaseTabAliasLower.Enabled := True;
@@ -778,7 +778,7 @@ end;
 
 procedure TMainForm.actConvertCaseTableLowerExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_CaseTableName_Lower );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseTableName_Lower );
 
   actConvertCaseTableLower.Enabled := False;
   actConvertCaseTableUpper.Enabled := True;
@@ -786,7 +786,7 @@ end;
 
 procedure TMainForm.actConvertCaseTableUpperExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_CaseTableName_Upper );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseTableName_Upper );
 
   actConvertCaseTableLower.Enabled := True;
   actConvertCaseTableUpper.Enabled := False;
@@ -795,7 +795,7 @@ end;
 { action Convert }
 procedure TMainForm.actConvertExprAliasAddKeywordAsExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_ExprAlias_AddKeyword_AS );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_ExprAlias_AddKeyword_AS );
 
   actConvertExprAliasAddKeywordAs.Enabled := False;
   actConvertExprAliasRemoveKeywordAs.Enabled := True;
@@ -804,7 +804,7 @@ end;
 { action Convert }
 procedure TMainForm.actConvertExprAliasRemoveKeywordAsExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_ExprAlias_RemoveKeyword_AS );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_ExprAlias_RemoveKeyword_AS );
 
   actConvertExprAliasAddKeywordAs.Enabled := True;
   actConvertExprAliasRemoveKeywordAs.Enabled := False;
@@ -813,7 +813,7 @@ end;
 { action Convert }
 procedure TMainForm.actConvertJoinCondRefToLeftExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_JoinCond_RefToLeft );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_JoinCond_RefToLeft );
 
 //  actConvertDatatypeIntToInteger.Enabled := False;
 //  actConvertDatatypeIntegerToInt.Enabled := True;
@@ -821,7 +821,7 @@ end;
 
 procedure TMainForm.actConvertJoinsAddInnerExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_Joins_AddInner );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_Joins_AddInner );
 
   actConvertJoinsAddInner.Enabled       := False;
   actConvertJoinsRemoveInner.Enabled    := True;
@@ -830,7 +830,7 @@ end;
 { action Convert }
 procedure TMainForm.actConvertJoinsAddOuterExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_Joins_AddOuter );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_Joins_AddOuter );
 
   actConvertJoinsAddOuter.Enabled       := False;
   actConvertJoinsRemoveOuter.Enabled    := True;
@@ -839,7 +839,7 @@ end;
 { action Convert }
 procedure TMainForm.actConvertJoinsRemoveInnerExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_Joins_RemoveInner );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_Joins_RemoveInner );
 
   actConvertJoinsAddInner.Enabled       := True;
   actConvertJoinsRemoveInner.Enabled    := False;
@@ -848,7 +848,7 @@ end;
 { action Convert }
 procedure TMainForm.actConvertJoinsRemoveOuterExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_Joins_RemoveOuter );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_Joins_RemoveOuter );
 
   actConvertJoinsAddOuter.Enabled       := True;
   actConvertJoinsRemoveOuter.Enabled    := False;
@@ -857,7 +857,7 @@ end;
 { action Convert }
 procedure TMainForm.actConvertTableAliasAddKeywordAsExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_TableAlias_AddKeyword_AS );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_TableAlias_AddKeyword_AS );
 
   actConvertTableAliasAddKeywordAs.Enabled       := False;
   actConvertTableAliasRemoveKeywordAs.Enabled    := True;
@@ -866,7 +866,7 @@ end;
 { action Convert }
 procedure TMainForm.actConvertTableAliasRemoveKeywordAsExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_TableAlias_RemoveKeyword_AS );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_TableAlias_RemoveKeyword_AS );
 
   actConvertTableAliasAddKeywordAs.Enabled       := True;
   actConvertTableAliasRemoveKeywordAs.Enabled    := False;
@@ -875,7 +875,7 @@ end;
 { action Convert }
 procedure TMainForm.actConvertSortOrderShortKeywordsExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_SortOrder_ShortKeywords );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_SortOrder_ShortKeywords );
 
   actConvertSortOrderShortKeywords.Enabled     := False;
   actConvertSortOrderLongKeywords.Enabled      := True;
@@ -884,7 +884,7 @@ end;
 { action Convert }
 procedure TMainForm.actConvertSortOrderLongKeywordsExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_SortOrder_LongKeywords );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_SortOrder_LongKeywords );
 
   actConvertSortOrderShortKeywords.Enabled     := True;
   actConvertSortOrderLongKeywords.Enabled      := False;
@@ -893,7 +893,7 @@ end;
 { action Convert }
 procedure TMainForm.actConvertSortOrderAddDefaultKeywordsExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_SortOrder_AddDefaultKeywords );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_SortOrder_AddDefaultKeywords );
 
   actConvertSortOrderAddDefaultKeywords.Enabled       := False;
   actConvertSortOrderRemoveDefaultKeywords.Enabled    := True;
@@ -905,7 +905,7 @@ end;
 { action Convert }
 procedure TMainForm.actConvertSortOrderRemoveDefaultKeywordsExecute(Sender: TObject);
 begin
-  FrameScriptEdit.GeneralFormatScript(True, SqlToysConvert_SortOrder_RemoveDefaultKeywords );
+  FrameScriptEdit.ScriptConvert(True, SqlToysConvert_SortOrder_RemoveDefaultKeywords );
 
   actConvertSortOrderAddDefaultKeywords.Enabled       := True;
   actConvertSortOrderRemoveDefaultKeywords.Enabled    := False;

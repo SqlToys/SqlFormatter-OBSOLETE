@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 14    18-01-08 9:38 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 20    18-01-14 20:46 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -23,8 +23,8 @@ procedure SqlToysExec_ForEach_DeepInside ( aProc: TSqlNodeProcedure; aNode: TGtS
 
 {----------------------------------- General ----------------------------------}
 
-procedure SqlToysConvert_ExecuteAll(aNode: TGtSqlNode; aOptions: TGtListerSettingsArray;
-                                    aCaseOpt: TGtListerCaseSettingsArray);
+//procedure SqlToysConvert_ExecuteAll(aNode: TGtSqlNode; aOptions: TGtListerSettingsArray;
+//                                    aCaseOpt: TGtListerCaseSettingsArray);
 
 {------------------------------ Alias Converters ------------------------------}
 
@@ -36,6 +36,7 @@ procedure SqlToysConvert_TableAlias_RemoveKeyword_AS(aNode: TGtSqlNode);
 
 {------------------------------ Case Converters -------------------------------}
 
+procedure SqlToysConvert_CaseKeyword(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
 procedure SqlToysConvert_CaseKeyword_Lower(aNode: TGtSqlNode);
 procedure SqlToysConvert_CaseKeyword_Upper(aNode: TGtSqlNode);
 
@@ -333,6 +334,15 @@ begin
 end;
 
 {------------------------------ Case Converters -------------------------------}
+
+procedure SqlToysConvert_CaseKeyword(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if aNode.Keyword <> gttkNone then aNode.Keyword := aNode.Keyword ;
+
+  SqlToysExec_ForEach_Node_Case( SqlToysConvert_CaseKeyword, aNode, aCase );
+end;
 
 { procedure changes upper case keywords to lower case }
 procedure SqlToysConvert_CaseKeyword_Lower(aNode: TGtSqlNode);

@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 98    18-01-08 9:37 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 103   18-01-14 20:46 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -9,8 +9,8 @@ unit FormSettings;
 
 interface
 
-uses Forms, Controls, StdCtrls, ComCtrls, Classes, ExtCtrls, Graphics,
-     SqlTokenizers, SqlLister, SqlCommon;
+uses Forms, Controls, StdCtrls, ComCtrls, Classes, ExtCtrls, Graphics, Vcl.ImgList,
+     SqlStructs, SqlTokenizers, SqlLister, SqlCommon;
 
 type
   TYaSettingsAction = ( yacsGetFromRegistry, yacsPutToRegistry, yacsDefault );
@@ -26,15 +26,10 @@ type
     ButtonEditFont: TButton;
     ButtonGridFont: TButton;
     GroupBoxLines: TGroupBox;
-    Label2: TLabel;
-    ChkBoxEmptyLineAfterQuery: TCheckBox;
     ChkBoxEmptyLinesBeforeClauses: TCheckBox;
     ChkBoxEmptyLinesAroundUnion: TCheckBox;
     ChkBoxEmptyLinesBeforeClausesExcSubqueries: TCheckBox;
     ChkBoxEmptyLinesBeforeClausesExcShortQuery: TCheckBox;
-    EditShortQuery: TEdit;
-    EditLinesNoAfterQuery: TEdit;
-    ChkBoxLinesNoAfterQuery: TCheckBox;
     GroupBoxSpacings: TGroupBox;
     ChkBoxSpaceBeforeComma: TCheckBox;
     ChkBoxSpaceBeforeSemicolon: TCheckBox;
@@ -45,31 +40,10 @@ type
     ChkBoxSpaceInsideBracketsSkipOnFun: TCheckBox;
     ChkBoxSpaceInsideBracketsSkipOnDatatype: TCheckBox;
     GroupBoxIntendation: TGroupBox;
-    LabelSetMaxLen: TLabel;
     ChkBoxOneExprOnLine: TCheckBox;
     ChkBoxCommaAtNewLine: TCheckBox;
     ChkBoxOneCondOnLine: TCheckBox;
     ChkBoxSetLeftExprIntend: TCheckBox;
-    EditSetMaxLen: TEdit;
-    GroupBox3: TGroupBox;
-    LabelTableNameCase: TLabel;
-    LabelColumnNameCase: TLabel;
-    LabelTableAliasCase: TLabel;
-    LabelColumnAliasCase: TLabel;
-    LabelParameterCase: TLabel;
-    LabelIdentifierCase: TLabel;
-    LabelKeywordCase: TLabel;
-    LabelColumnQuotedAliasCase: TLabel;
-    LabelFunctionCase: TLabel;
-    ComboBoxTableNameCase: TComboBox;
-    ComboBoxColumnNameCase: TComboBox;
-    ComboBoxTableAliasCase: TComboBox;
-    ComboBoxColumnAliasCase: TComboBox;
-    ComboBoxParameterCase: TComboBox;
-    ComboBoxIdentifierCase: TComboBox;
-    ComboBoxKeywordCase: TComboBox;
-    ComboBoxColumnQuotedAliasCase: TComboBox;
-    ComboBoxFunctionCase: TComboBox;
     GroupBox4: TGroupBox;
     ChkBoxCaseAtNewLine: TCheckBox;
     ChkBoxCaseWhenAtNewLine: TCheckBox;
@@ -78,40 +52,40 @@ type
     ChkBoxCaseEndAtNewLine: TCheckBox;
     GroupBox2: TGroupBox;
     ChkBoxSelectAliasIntend: TCheckBox;
-    ChkBoxExprAs: TCheckBox;
     CheckBoxExtQueryKeywordStyle: TCheckBox;
     GroupBox1: TGroupBox;
-    LabelTableMaxLen: TLabel;
-    LabelAliasMaxLen: TLabel;
     ChkBoxFromTableAndAliasIntend: TCheckBox;
-    EditTableMaxLen: TEdit;
-    EditAliasMaxLen: TEdit;
     ChkBoxOnCondIntend: TCheckBox;
-    CheckBoxJoinCondLeftSideOrder: TCheckBox;
-    ChkBoxInnerJoins: TCheckBox;
-    ChkBoxOuterJoins: TCheckBox;
-    ChkBoxTableAs: TCheckBox;
-    CheckBoxJoinCondRefsFirst: TCheckBox;
     GroupBoxCreateTable: TGroupBox;
-    LabelColMaxLen: TLabel;
-    LabelMaxDatatypeLen: TLabel;
     CheckBoxCreateTableColConstrBreakLine: TCheckBox;
     CheckBoxCreateTableColConstrNewLineAfter: TCheckBox;
     ChkBoxCreateTableColDatatypeIntend: TCheckBox;
-    EditColMaxLen: TEdit;
-    EditMaxDataTypeLen: TEdit;
     ChkBoxCreateTableEmptyLineBeforeComplexContraints: TCheckBox;
-    GroupBoxOrderBy: TGroupBox;
-    ChkBoxSortShort: TCheckBox;
-    ChkBoxSkipAscending: TCheckBox;
     GroupBox5: TGroupBox;
-    LabelMaxClauseKeywordIntend: TLabel;
-    LabelMaxIdentifierLength: TLabel;
     ChkBoxNoSemicolonOnSingleQuery: TCheckBox;
     ChkBoxColumnConstraint: TCheckBox;
     ChkBoxRightIntend: TCheckBox;
-    EditMaxClauseKeywordIntend: TEdit;
+    TreeView1: TTreeView;
+    Label1: TLabel;
+    GroupBoxLengths: TGroupBox;
+    LabelColMaxLen: TLabel;
+    EditColMaxLen: TEdit;
+    LabelMaxDatatypeLen: TLabel;
+    EditMaxDataTypeLen: TEdit;
+    LabelTableMaxLen: TLabel;
+    EditTableMaxLen: TEdit;
+    LabelAliasMaxLen: TLabel;
+    EditAliasMaxLen: TEdit;
+    LabelMaxClauseKeywordIntend: TLabel;
+    LabelMaxIdentifierLength: TLabel;
     EditMaxIdentifierLength: TEdit;
+    EditMaxClauseKeywordIntend: TEdit;
+    GroupBoxLinesCount: TGroupBox;
+    Label2: TLabel;
+    ChkBoxLinesNoAfterQuery: TCheckBox;
+    EditLinesNoAfterQuery: TEdit;
+    EditShortQuery: TEdit;
+    ImageList1: TImageList;
 
     procedure FormShow(Sender: TObject);
     procedure BtnOKClick(Sender: TObject);
@@ -127,6 +101,7 @@ type
     procedure ComboAction        (aAction: TYaSettingsAction);
     procedure EditAction         (aAction: TYaSettingsAction);
     procedure ButtonGridFontClick(Sender: TObject);
+    procedure TreeView1DblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -177,22 +152,115 @@ const
 
 function YaFontDialog(aFont: TFont): TFont;
 
-{------------------------------- Default Values -------------------------------}
+{----------------------- Converters TreeView procedures -----------------------}
+
+const { converters settings values, same as icon numbers }
+  SQCV_NONE     = 0;
+  SQCV_GROUP    = 1;
+  SQCV_ADD      = 2;
+  SQCV_REMOVE   = 3;
+  SQCV_UPPER    = 4;
+  SQCV_LOWER    = 5;
+  SQCV_SHORT    = 6;
+  SQCV_LONG     = 7;
+
+  { converter groups }
+  SQCG_CASES    = 1;
+  SQCG_KEYWORD  = 2;
+  SQCG_DATA     = 3;
+  SQCG_JOIN     = 4;
+  SQCG_ORDER    = 5;
+
+  { converters = converter items }
+  SQCC_NONE              = 0;
+  SQCC_CASE_KEYWORD      = 1;
+  SQCC_CASE_TABLE        = 2;
+  SQCC_CASE_TABLE_ALIAS  = 3;
+  SQCC_CASE_COLUMN       = 4;
+  SQCC_CASE_COLUMN_ALIAS = 5;
+  SQCC_CASE_COLUMN_QUOTE = 6;
+  SQCC_CASE_PARAM        = 7;
+  SQCC_CASE_FUNC         = 8;
+  SQCC_CASE_IDENT        = 9;
+
+  SQCC_KWD_AS_TABLES     = 1;
+  SQCC_KWD_AS_COLUMNS    = 2;
+
+  SQCC_DATA_INT          = 1;
+
+  SQCC_JOIN_INNER        = 1;
+  SQCC_JOIN_OUTER        = 2;
+  SQCC_JOIN_ON_LEFT      = 3;
+
+  SQCC_ORDER_KWD_LEN     = 1;
+  SQCC_ORDER_KWD_DEF     = 2;
+
+function  SqlConvertIndex( aGroup, aItem: Integer ): Integer;
+function  SqlConvertGroup( aIndex: Integer ): Integer;
+function  SqlConvertItem ( aIndex: Integer ): Integer;
+
+function  SqlConvertName( aGroup, aItem: Integer ): String;
+function  SqlConvertGetValue( aGroup, aItem: Integer ): Integer;
+function  SqlConvertValidateValue( aGroup, aItem, aState: Integer ): Integer;
+procedure SqlConvertSetValue( aGroup, aItem, aState: Integer );
+function  SqlConvertDefValue( aGroup, aItem: Integer ): Integer;
+procedure SqlConvertExecute( aGroup, aItem, aState: Integer; aNode: TGtSqlNode );
+procedure SqlConvertExecuteAll( aNode: TGtSqlNode );
 
 implementation
 
 uses Dialogs, SysUtils,
      GtRegistry,
-     SqlVersion;
+     SqlVersion, SqlConverters;
 
 {$R *.dfm}
 
 { form show }
 procedure TFormSettings.FormShow(Sender: TObject);
+var GroupNode, ItemNode: TTreeNode;
+    Group, Item: Integer;
 begin
   Caption := VER_NAME + ' - Settings...';
 
   BtnStoredClick(Sender);
+
+  { populate Converters TreeView }
+  for Group := 1 to 99 do
+    if SqlConvertName( Group, 0 ) <> '' then begin
+      GroupNode := TreeView1.Items.AddChild(nil, SqlConvertName( Group, 0 ) );
+      GroupNode.ImageIndex := SqlConvertGetValue( Group, 0 );
+      GroupNode.SelectedIndex := SqlConvertGetValue( Group, 0 );
+      GroupNode.StateIndex := SqlConvertIndex( Group, 0 );
+
+      for Item := 1 to 99 do
+      if SqlConvertName( Group, Item ) <> '' then begin
+        ItemNode := TreeView1.Items.AddChild( GroupNode, SqlConvertName( Group, Item ) );
+        ItemNode.ImageIndex := SqlConvertGetValue( Group, Item );
+        ItemNode.SelectedIndex := SqlConvertGetValue( Group, Item );
+        ItemNode.StateIndex := SqlConvertIndex( Group, Item );
+      end;
+
+      GroupNode.Expanded := True;
+    end;
+end;
+
+{ TreeView1 Double Click }
+procedure TFormSettings.TreeView1DblClick(Sender: TObject);
+begin
+  if not Assigned(TreeView1.Selected) then Exit;
+  if TreeView1.Selected.Level = 0 then Exit;
+
+//  TreeView1.Selected.ImageIndex := TreeView1.Selected.ImageIndex + 1;
+//  TreeView1.Selected.SelectedIndex := TreeView1.Selected.SelectedIndex + 1;
+
+  TreeView1.Selected.ImageIndex := SqlConvertValidateValue( SqlConvertGroup( TreeView1.Selected.StateIndex )
+                                                          , SqlConvertItem( TreeView1.Selected.StateIndex )
+                                                          , TreeView1.Selected.ImageIndex + 1);
+  TreeView1.Selected.SelectedIndex := TreeView1.Selected.ImageIndex;
+
+  SqlConvertSetValue( SqlConvertGroup( TreeView1.Selected.StateIndex )
+                    , SqlConvertItem( TreeView1.Selected.StateIndex )
+                    , TreeView1.Selected.ImageIndex );
 end;
 
 { button OK }
@@ -303,11 +371,11 @@ begin
 
   { general }
   LocalAction (aAction, gtstNoSemicolonOnSingleQuery,ChkBoxNoSemicolonOnSingleQuery);
-  LocalAction (aAction, gtstJoinCondLeftSideOrderCONVERTER,CheckBoxJoinCondLeftSideOrder);
-  LocalAction (aAction, gtstOnCondRefsFirstCONVERTER,CheckBoxJoinCondRefsFirst);
+//LocalAction (aAction, gtstJoinCondLeftSideOrderCONVERTER,CheckBoxJoinCondLeftSideOrder);
+//LocalAction (aAction, gtstOnCondRefsFirstCONVERTER,CheckBoxJoinCondRefsFirst);
 
   { lines }
-  LocalAction(aAction, gtstLineAfterQuery,          ChkBoxEmptyLineAfterQuery);
+//LocalAction(aAction, gtstLineAfterQuery,          ChkBoxEmptyLineAfterQuery);
   LocalAction(aAction, gtstLinesNoAfterQuery,       ChkBoxLinesNoAfterQuery);
   LocalAction(aAction, gtstEmptyLineBeforeClause,   ChkBoxEmptyLinesBeforeClauses);
   LocalAction(aAction, gtstEmptyLineBeforeClauseSkipSubquery,ChkBoxEmptyLinesBeforeClausesExcSubqueries);
@@ -345,13 +413,13 @@ begin
   LocalAction(aAction, gtstOnCondIntend,            ChkBoxOnCondIntend);
 
   { keywords }
-  LocalAction(aAction, gtstExprAsKeywordCONVERTER,  ChkBoxExprAs);
-  LocalAction(aAction, gtstTableAsKeywordCONVERTER, ChkBoxTableAs);
+//LocalAction(aAction, gtstExprAsKeywordCONVERTER,  ChkBoxExprAs);
+//LocalAction(aAction, gtstTableAsKeywordCONVERTER, ChkBoxTableAs);
   LocalAction(aAction, gtstColumnConstraint,        ChkBoxColumnConstraint);
-  LocalAction(aAction, gtstInnerJoinCONVERTER,      ChkBoxInnerJoins);
-  LocalAction(aAction, gtstOuterJoinCONVERTER,      ChkBoxOuterJoins);
-  LocalAction(aAction, gtstSortShortCONVERTER,      ChkBoxSortShort);
-  LocalAction(aAction, gtstSkipAscendingCONVERTER,  ChkBoxSkipAscending);
+//LocalAction(aAction, gtstInnerJoinCONVERTER,      ChkBoxInnerJoins);
+//LocalAction(aAction, gtstOuterJoinCONVERTER,      ChkBoxOuterJoins);
+//LocalAction(aAction, gtstSortShortCONVERTER,      ChkBoxSortShort);
+//LocalAction(aAction, gtstSkipAscendingCONVERTER,  ChkBoxSkipAscending);
 
   { case }
   LocalAction(aAction, gtstSelectAliasIntend,       ChkBoxSelectAliasIntend);
@@ -370,15 +438,15 @@ procedure TFormSettings.ComboAction(aAction: TYaSettingsAction);
   end;
 
 begin
-  LocalAction (aAction, gtlcTableCONVERTER,            ComboBoxTableNameCase);
-  LocalAction (aAction, gtlcColumnCONVERTER,           ComboBoxColumnNameCase);
-  LocalAction (aAction, gtlcTableAliasCONVERTER,       ComboBoxTableAliasCase);
-  LocalAction (aAction, gtlcColumnAliasCONVERTER,      ComboBoxColumnAliasCase);
-  LocalAction (aAction, gtlcColumnQuotedAliasCONVERTER,ComboBoxColumnQuotedAliasCase);
-  LocalAction (aAction, gtlcParameterCONVERTER,        ComboBoxParameterCase);
-  LocalAction (aAction, gtlcIdentifierCONVERTER,       ComboBoxIdentifierCase);
-  LocalAction (aAction, gtlcKeyword,                   ComboBoxKeywordCase);
-  LocalAction (aAction, gtlcFunctionCONVERTER,         ComboBoxFunctionCase);
+//LocalAction (aAction, gtlcTableCONVERTER,            ComboBoxTableNameCase);
+//LocalAction (aAction, gtlcColumnCONVERTER,           ComboBoxColumnNameCase);
+//LocalAction (aAction, gtlcTableAliasCONVERTER,       ComboBoxTableAliasCase);
+//LocalAction (aAction, gtlcColumnAliasCONVERTER,      ComboBoxColumnAliasCase);
+//LocalAction (aAction, gtlcColumnQuotedAliasCONVERTER,ComboBoxColumnQuotedAliasCase);
+//LocalAction (aAction, gtlcParameterCONVERTER,        ComboBoxParameterCase);
+//LocalAction (aAction, gtlcIdentifierCONVERTER,       ComboBoxIdentifierCase);
+//LocalAction (aAction, gtlcKeyword,                   ComboBoxKeywordCase);
+//LocalAction (aAction, gtlcFunctionCONVERTER,         ComboBoxFunctionCase);
 end;
 
 { sets chain between visual controls and their ids }
@@ -397,7 +465,7 @@ begin
   LocalAction(aAction, YA_SET_KEY_TAB_MAX_LEN,          EditTableMaxLen, '30');
   LocalAction(aAction, YA_SET_KEY_ALIAS_MAX_LEN,        EditAliasMaxLen, '10');
 
-  LocalAction(aAction, YA_SET_KEY_SET_MAX_LEN,          EditSetMaxLen,   '30'); // 20
+//LocalAction(aAction, YA_SET_KEY_SET_MAX_LEN,          EditSetMaxLen,   '30'); // 20
 
   LocalAction(aAction, YA_SET_KEY_COL_MAX_LEN,          EditColMaxLen, '20');
   LocalAction(aAction, YA_SET_KEY_TYPE_MAX_LEN,         EditMaxDataTypeLen, '20');
@@ -434,6 +502,247 @@ begin
   finally
     Dlg.Free;
   end;
+end;
+
+{----------------------- Converters TreeView procedures -----------------------}
+
+{ returns converter index }
+function  SqlConvertIndex( aGroup, aItem: Integer ): Integer;
+begin
+  Result := aGroup*1000 + aItem*10 ;
+end;
+
+{ returns converter group no }
+function  SqlConvertGroup( aIndex: Integer ): Integer;
+begin
+  Result := aIndex div 1000;
+end;
+
+{ returns converter item no }
+function  SqlConvertItem ( aIndex: Integer ): Integer;
+begin
+  Result := (aIndex div 10) mod 100;
+end;
+
+{ returns converter value }
+function  SqlConvertGetValue( aGroup, aItem: Integer ): Integer;
+begin
+  if aItem = 0 then Result := SQCV_GROUP else
+  if SqlConvertName( aGroup, aItem ) = '' then Result := SQCV_GROUP else
+     Result := SqlConvertValidateValue( aGroup, aItem,
+               rguGetInt( YA_SETTINGS_KEY + SqlConvertName( aGroup, 0 ) + '_' + SqlConvertName( aGroup, aItem )
+                        , SqlConvertDefValue( aGroup, aItem ) ) );
+end;
+
+{ storing converter values }
+procedure SqlConvertSetValue( aGroup, aItem, aState: Integer );
+begin
+  if aItem = 0 then Exit;
+  if SqlConvertName( aGroup, 0 ) = '' then Exit;
+  if SqlConvertName( aGroup, aItem ) = '' then Exit;
+
+  rguPutInt( YA_SETTINGS_KEY + SqlConvertName( aGroup, 0 ) + '_' + SqlConvertName( aGroup, aItem ), aState );
+end;
+
+{ validates converter value }
+function  SqlConvertValidateValue( aGroup, aItem, aState: Integer ): Integer;
+begin
+  Result := SQCV_NONE;
+
+  if aItem = SQCC_NONE then begin
+    Result := SQCV_GROUP;
+    Exit;
+  end;
+
+  if aState <= SQCV_NONE then Result := SQCV_NONE else
+  case aGroup of
+    SQCG_CASES    : if aState <= SQCV_UPPER  then Result := SQCV_UPPER  else
+                    if aState <= SQCV_LOWER  then Result := SQCV_LOWER  else Result := SQCV_NONE ;
+    SQCG_KEYWORD  : if aState <= SQCV_ADD    then Result := SQCV_ADD    else
+                    if aState <= SQCV_REMOVE then Result := SQCV_REMOVE else Result := SQCV_NONE ;
+    SQCG_DATA     : if aState <= SQCV_SHORT  then Result := SQCV_SHORT  else
+                    if aState <= SQCV_LONG   then Result := SQCV_LONG   else Result := SQCV_NONE ;
+    SQCG_JOIN     : if aState <= SQCV_ADD    then Result := SQCV_ADD    else
+                    if aState <= SQCV_REMOVE then Result := SQCV_REMOVE else Result := SQCV_NONE ;
+    SQCG_ORDER    : case aItem of
+                      SQCC_ORDER_KWD_LEN     :
+                        if aState <= SQCV_SHORT then Result := SQCV_SHORT else
+                        if aState <= SQCV_LONG  then Result := SQCV_LONG  else Result := SQCV_NONE ;
+                      SQCC_ORDER_KWD_DEF     :
+                        if aState <= SQCV_ADD    then Result := SQCV_ADD    else
+                        if aState <= SQCV_REMOVE then Result := SQCV_REMOVE else Result := SQCV_NONE ;
+                    end;
+  end;
+end;
+
+{ returns converter default value }
+function  SqlConvertDefValue( aGroup, aItem: Integer ): Integer;
+begin
+  Result := SQCV_NONE;
+
+  case aGroup of
+    SQCG_CASES    : case aItem of
+                      SQCC_CASE_KEYWORD      : Result := SQCV_UPPER;
+                      SQCC_CASE_TABLE        : Result := SQCV_NONE;
+                      SQCC_CASE_TABLE_ALIAS  : Result := SQCV_UPPER;
+                      SQCC_CASE_COLUMN       : Result := SQCV_NONE;
+                      SQCC_CASE_COLUMN_ALIAS : Result := SQCV_UPPER;
+                      SQCC_CASE_COLUMN_QUOTE : Result := SQCV_NONE;
+                      SQCC_CASE_PARAM        : Result := SQCV_NONE;
+                      SQCC_CASE_FUNC         : Result := SQCV_NONE;
+                      SQCC_CASE_IDENT        : Result := SQCV_NONE;
+                    end;
+    SQCG_KEYWORD  : case aItem of
+                      SQCC_KWD_AS_TABLES     : Result := SQCV_ADD;
+                      SQCC_KWD_AS_COLUMNS    : Result := SQCV_ADD;
+                    end;
+    SQCG_DATA     : case aItem of
+                      SQCC_DATA_INT          : Result := SQCV_NONE;
+                    end;
+    SQCG_JOIN     : case aItem of
+                      SQCC_JOIN_INNER        : Result := SQCV_REMOVE;
+                      SQCC_JOIN_OUTER        : Result := SQCV_REMOVE;
+                      SQCC_JOIN_ON_LEFT      : Result := SQCV_ADD;
+                    end;
+    SQCG_ORDER    : case aItem of
+                      SQCC_ORDER_KWD_LEN     : Result := SQCV_SHORT;
+                      SQCC_ORDER_KWD_DEF     : Result := SQCV_REMOVE;
+                    end;
+  end;
+end;
+
+{ returns converter name }
+function  SqlConvertName( aGroup, aItem: Integer ): String;
+begin
+  Result := '';
+
+  case aGroup of
+    SQCG_CASES    : case aItem of
+                      SQCC_NONE              : Result := 'Cases';
+                      SQCC_CASE_KEYWORD      : Result := 'Keywords';
+                      SQCC_CASE_TABLE        : Result := 'Table names';
+                      SQCC_CASE_TABLE_ALIAS  : Result := 'Table aliases';
+                      SQCC_CASE_COLUMN       : Result := 'Column names';
+                      SQCC_CASE_COLUMN_ALIAS : Result := 'Column aliases';
+                      SQCC_CASE_COLUMN_QUOTE : Result := 'Column quoted aliases';
+                      SQCC_CASE_PARAM        : Result := 'Parameters';
+                      SQCC_CASE_FUNC         : Result := 'Functions';
+                      SQCC_CASE_IDENT        : Result := 'Identifiers';
+                    end;
+    SQCG_KEYWORD  : case aItem of
+                      SQCC_NONE              : Result := 'Keywords';
+                      SQCC_KWD_AS_TABLES     : Result := 'AS for table aliases';
+                      SQCC_KWD_AS_COLUMNS    : Result := 'AS for column aliases';
+                    end;
+    SQCG_DATA     : case aItem of
+                      SQCC_NONE              : Result := 'Datatypes';
+                      SQCC_DATA_INT          : Result := 'Integer';
+                    end;
+    SQCG_JOIN     : case aItem of
+                      SQCC_NONE              : Result := 'FROM / JOIN';
+                      SQCC_JOIN_INNER        : Result := 'INNER keyword';
+                      SQCC_JOIN_OUTER        : Result := 'OUTER keyword';
+                      SQCC_JOIN_ON_LEFT      : Result := 'ON condition left side refs';
+                    end;
+    SQCG_ORDER    : case aItem of
+                      SQCC_NONE              : Result := 'ORDER BY';
+                      SQCC_ORDER_KWD_LEN     : Result := 'Keywords length';
+                      SQCC_ORDER_KWD_DEF     : Result := 'Default keywords';
+                    end;
+  end;
+end;
+
+{ executes converter }
+procedure SqlConvertExecute( aGroup, aItem, aState: Integer; aNode: TGtSqlNode ); overload;
+begin
+  case aGroup of
+    SQCG_CASES    : case aItem of
+                      SQCC_CASE_KEYWORD      : case aState of
+                                                 SQCV_UPPER  : SqlToysConvert_CaseKeyword_Upper(aNode);
+                                                 SQCV_LOWER  : SqlToysConvert_CaseKeyword_Lower(aNode);
+                                               end;
+                      SQCC_CASE_TABLE        : case aState of
+                                                 SQCV_UPPER  : SqlToysConvert_CaseTableName_Upper(aNode);
+                                                 SQCV_LOWER  : SqlToysConvert_CaseTableName_Lower(aNode);
+                                               end;
+                      SQCC_CASE_TABLE_ALIAS  : case aState of
+                                                 SQCV_UPPER  : SqlToysConvert_CaseTableAlias_Upper(aNode);
+                                                 SQCV_LOWER  : SqlToysConvert_CaseTableAlias_Lower(aNode);
+                                               end;
+                      SQCC_CASE_COLUMN       : case aState of
+                                                 SQCV_UPPER  : SqlToysConvert_CaseColumnName_Upper(aNode);
+                                                 SQCV_LOWER  : SqlToysConvert_CaseColumnName_Lower(aNode);
+                                               end;
+                      SQCC_CASE_COLUMN_ALIAS : case aState of
+                                                 SQCV_UPPER  : SqlToysConvert_CaseColumnAlias_Upper(aNode);
+                                                 SQCV_LOWER  : SqlToysConvert_CaseColumnAlias_Lower(aNode);
+                                               end;
+                      SQCC_CASE_COLUMN_QUOTE : case aState of
+                                                 SQCV_UPPER  : SqlToysConvert_CaseColumnQuotedAlias_Upper(aNode);
+                                                 SQCV_LOWER  : SqlToysConvert_CaseColumnQuotedAlias_Lower(aNode);
+                                               end;
+                      SQCC_CASE_PARAM        : case aState of
+                                                 SQCV_UPPER  : SqlToysConvert_CaseParam_Upper(aNode);
+                                                 SQCV_LOWER  : SqlToysConvert_CaseParam_Lower(aNode);
+                                               end;
+                      SQCC_CASE_FUNC         : case aState of
+                                                 SQCV_UPPER  : SqlToysConvert_CaseFunc_Upper(aNode);
+                                                 SQCV_LOWER  : SqlToysConvert_CaseFunc_Lower(aNode);
+                                               end;
+                      SQCC_CASE_IDENT        : case aState of
+                                                 SQCV_UPPER  : SqlToysConvert_CaseIdentifier_Upper(aNode);
+                                                 SQCV_LOWER  : SqlToysConvert_CaseIdentifier_Lower(aNode);
+                                               end;
+                    end;
+    SQCG_KEYWORD  : case aItem of
+                      SQCC_KWD_AS_TABLES     : case aState of
+                                                 SQCV_ADD    : SqlToysConvert_TableAlias_AddKeyword_AS(aNode);
+                                                 SQCV_REMOVE : SqlToysConvert_TableAlias_RemoveKeyword_AS(aNode);
+                                               end;
+                      SQCC_KWD_AS_COLUMNS    : case aState of
+                                                 SQCV_ADD    : SqlToysConvert_ExprAlias_AddKeyword_AS(aNode);
+                                                 SQCV_REMOVE : SqlToysConvert_ExprAlias_RemoveKeyword_AS(aNode);
+                                               end;
+                    end;
+    SQCG_DATA     : case aItem of
+                      SQCC_DATA_INT          : case aState of
+                                                 SQCV_SHORT  : SqlToysConvert_DataType_IntegerToInt(aNode);
+                                                 SQCV_LONG   : SqlToysConvert_DataType_IntToInteger(aNode);
+                                               end;
+                    end;
+    SQCG_JOIN     : case aItem of
+                      SQCC_JOIN_INNER        : case aState of
+                                                 SQCV_ADD    : SqlToysConvert_Joins_AddInner(aNode);
+                                                 SQCV_REMOVE : SqlToysConvert_Joins_RemoveInner(aNode);
+                                               end;
+                      SQCC_JOIN_OUTER        : case aState of
+                                                 SQCV_ADD    : SqlToysConvert_Joins_AddOuter(aNode);
+                                                 SQCV_REMOVE : SqlToysConvert_Joins_RemoveOuter(aNode);
+                                               end;
+                      SQCC_JOIN_ON_LEFT      : case aState of
+                                                 SQCV_ADD    : SqlToysConvert_JoinCond_RefToLeft(aNode);
+                                               end;
+                    end;
+    SQCG_ORDER    : case aItem of
+                      SQCC_ORDER_KWD_LEN     : case aState of
+                                                 SQCV_SHORT  : SqlToysConvert_SortOrder_ShortKeywords(aNode);
+                                                 SQCV_LONG   : SqlToysConvert_SortOrder_LongKeywords(aNode);
+                                               end;
+                      SQCC_ORDER_KWD_DEF     : case aState of
+                                                 SQCV_ADD    : SqlToysConvert_SortOrder_AddDefaultKeywords(aNode);
+                                                 SQCV_REMOVE : SqlToysConvert_SortOrder_RemoveDefaultKeywords(aNode);
+                      end;
+                    end;
+  end;
+end;
+
+{ execute all converters }
+procedure SqlConvertExecuteAll( aNode: TGtSqlNode );
+var Group, Item: Integer;
+begin
+  for Group := 1 to 99 do
+    for Item := 1 to 99 do
+      SqlConvertExecute( Group, Item, SqlConvertGetValue( Group, Item ), aNode );
 end;
 
 end.

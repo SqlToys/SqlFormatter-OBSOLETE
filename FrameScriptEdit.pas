@@ -1,4 +1,4 @@
-﻿(* $Header: /SQL Toys/SqlFormatter/FrameScriptEdit.pas 53    18-01-08 9:37 Tomek $
+﻿(* $Header: /SQL Toys/SqlFormatter/FrameScriptEdit.pas 57    18-01-14 20:46 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2014.08.16                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -137,7 +137,7 @@ type
     procedure ParseScript(aQuery: String; aOnParseAction: Boolean=True); overload;
     procedure ListScriptByToken;
     procedure FormatScript(aScriptFormat: Boolean = True);
-    procedure GeneralFormatScript(aScriptFormat: Boolean = True; aProc: TSqlNodeProcedure = nil);
+    procedure ScriptConvert(aScriptFormat: Boolean = True; aProc: TSqlNodeProcedure = nil);
 
     function  ChangeCaseWoStringComment(aStr: String; aUpperCase: Boolean): String;
     function  AnsiLetterOrIdentifierChar(Ch: Char): Boolean;
@@ -188,7 +188,7 @@ implementation
 uses SysUtils, Dialogs, Windows, Clipbrd, ShellApi,
      System.UITypes, System.Contnrs,
      GtStandard, GtVisual, GtRegistry, SqlTokenizers,
-     SqlCommon, SqlVersion, SqlXmlTree, FormFind
+     SqlCommon, SqlVersion, SqlXmlTree, FormFind, FormSettings
      {$IFDEF GtGarbageCollector} , GtGarbageCollector {$ENDIF} ;
 
 {$R *.dfm}
@@ -327,7 +327,8 @@ begin
     SetScriptFormatOptions(ScriptLister, aScriptFormat);
 
     StatusLogStartTime;
-    SqlToysConvert_ExecuteAll(Parser.QueryList, ScriptLister.Options, ScriptLister.CaseOpt);
+  //SqlToysConvert_ExecuteAll(Parser.QueryList, ScriptLister.Options, ScriptLister.CaseOpt);
+    SqlConvertExecuteAll(Parser.QueryList);
     StatusLogStopTime('Converts');
 
     StatusLogStartTime;
@@ -1333,8 +1334,8 @@ begin
   ScriptEditSelectionChange(Sender);
 end;
 
-{ formatuje skrypt, opcja wołania konwertera }
-procedure TFrameScriptEdit.GeneralFormatScript(aScriptFormat: Boolean = True; aProc: TSqlNodeProcedure = nil);
+{ formatuje skrypt, woła konwerter }
+procedure TFrameScriptEdit.ScriptConvert(aScriptFormat: Boolean = True; aProc: TSqlNodeProcedure = nil);
 var lModified: Boolean;
 begin
   lModified := ScriptEdit.Modified;
@@ -1351,14 +1352,30 @@ end;
 
 { action Tools, Compact }
 procedure TFrameScriptEdit.actToolsCompactExecute(Sender: TObject);
+var lModified: Boolean;
 begin
-  GeneralFormatScript(False);
+  lModified := ScriptEdit.Modified;
+  ParseScript(nil, False);
+
+  FormatScript(False);
+
+  ScriptEdit.Modified := lModified;
+  ScriptEditFormatted:= True;
+  if ScriptEdit.Visible then ScriptEdit.SetFocus;
 end;
 
 { action Tools, Format }
 procedure TFrameScriptEdit.actToolsFormatExecute(Sender: TObject);
+var lModified: Boolean;
 begin
-  GeneralFormatScript(True);
+  lModified := ScriptEdit.Modified;
+  ParseScript(nil, False);
+
+  FormatScript(True);
+
+  ScriptEdit.Modified := lModified;
+  ScriptEditFormatted:= True;
+  if ScriptEdit.Visible then ScriptEdit.SetFocus;
 end;
 
 { action Tools, List By Tokens }

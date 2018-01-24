@@ -1,4 +1,4 @@
-﻿(* $Header: /SQL Toys/SqlFormatter/FrameScriptEdit.pas 57    18-01-14 20:46 Tomek $
+﻿(* $Header: /SQL Toys/SqlFormatter/FrameScriptEdit.pas 58    18-01-19 21:15 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2014.08.16                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -137,7 +137,7 @@ type
     procedure ParseScript(aQuery: String; aOnParseAction: Boolean=True); overload;
     procedure ListScriptByToken;
     procedure FormatScript(aScriptFormat: Boolean = True);
-    procedure ScriptConvert(aScriptFormat: Boolean = True; aProc: TSqlNodeProcedure = nil);
+    procedure ScriptConvert(aScriptFormat: Boolean; aGroup, aItem, aState: Integer);
 
     function  ChangeCaseWoStringComment(aStr: String; aUpperCase: Boolean): String;
     function  AnsiLetterOrIdentifierChar(Ch: Char): Boolean;
@@ -1335,13 +1335,14 @@ begin
 end;
 
 { formatuje skrypt, woła konwerter }
-procedure TFrameScriptEdit.ScriptConvert(aScriptFormat: Boolean = True; aProc: TSqlNodeProcedure = nil);
+procedure TFrameScriptEdit.ScriptConvert(aScriptFormat: Boolean; aGroup, aItem, aState: Integer);
 var lModified: Boolean;
 begin
   lModified := ScriptEdit.Modified;
   ParseScript(nil, False);
 
-  if Assigned(aProc) then aProc( Parser.QueryList );
+//if Assigned(aProc) then aProc( Parser.QueryList );
+  SqlConvertExecute( aGroup, aItem, aState, Parser.QueryList );
 
   FormatScript(aScriptFormat);
 

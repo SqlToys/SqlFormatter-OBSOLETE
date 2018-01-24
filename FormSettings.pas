@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 103   18-01-14 20:46 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 104   18-01-19 21:15 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -154,47 +154,6 @@ function YaFontDialog(aFont: TFont): TFont;
 
 {----------------------- Converters TreeView procedures -----------------------}
 
-const { converters settings values, same as icon numbers }
-  SQCV_NONE     = 0;
-  SQCV_GROUP    = 1;
-  SQCV_ADD      = 2;
-  SQCV_REMOVE   = 3;
-  SQCV_UPPER    = 4;
-  SQCV_LOWER    = 5;
-  SQCV_SHORT    = 6;
-  SQCV_LONG     = 7;
-
-  { converter groups }
-  SQCG_CASES    = 1;
-  SQCG_KEYWORD  = 2;
-  SQCG_DATA     = 3;
-  SQCG_JOIN     = 4;
-  SQCG_ORDER    = 5;
-
-  { converters = converter items }
-  SQCC_NONE              = 0;
-  SQCC_CASE_KEYWORD      = 1;
-  SQCC_CASE_TABLE        = 2;
-  SQCC_CASE_TABLE_ALIAS  = 3;
-  SQCC_CASE_COLUMN       = 4;
-  SQCC_CASE_COLUMN_ALIAS = 5;
-  SQCC_CASE_COLUMN_QUOTE = 6;
-  SQCC_CASE_PARAM        = 7;
-  SQCC_CASE_FUNC         = 8;
-  SQCC_CASE_IDENT        = 9;
-
-  SQCC_KWD_AS_TABLES     = 1;
-  SQCC_KWD_AS_COLUMNS    = 2;
-
-  SQCC_DATA_INT          = 1;
-
-  SQCC_JOIN_INNER        = 1;
-  SQCC_JOIN_OUTER        = 2;
-  SQCC_JOIN_ON_LEFT      = 3;
-
-  SQCC_ORDER_KWD_LEN     = 1;
-  SQCC_ORDER_KWD_DEF     = 2;
-
 function  SqlConvertIndex( aGroup, aItem: Integer ): Integer;
 function  SqlConvertGroup( aIndex: Integer ): Integer;
 function  SqlConvertItem ( aIndex: Integer ): Integer;
@@ -204,7 +163,6 @@ function  SqlConvertGetValue( aGroup, aItem: Integer ): Integer;
 function  SqlConvertValidateValue( aGroup, aItem, aState: Integer ): Integer;
 procedure SqlConvertSetValue( aGroup, aItem, aState: Integer );
 function  SqlConvertDefValue( aGroup, aItem: Integer ): Integer;
-procedure SqlConvertExecute( aGroup, aItem, aState: Integer; aNode: TGtSqlNode );
 procedure SqlConvertExecuteAll( aNode: TGtSqlNode );
 
 implementation
@@ -652,96 +610,12 @@ begin
   end;
 end;
 
-{ executes converter }
-procedure SqlConvertExecute( aGroup, aItem, aState: Integer; aNode: TGtSqlNode ); overload;
-begin
-  case aGroup of
-    SQCG_CASES    : case aItem of
-                      SQCC_CASE_KEYWORD      : case aState of
-                                                 SQCV_UPPER  : SqlToysConvert_CaseKeyword_Upper(aNode);
-                                                 SQCV_LOWER  : SqlToysConvert_CaseKeyword_Lower(aNode);
-                                               end;
-                      SQCC_CASE_TABLE        : case aState of
-                                                 SQCV_UPPER  : SqlToysConvert_CaseTableName_Upper(aNode);
-                                                 SQCV_LOWER  : SqlToysConvert_CaseTableName_Lower(aNode);
-                                               end;
-                      SQCC_CASE_TABLE_ALIAS  : case aState of
-                                                 SQCV_UPPER  : SqlToysConvert_CaseTableAlias_Upper(aNode);
-                                                 SQCV_LOWER  : SqlToysConvert_CaseTableAlias_Lower(aNode);
-                                               end;
-                      SQCC_CASE_COLUMN       : case aState of
-                                                 SQCV_UPPER  : SqlToysConvert_CaseColumnName_Upper(aNode);
-                                                 SQCV_LOWER  : SqlToysConvert_CaseColumnName_Lower(aNode);
-                                               end;
-                      SQCC_CASE_COLUMN_ALIAS : case aState of
-                                                 SQCV_UPPER  : SqlToysConvert_CaseColumnAlias_Upper(aNode);
-                                                 SQCV_LOWER  : SqlToysConvert_CaseColumnAlias_Lower(aNode);
-                                               end;
-                      SQCC_CASE_COLUMN_QUOTE : case aState of
-                                                 SQCV_UPPER  : SqlToysConvert_CaseColumnQuotedAlias_Upper(aNode);
-                                                 SQCV_LOWER  : SqlToysConvert_CaseColumnQuotedAlias_Lower(aNode);
-                                               end;
-                      SQCC_CASE_PARAM        : case aState of
-                                                 SQCV_UPPER  : SqlToysConvert_CaseParam_Upper(aNode);
-                                                 SQCV_LOWER  : SqlToysConvert_CaseParam_Lower(aNode);
-                                               end;
-                      SQCC_CASE_FUNC         : case aState of
-                                                 SQCV_UPPER  : SqlToysConvert_CaseFunc_Upper(aNode);
-                                                 SQCV_LOWER  : SqlToysConvert_CaseFunc_Lower(aNode);
-                                               end;
-                      SQCC_CASE_IDENT        : case aState of
-                                                 SQCV_UPPER  : SqlToysConvert_CaseIdentifier_Upper(aNode);
-                                                 SQCV_LOWER  : SqlToysConvert_CaseIdentifier_Lower(aNode);
-                                               end;
-                    end;
-    SQCG_KEYWORD  : case aItem of
-                      SQCC_KWD_AS_TABLES     : case aState of
-                                                 SQCV_ADD    : SqlToysConvert_TableAlias_AddKeyword_AS(aNode);
-                                                 SQCV_REMOVE : SqlToysConvert_TableAlias_RemoveKeyword_AS(aNode);
-                                               end;
-                      SQCC_KWD_AS_COLUMNS    : case aState of
-                                                 SQCV_ADD    : SqlToysConvert_ExprAlias_AddKeyword_AS(aNode);
-                                                 SQCV_REMOVE : SqlToysConvert_ExprAlias_RemoveKeyword_AS(aNode);
-                                               end;
-                    end;
-    SQCG_DATA     : case aItem of
-                      SQCC_DATA_INT          : case aState of
-                                                 SQCV_SHORT  : SqlToysConvert_DataType_IntegerToInt(aNode);
-                                                 SQCV_LONG   : SqlToysConvert_DataType_IntToInteger(aNode);
-                                               end;
-                    end;
-    SQCG_JOIN     : case aItem of
-                      SQCC_JOIN_INNER        : case aState of
-                                                 SQCV_ADD    : SqlToysConvert_Joins_AddInner(aNode);
-                                                 SQCV_REMOVE : SqlToysConvert_Joins_RemoveInner(aNode);
-                                               end;
-                      SQCC_JOIN_OUTER        : case aState of
-                                                 SQCV_ADD    : SqlToysConvert_Joins_AddOuter(aNode);
-                                                 SQCV_REMOVE : SqlToysConvert_Joins_RemoveOuter(aNode);
-                                               end;
-                      SQCC_JOIN_ON_LEFT      : case aState of
-                                                 SQCV_ADD    : SqlToysConvert_JoinCond_RefToLeft(aNode);
-                                               end;
-                    end;
-    SQCG_ORDER    : case aItem of
-                      SQCC_ORDER_KWD_LEN     : case aState of
-                                                 SQCV_SHORT  : SqlToysConvert_SortOrder_ShortKeywords(aNode);
-                                                 SQCV_LONG   : SqlToysConvert_SortOrder_LongKeywords(aNode);
-                                               end;
-                      SQCC_ORDER_KWD_DEF     : case aState of
-                                                 SQCV_ADD    : SqlToysConvert_SortOrder_AddDefaultKeywords(aNode);
-                                                 SQCV_REMOVE : SqlToysConvert_SortOrder_RemoveDefaultKeywords(aNode);
-                      end;
-                    end;
-  end;
-end;
-
 { execute all converters }
 procedure SqlConvertExecuteAll( aNode: TGtSqlNode );
 var Group, Item: Integer;
 begin
-  for Group := 1 to 99 do
-    for Item := 1 to 99 do
+  for Group := 1 to SQCG_MAX do
+    for Item := 1 to SQCC_MAX do
       SqlConvertExecute( Group, Item, SqlConvertGetValue( Group, Item ), aNode );
 end;
 

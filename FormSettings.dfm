@@ -463,10 +463,10 @@ object FormSettings: TFormSettings
   end
   object GroupBoxLengths: TGroupBox
     Left = 400
-    Top = 148
+    Top = 154
     Width = 200
     Height = 137
-    Caption = 'MAX LENGHTS'
+    Caption = ' Max lenghts '
     TabOrder = 10
     object LabelColMaxLen: TLabel
       Left = 10
@@ -563,8 +563,8 @@ object FormSettings: TFormSettings
     Left = 400
     Top = 88
     Width = 200
-    Height = 54
-    Caption = 'LINES'
+    Height = 60
+    Caption = ' LINES '
     TabOrder = 11
     object Label2: TLabel
       Left = 10

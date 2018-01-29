@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 104   18-01-19 21:15 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 105   18-01-24 23:06 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -100,6 +100,7 @@ type
     procedure ChkBoxAction       (aAction: TYaSettingsAction);
     procedure ComboAction        (aAction: TYaSettingsAction);
     procedure EditAction         (aAction: TYaSettingsAction);
+    procedure ConvertersAction   (aAction: TYaSettingsAction);
     procedure ButtonGridFontClick(Sender: TObject);
     procedure TreeView1DblClick(Sender: TObject);
   private
@@ -180,8 +181,6 @@ var GroupNode, ItemNode: TTreeNode;
 begin
   Caption := VER_NAME + ' - Settings...';
 
-  BtnStoredClick(Sender);
-
   { populate Converters TreeView }
   for Group := 1 to 99 do
     if SqlConvertName( Group, 0 ) <> '' then begin
@@ -200,6 +199,8 @@ begin
 
       GroupNode.Expanded := True;
     end;
+
+  BtnStoredClick(Sender);
 end;
 
 { TreeView1 Double Click }
@@ -216,9 +217,11 @@ begin
                                                           , TreeView1.Selected.ImageIndex + 1);
   TreeView1.Selected.SelectedIndex := TreeView1.Selected.ImageIndex;
 
-  SqlConvertSetValue( SqlConvertGroup( TreeView1.Selected.StateIndex )
-                    , SqlConvertItem( TreeView1.Selected.StateIndex )
-                    , TreeView1.Selected.ImageIndex );
+//  SqlConvertSetValue( SqlConvertGroup( TreeView1.Selected.StateIndex )
+//                    , SqlConvertItem( TreeView1.Selected.StateIndex )
+//                    , TreeView1.Selected.ImageIndex );
+
+  TreeView1.Repaint;
 end;
 
 { button OK }
@@ -231,6 +234,7 @@ begin
   EditAction(yacsPutToRegistry);
   ComboAction(yacsPutToRegistry);
   ChkBoxAction(yacsPutToRegistry);
+  ConvertersAction(yacsPutToRegistry);
 
   { Close }
   Close;
@@ -250,6 +254,7 @@ begin
   EditAction(yacsDefault);
   ComboAction(yacsDefault);
   ChkBoxAction(yacsDefault);
+  ConvertersAction(yacsDefault);
 end;
 
 { recall stored values }
@@ -259,6 +264,7 @@ begin
   EditAction(yacsGetFromRegistry);
   ComboAction(yacsGetFromRegistry);
   ChkBoxAction(yacsGetFromRegistry);
+  ConvertersAction(yacsGetFromRegistry);
 end;
 
 { calls Font Dialog for Edit }
@@ -435,6 +441,33 @@ begin
   LocalAction(aAction, YA_SET_KEY_LINES_AFTER_QUERY,    EditLinesNoAfterQuery, '3');
 end;
 
+procedure TFormSettings.ConvertersAction   (aAction: TYaSettingsAction);
+
+  procedure LocalAction(aAction: TYaSettingsAction; aNode: TTreeNode);
+  begin
+    case aAction of
+      yacsGetFromRegistry:  begin
+                              aNode.ImageIndex := SqlConvertGetValue( SqlConvertGroup( aNode.StateIndex )
+                                                                    , SqlConvertItem( aNode.StateIndex ) );
+                              aNode.SelectedIndex := aNode.ImageIndex;
+                            end;
+      yacsPutToRegistry:    SqlConvertSetValue( SqlConvertGroup( aNode.StateIndex )
+                                              , SqlConvertItem( aNode.StateIndex )
+                                              , aNode.ImageIndex );
+      yacsDefault:          begin
+                              aNode.ImageIndex := SqlConvertDefValue( SqlConvertGroup( aNode.StateIndex )
+                                                                    , SqlConvertItem( aNode.StateIndex ) );
+                              aNode.SelectedIndex := aNode.ImageIndex;
+                            end;
+    end;
+  end;
+
+var i: Integer;
+begin
+  for i := 0 to TreeView1.Items.Count -1 do
+    LocalAction( aAction, TreeView1.Items[i] );
+end;
+
 {------------------------------- Font functions -------------------------------}
 
 { calls Font Dialog for Edit }
@@ -499,7 +532,9 @@ begin
   if SqlConvertName( aGroup, 0 ) = '' then Exit;
   if SqlConvertName( aGroup, aItem ) = '' then Exit;
 
-  rguPutInt( YA_SETTINGS_KEY + SqlConvertName( aGroup, 0 ) + '_' + SqlConvertName( aGroup, aItem ), aState );
+  if aState = SqlConvertDefValue( aGroup, aItem )
+    then rguDeleteKey( YA_SETTINGS_KEY + SqlConvertName( aGroup, 0 ) + '_' + SqlConvertName( aGroup, aItem ) )
+    else rguPutInt   ( YA_SETTINGS_KEY + SqlConvertName( aGroup, 0 ) + '_' + SqlConvertName( aGroup, aItem ), aState );
 end;
 
 { validates converter value }

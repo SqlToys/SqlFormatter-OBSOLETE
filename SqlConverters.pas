@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 21    18-01-19 21:15 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 23    18-01-28 17:44 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -19,13 +19,14 @@ const { converters settings values, same as icon numbers }
 
   { converter groups }
   SQCG_NONE     = 0;
-  SQCG_MAX      = 5;
+  SQCG_MAX      = 6;
 
   SQCG_CASES    = 1;
   SQCG_KEYWORD  = 2;
   SQCG_DATA     = 3;
   SQCG_JOIN     = 4;
   SQCG_ORDER    = 5;
+  SQCG_LINES    = 6;
 
   { converters = converter items }
   SQCC_NONE              = 0;
@@ -53,11 +54,16 @@ const { converters settings values, same as icon numbers }
   SQCC_ORDER_KWD_LEN     = 1;
   SQCC_ORDER_KWD_DEF     = 2;
 
+  SQCC_LINE_BEF_CLAUSE   = 1;
+  SQCC_EXC_SUBQUERY      = 2; {should be sud node}
+  SQCC_EXC_SHORT_QUERY   = 3; {should be sud node}
+  SQCC_LINE_AROUND_UNION = 4;
+
 procedure SqlConvertExecute( aGroup, aItem, aState: Integer; aNode: TGtSqlNode );
 
 {---------------------------- Navigation procedures ---------------------------}
 
-type TSqlNodeProcedure = procedure (aNode: TGtSqlNode);
+//type TSqlNodeProcedure = procedure (aNode: TGtSqlNode);
 //type TSqlNodeCaseProcedure = procedure (aNode: TGtSqlNode; aCase: TGtSqlCaseOption);
 
 { TODO: move to TGtSqlNode.ForEach, TGtSqlNode.ForEachAndDeepInside }
@@ -266,15 +272,19 @@ uses SysUtils;
 {---------------------------- Navigation procedures ---------------------------}
 
 { calls aProc for each node in aNode list }
-procedure SqlToysExec_ForEach_Node       ( aProc: TSqlNodeProcedure;       aNode: TGtSqlNode;
-                                           aKind: TGtSqlNodeKind=gtsiNone; aKeyword: TGtLexTokenDef=nil; aName: String='');
-var i: Integer;
-begin
-  if not Assigned(aNode) then Exit;
-
-  for i := 0 to aNode.Count -1 do
-    if aNode[i].Check(aKind, aKeyword, aName) then aProc(aNode[i]);
-end;
+//procedure SqlToysExec_ForEach_Node       ( aProc: TSqlNodeProcedure;       aNode: TGtSqlNode;
+//                                           aKind: TGtSqlNodeKind=gtsiNone; aKeyword: TGtLexTokenDef=nil; aName: String='');
+////var i: Integer;
+//begin
+//  if not Assigned(aNode) then Exit;
+//
+//  aNode.ForEach( aProc, False, {aNode,} aKind, aKeyword, aName );
+//
+////  if not Assigned(aNode) then Exit;
+////
+////  for i := 0 to aNode.Count -1 do
+////    if aNode[i].Check(aKind, aKeyword, aName) then aProc(aNode[i]);
+//end;
 
 //procedure SqlToysExec_ForEach_Node_Case  ( aProc: TSqlNodeCaseProcedure;   aNode: TGtSqlNode;
 //                                           aCase: TGtSqlCaseOption = gtcoNoChange;
@@ -288,19 +298,21 @@ end;
 //end;
 
 { calls aProc for each node and its subnodes in aNode list }
-procedure SqlToysExec_ForEach_DeepInside ( aProc: TSqlNodeProcedure; aNode: TGtSqlNode;
-                                           aKind: TGtSqlNodeKind=gtsiNone; aKeyword: TGtLexTokenDef=nil; aName: String='');
-var i: Integer;
-begin
-  if not Assigned(aNode) then Exit;
-
-  for i := 0 to aNode.Count -1 do begin
-    if aNode[i].Check(aKind, aKeyword, aName) then aProc(aNode[i]);
-
-    { recursive call for each node }
-    SqlToysExec_ForEach_DeepInside( aProc, aNode[i], aKind, aKeyword, aName );
-  end;
-end;
+//procedure SqlToysExec_ForEach_DeepInside ( aProc: TSqlNodeProcedure; aNode: TGtSqlNode;
+//                                           aKind: TGtSqlNodeKind=gtsiNone; aKeyword: TGtLexTokenDef=nil; aName: String='');
+////var i: Integer;
+//begin
+//  if not Assigned(aNode) then Exit;
+//
+//  aNode.ForEach( aProc, {aNode,} aKind, aKeyword, aName, True );
+//
+////  for i := 0 to aNode.Count -1 do begin
+////    if aNode[i].Check(aKind, aKeyword, aName) then aProc(aNode[i]);
+////
+////    { recursive call for each node }
+////    SqlToysExec_ForEach_DeepInside( aProc, aNode[i], aKind, aKeyword, aName );
+////  end;
+//end;
 
 {--------------------------------- Converters ---------------------------------}
 
@@ -310,14 +322,14 @@ begin
   if not Assigned(aNode) then Exit;
 
   if aNode.Check(gtsiExprList, gtkwSelect) then begin
-    SqlToysExec_ForEach_Node( aProc, aNode, gtsiExpr );
-    SqlToysExec_ForEach_Node( aProc, aNode, gtsiExprTree );
+    aNode.ForEach( aProc, False, gtsiExpr );
+    aNode.ForEach( aProc, False, gtsiExprTree );
   end else
   if aNode.Check(gtsiDml, gtkwSelect) then begin
-    SqlToysExec_ForEach_Node( aProc, aNode, gtsiExprList, gtkwSelect );
+    aNode.ForEach( aProc, False, gtsiExprList, gtkwSelect );
   end else
   if aNode.Check(gtsiQueryList) then begin
-    SqlToysExec_ForEach_Node( aProc, aNode, gtsiDml, gtkwSelect );
+    aNode.ForEach( aProc, False, gtsiDml, gtkwSelect );
   end;
 end;
 
@@ -351,13 +363,13 @@ begin
   if not Assigned(aNode) then Exit;
 
   if aNode.Check(gtsiClauseTables) then begin
-    SqlToysExec_ForEach_Node( aProc, aNode, gtsiTableRef );
+    aNode.ForEach( aProc, False, gtsiTableRef );
   end else
   if aNode.Check(gtsiDml, gtkwSelect) then begin
-    SqlToysExec_ForEach_Node( aProc, aNode, gtsiClauseTables );
+    aNode.ForEach( aProc, False, gtsiClauseTables );
   end else
   if aNode.Check(gtsiQueryList) then begin
-    SqlToysExec_ForEach_Node( aProc, aNode, gtsiDml, gtkwSelect );
+    aNode.ForEach( aProc, False, gtsiDml, gtkwSelect );
   end;
 end;
 
@@ -665,14 +677,14 @@ begin
   if not Assigned(aNode) then Exit;
 
   if aNode.Check(gtsiExprList, gtkwOrder_By) then begin
-    SqlToysExec_ForEach_Node( aProc, aNode, gtsiExpr );
-    SqlToysExec_ForEach_Node( aProc, aNode, gtsiExprTree );
+    aNode.ForEach( aProc, False, gtsiExpr );
+    aNode.ForEach( aProc, False, gtsiExprTree );
   end else
   if aNode.Check(gtsiDml, gtkwSelect) then begin
-    SqlToysExec_ForEach_Node( aProc, aNode, gtsiExprList, gtkwOrder_By );
+    aNode.ForEach( aProc, False, gtsiExprList, gtkwOrder_By );
   end else
   if aNode.Check(gtsiQueryList) then begin
-    SqlToysExec_ForEach_Node( aProc, aNode, gtsiDml, gtkwSelect );
+    aNode.ForEach( aProc, False, gtsiDml, gtkwSelect );
   end;
 end;
 
@@ -839,6 +851,56 @@ begin
   end;
 end;
 
+{--------------------------------- Empty lines --------------------------------}
+
+{ procedure adds empty line before clause }
+procedure SqlToysConvert_EmptyLine_Clause_Add(aNode: TGtSqlNode);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Owner.Kind = gtsiDml) and
+     ((aNode.Keyword = gtkwSelect) or
+      (aNode.Keyword = gtkwFrom) or (aNode.Keyword = gtkwWhere) or (aNode.Keyword = gtkwGroup_By) or
+      (aNode.Keyword = gtkwHaving) or (aNode.Keyword = gtkwOrder_By) or (aNode.Keyword = gtkwConnect_By) or
+      (aNode.Keyword = gtkwSet) or (aNode.Keyword = gtkwValues))
+    then aNode.EmptyLineBefore := True;
+end;
+
+{ procedure removes empty line before clause }
+procedure SqlToysConvert_EmptyLine_Clause_Remove(aNode: TGtSqlNode);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Owner.Kind = gtsiDml) and
+     ((aNode.Keyword = gtkwSelect) or
+      (aNode.Keyword = gtkwFrom) or (aNode.Keyword = gtkwWhere) or (aNode.Keyword = gtkwGroup_By) or
+      (aNode.Keyword = gtkwHaving) or (aNode.Keyword = gtkwOrder_By) or (aNode.Keyword = gtkwConnect_By) or
+      (aNode.Keyword = gtkwSet) or (aNode.Keyword = gtkwValues))
+    then aNode.EmptyLineBefore := False;
+end;
+
+{ procedure adds empty line around UNION, MINUS, etc }
+procedure SqlToysConvert_EmptyLine_Union_Add(aNode: TGtSqlNode);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Kind = gtsiUnions) then begin
+    aNode.EmptyLineBefore := True;
+    aNode.EmptyLineAfter  := True;
+  end;
+end;
+
+{ procedure adds empty line around UNION, MINUS, etc }
+procedure SqlToysConvert_EmptyLine_Union_Remove(aNode: TGtSqlNode);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Kind = gtsiUnions) then begin
+    aNode.EmptyLineBefore := False;
+    aNode.EmptyLineAfter  := False;
+  end;
+end;
+
 {----------------------------------- General ----------------------------------}
 
 { executes converter }
@@ -847,80 +909,98 @@ begin
   case aGroup of
     SQCG_CASES    : case aItem of
                       SQCC_CASE_KEYWORD      : case aState of
-                                                 SQCV_UPPER  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_CaseKeyword_Upper, aNode);
-                                                 SQCV_LOWER  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_CaseKeyword_Lower, aNode);
+                                                 SQCV_UPPER  : aNode.ForEach( SqlToysConvert_CaseKeyword_Upper, True );
+                                                 SQCV_LOWER  : aNode.ForEach( SqlToysConvert_CaseKeyword_Lower, True );
                                                end;
                       SQCC_CASE_TABLE        : case aState of
-                                                 SQCV_UPPER  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_CaseTableName_Upper, aNode);
-                                                 SQCV_LOWER  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_CaseTableName_Lower, aNode);
+                                                 SQCV_UPPER  : aNode.ForEach( SqlToysConvert_CaseTableName_Upper, True );
+                                                 SQCV_LOWER  : aNode.ForEach( SqlToysConvert_CaseTableName_Lower, True );
                                                end;
                       SQCC_CASE_TABLE_ALIAS  : case aState of
-                                                 SQCV_UPPER  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_CaseTableAlias_Upper, aNode);
-                                                 SQCV_LOWER  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_CaseTableAlias_Lower, aNode);
+                                                 SQCV_UPPER  : aNode.ForEach( SqlToysConvert_CaseTableAlias_Upper, True );
+                                                 SQCV_LOWER  : aNode.ForEach( SqlToysConvert_CaseTableAlias_Lower, True );
                                                end;
                       SQCC_CASE_COLUMN       : case aState of
-                                                 SQCV_UPPER  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_CaseColumnName_Upper, aNode);
-                                                 SQCV_LOWER  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_CaseColumnName_Lower, aNode);
+                                                 SQCV_UPPER  : aNode.ForEach( SqlToysConvert_CaseColumnName_Upper, True );
+                                                 SQCV_LOWER  : aNode.ForEach( SqlToysConvert_CaseColumnName_Lower, True );
                                                end;
                       SQCC_CASE_COLUMN_ALIAS : case aState of
-                                                 SQCV_UPPER  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_CaseColumnAlias_Upper, aNode);
-                                                 SQCV_LOWER  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_CaseColumnAlias_Lower, aNode);
+                                                 SQCV_UPPER  : aNode.ForEach( SqlToysConvert_CaseColumnAlias_Upper, True );
+                                                 SQCV_LOWER  : aNode.ForEach( SqlToysConvert_CaseColumnAlias_Lower, True );
                                                end;
                       SQCC_CASE_COLUMN_QUOTE : case aState of
-                                                 SQCV_UPPER  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_CaseColumnQuotedAlias_Upper, aNode);
-                                                 SQCV_LOWER  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_CaseColumnQuotedAlias_Lower, aNode);
+                                                 SQCV_UPPER  : aNode.ForEach( SqlToysConvert_CaseColumnQuotedAlias_Upper, True );
+                                                 SQCV_LOWER  : aNode.ForEach( SqlToysConvert_CaseColumnQuotedAlias_Lower, True );
                                                end;
                       SQCC_CASE_PARAM        : case aState of
-                                                 SQCV_UPPER  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_CaseParam_Upper, aNode);
-                                                 SQCV_LOWER  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_CaseParam_Lower, aNode);
+                                                 SQCV_UPPER  : aNode.ForEach( SqlToysConvert_CaseParam_Upper, True );
+                                                 SQCV_LOWER  : aNode.ForEach( SqlToysConvert_CaseParam_Lower, True );
                                                end;
                       SQCC_CASE_FUNC         : case aState of
-                                                 SQCV_UPPER  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_CaseFunc_Upper, aNode);
-                                                 SQCV_LOWER  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_CaseFunc_Lower, aNode);
+                                                 SQCV_UPPER  : aNode.ForEach( SqlToysConvert_CaseFunc_Upper, True );
+                                                 SQCV_LOWER  : aNode.ForEach( SqlToysConvert_CaseFunc_Lower, True );
                                                end;
                       SQCC_CASE_IDENT        : case aState of
-                                                 SQCV_UPPER  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_CaseIdentifier_Upper, aNode);
-                                                 SQCV_LOWER  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_CaseIdentifier_Lower, aNode);
+                                                 SQCV_UPPER  : aNode.ForEach( SqlToysConvert_CaseIdentifier_Upper, True );
+                                                 SQCV_LOWER  : aNode.ForEach( SqlToysConvert_CaseIdentifier_Lower, True );
                                                end;
                     end;
     SQCG_KEYWORD  : case aItem of
                       SQCC_KWD_AS_TABLES     : case aState of
-                                                 SQCV_ADD    : SqlToysExec_ForEach_DeepInside( SqlToysConvert_TableAlias_AddKeyword_AS, aNode);
-                                                 SQCV_REMOVE : SqlToysExec_ForEach_DeepInside( SqlToysConvert_TableAlias_RemoveKeyword_AS, aNode);
+                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_TableAlias_AddKeyword_AS, True );
+                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_TableAlias_RemoveKeyword_AS, True );
                                                end;
                       SQCC_KWD_AS_COLUMNS    : case aState of
-                                                 SQCV_ADD    : SqlToysExec_ForEach_DeepInside( SqlToysConvert_ExprAlias_AddKeyword_AS, aNode);
-                                                 SQCV_REMOVE : SqlToysExec_ForEach_DeepInside( SqlToysConvert_ExprAlias_RemoveKeyword_AS, aNode);
+                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_ExprAlias_AddKeyword_AS, True );
+                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_ExprAlias_RemoveKeyword_AS, True );
                                                end;
                     end;
     SQCG_DATA     : case aItem of
                       SQCC_DATA_INT          : case aState of
-                                                 SQCV_SHORT  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_DataType_IntegerToInt, aNode);
-                                                 SQCV_LONG   : SqlToysExec_ForEach_DeepInside( SqlToysConvert_DataType_IntToInteger, aNode);
+                                                 SQCV_SHORT  : aNode.ForEach( SqlToysConvert_DataType_IntegerToInt, True );
+                                                 SQCV_LONG   : aNode.ForEach( SqlToysConvert_DataType_IntToInteger, True );
                                                end;
                     end;
     SQCG_JOIN     : case aItem of
                       SQCC_JOIN_INNER        : case aState of
-                                                 SQCV_ADD    : SqlToysExec_ForEach_DeepInside( SqlToysConvert_Joins_AddInner, aNode);
-                                                 SQCV_REMOVE : SqlToysExec_ForEach_DeepInside( SqlToysConvert_Joins_RemoveInner, aNode);
+                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_Joins_AddInner, True );
+                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_Joins_RemoveInner, True );
                                                end;
                       SQCC_JOIN_OUTER        : case aState of
-                                                 SQCV_ADD    : SqlToysExec_ForEach_DeepInside( SqlToysConvert_Joins_AddOuter, aNode);
-                                                 SQCV_REMOVE : SqlToysExec_ForEach_DeepInside( SqlToysConvert_Joins_RemoveOuter, aNode);
+                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_Joins_AddOuter, True );
+                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_Joins_RemoveOuter, True );
                                                end;
                       SQCC_JOIN_ON_LEFT      : case aState of
-                                                 SQCV_ADD    : SqlToysExec_ForEach_DeepInside( SqlToysConvert_JoinCond_RefToLeft, aNode);
+                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_JoinCond_RefToLeft, True );
                                                end;
                     end;
     SQCG_ORDER    : case aItem of
                       SQCC_ORDER_KWD_LEN     : case aState of
-                                                 SQCV_SHORT  : SqlToysExec_ForEach_DeepInside( SqlToysConvert_SortOrder_ShortKeywords, aNode);
-                                                 SQCV_LONG   : SqlToysExec_ForEach_DeepInside( SqlToysConvert_SortOrder_LongKeywords, aNode);
+                                                 SQCV_SHORT  : aNode.ForEach( SqlToysConvert_SortOrder_ShortKeywords, True );
+                                                 SQCV_LONG   : aNode.ForEach( SqlToysConvert_SortOrder_LongKeywords, True );
                                                end;
                       SQCC_ORDER_KWD_DEF     : case aState of
-                                                 SQCV_ADD    : SqlToysExec_ForEach_DeepInside( SqlToysConvert_SortOrder_AddDefaultKeywords, aNode);
-                                                 SQCV_REMOVE : SqlToysExec_ForEach_DeepInside( SqlToysConvert_SortOrder_RemoveDefaultKeywords, aNode);
+                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_SortOrder_AddDefaultKeywords, True );
+                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_SortOrder_RemoveDefaultKeywords, True );
                       end;
+                    end;
+    SQCG_LINES    : case aItem of
+                      SQCC_LINE_BEF_CLAUSE   : case aState of
+                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_EmptyLine_Clause_Add, True );
+                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_EmptyLine_Clause_Remove, True );
+                                               end;
+                      SQCC_EXC_SUBQUERY      : case aState of
+                                                 SQCV_ADD    : ;
+                                                 SQCV_REMOVE : ;
+                                               end;
+                      SQCC_EXC_SHORT_QUERY   : case aState of
+                                                 SQCV_ADD    : ;
+                                                 SQCV_REMOVE : ;
+                                               end;
+                      SQCC_LINE_AROUND_UNION : case aState of
+                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_EmptyLine_Union_Add, True );
+                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_EmptyLine_Union_Remove, True );
+                                               end;
                     end;
   end;
 end;

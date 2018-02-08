@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 105   18-01-24 23:06 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 106   18-01-28 17:44 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -27,7 +27,6 @@ type
     ButtonGridFont: TButton;
     GroupBoxLines: TGroupBox;
     ChkBoxEmptyLinesBeforeClauses: TCheckBox;
-    ChkBoxEmptyLinesAroundUnion: TCheckBox;
     ChkBoxEmptyLinesBeforeClausesExcSubqueries: TCheckBox;
     ChkBoxEmptyLinesBeforeClausesExcShortQuery: TCheckBox;
     GroupBoxSpacings: TGroupBox;
@@ -50,9 +49,6 @@ type
     ChkBoxCaseThenAtNewLine: TCheckBox;
     ChkBoxCaseElseAtNewLine: TCheckBox;
     ChkBoxCaseEndAtNewLine: TCheckBox;
-    GroupBox2: TGroupBox;
-    ChkBoxSelectAliasIntend: TCheckBox;
-    CheckBoxExtQueryKeywordStyle: TCheckBox;
     GroupBox1: TGroupBox;
     ChkBoxFromTableAndAliasIntend: TCheckBox;
     ChkBoxOnCondIntend: TCheckBox;
@@ -86,6 +82,7 @@ type
     EditLinesNoAfterQuery: TEdit;
     EditShortQuery: TEdit;
     ImageList1: TImageList;
+    ChkBoxSelectAliasIntend: TCheckBox;
 
     procedure FormShow(Sender: TObject);
     procedure BtnOKClick(Sender: TObject);
@@ -331,7 +328,7 @@ procedure TFormSettings.ChkBoxAction(aAction: TYaSettingsAction);
   end;
 
 begin
-  LocalAction (aAction, gtstExtQueryKeywordStyle,    CheckBoxExtQueryKeywordStyle);
+//LocalAction (aAction, gtstExtQueryKeywordStyle,    CheckBoxExtQueryKeywordStyle);
 
   { general }
   LocalAction (aAction, gtstNoSemicolonOnSingleQuery,ChkBoxNoSemicolonOnSingleQuery);
@@ -341,10 +338,10 @@ begin
   { lines }
 //LocalAction(aAction, gtstLineAfterQuery,          ChkBoxEmptyLineAfterQuery);
   LocalAction(aAction, gtstLinesNoAfterQuery,       ChkBoxLinesNoAfterQuery);
-  LocalAction(aAction, gtstEmptyLineBeforeClause,   ChkBoxEmptyLinesBeforeClauses);
+//LocalAction(aAction, gtstEmptyLineBeforeClause,   ChkBoxEmptyLinesBeforeClauses);
   LocalAction(aAction, gtstEmptyLineBeforeClauseSkipSubquery,ChkBoxEmptyLinesBeforeClausesExcSubqueries);
   LocalAction(aAction, gtstEmptyLineBeforeClauseSkipShort,ChkBoxEmptyLinesBeforeClausesExcShortQuery);
-  LocalAction(aAction, gtstEmptyLineAroundUnion,    ChkBoxEmptyLinesAroundUnion);
+//LocalAction(aAction, gtstEmptyLineAroundUnion,    ChkBoxEmptyLinesAroundUnion);
 
   { CREATE TABLE }
   LocalAction(aAction, gtstCreateTable_ColConsBreakLine,CheckBoxCreateTableColConstrBreakLine);
@@ -565,6 +562,8 @@ begin
                         if aState <= SQCV_ADD    then Result := SQCV_ADD    else
                         if aState <= SQCV_REMOVE then Result := SQCV_REMOVE else Result := SQCV_NONE ;
                     end;
+    SQCG_LINES    : if aState <= SQCV_ADD    then Result := SQCV_ADD    else
+                    if aState <= SQCV_REMOVE then Result := SQCV_REMOVE else Result := SQCV_NONE ;
   end;
 end;
 
@@ -600,6 +599,12 @@ begin
     SQCG_ORDER    : case aItem of
                       SQCC_ORDER_KWD_LEN     : Result := SQCV_SHORT;
                       SQCC_ORDER_KWD_DEF     : Result := SQCV_REMOVE;
+                    end;
+    SQCG_LINES    : case aItem of
+                      SQCC_LINE_BEF_CLAUSE   : Result := SQCV_ADD;
+                      SQCC_EXC_SUBQUERY      : Result := SQCV_REMOVE;
+                      SQCC_EXC_SHORT_QUERY   : Result := SQCV_REMOVE;
+                      SQCC_LINE_AROUND_UNION : Result := SQCV_ADD;
                     end;
   end;
 end;
@@ -641,6 +646,13 @@ begin
                       SQCC_NONE              : Result := 'ORDER BY';
                       SQCC_ORDER_KWD_LEN     : Result := 'Keywords length';
                       SQCC_ORDER_KWD_DEF     : Result := 'Default keywords';
+                    end;
+    SQCG_LINES    : case aItem of
+                      SQCC_NONE              : Result := 'Empty lines';
+                      SQCC_LINE_BEF_CLAUSE   : Result := 'Before clauses';
+                      SQCC_EXC_SUBQUERY      : Result := '    in subqueries';
+                      SQCC_EXC_SHORT_QUERY   : Result := '    in shortqueries';
+                      SQCC_LINE_AROUND_UNION : Result := 'around UNION, MINUS etc.';
                     end;
   end;
 end;

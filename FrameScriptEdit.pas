@@ -1,4 +1,4 @@
-﻿(* $Header: /SQL Toys/SqlFormatter/FrameScriptEdit.pas 58    18-01-19 21:15 Tomek $
+﻿(* $Header: /SQL Toys/SqlFormatter/FrameScriptEdit.pas 59    18-01-28 12:11 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2014.08.16                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -136,7 +136,7 @@ type
     procedure ParseScript(aSL: TStrings = nil; aOnParseAction: Boolean=True); overload;
     procedure ParseScript(aQuery: String; aOnParseAction: Boolean=True); overload;
     procedure ListScriptByToken;
-    procedure FormatScript(aScriptFormat: Boolean = True);
+    procedure FormatScript(aScriptFormat: Boolean = True; aConverters: Boolean = True);
     procedure ScriptConvert(aScriptFormat: Boolean; aGroup, aItem, aState: Integer);
 
     function  ChangeCaseWoStringComment(aStr: String; aUpperCase: Boolean): String;
@@ -315,7 +315,7 @@ begin
 end;
 
 { formatuje skrypt }
-procedure TFrameScriptEdit.FormatScript(aScriptFormat: Boolean = True);
+procedure TFrameScriptEdit.FormatScript(aScriptFormat: Boolean = True; aConverters: Boolean = True);
 var ScriptLister: TGtSqlFormatLister;
 begin
   StatusLogStopTime('|');
@@ -328,7 +328,7 @@ begin
 
     StatusLogStartTime;
   //SqlToysConvert_ExecuteAll(Parser.QueryList, ScriptLister.Options, ScriptLister.CaseOpt);
-    SqlConvertExecuteAll(Parser.QueryList);
+    if aConverters then SqlConvertExecuteAll(Parser.QueryList);
     StatusLogStopTime('Converts');
 
     StatusLogStartTime;
@@ -1344,7 +1344,7 @@ begin
 //if Assigned(aProc) then aProc( Parser.QueryList );
   SqlConvertExecute( aGroup, aItem, aState, Parser.QueryList );
 
-  FormatScript(aScriptFormat);
+  FormatScript(aScriptFormat, False);
 
   ScriptEdit.Modified := lModified;
   ScriptEditFormatted:= True;

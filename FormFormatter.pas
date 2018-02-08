@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormFormatter.pas 61    18-01-19 21:14 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormFormatter.pas 62    18-01-28 12:47 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2011.07.24                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -215,7 +215,7 @@ var
 implementation
 
 uses Windows, ShellApi, Graphics, SysUtils, Dialogs,
-     GtStandard, GtVisual, GtRegistry, SqlTokenizers, GtExtUnit,
+     GtStandard, GtVisual, GtRegistry, SqlTokenizers, GtExternals,
      {$IFDEF DEBUG} SqlTest0, {$ENDIF}
      SqlCommon, SqlLister, SqlConverters, SqlVersion,
      FormSettings, FormColors, FormAbout;
@@ -421,7 +421,7 @@ begin
 
   { Status bar - Mem used }
   StatusBar.Panels[sb_memory].Text := 'Script: ' + GtFileOrMemSizeToStr(Length(FrameScriptEdit.ScriptEdit.Lines.Text), 0) +
-                                    ', Memory: ' + GtFileOrMemSizeToStr(GtExtUnit.AllocMemSize) +
+                                    ', Memory: ' + GtFileOrMemSizeToStr(GtExternals.AllocMemSize) +
                                     ', nodes: '  + IntToStr(GtSqlNodeCount);
 
   { Status bar = Log }

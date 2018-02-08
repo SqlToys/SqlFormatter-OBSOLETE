@@ -115,16 +115,14 @@ object FormSettings: TFormSettings
       Top = 15
       Width = 176
       Height = 17
-      Caption = 'Empty lines before clauses'
+      Caption = 'Empty line before clauses'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsStrikeOut]
+      ParentFont = False
       TabOrder = 0
-    end
-    object ChkBoxEmptyLinesAroundUnion: TCheckBox
-      Left = 25
-      Top = 60
-      Width = 171
-      Height = 17
-      Caption = 'Empty lines around UNION, etc.'
-      TabOrder = 3
     end
     object ChkBoxEmptyLinesBeforeClausesExcSubqueries: TCheckBox
       Left = 25
@@ -219,7 +217,7 @@ object FormSettings: TFormSettings
     Left = 200
     Top = 0
     Width = 200
-    Height = 89
+    Height = 97
     Caption = ' Expressions && conditions '
     TabOrder = 3
     object ChkBoxOneExprOnLine: TCheckBox
@@ -254,10 +252,18 @@ object FormSettings: TFormSettings
       Caption = 'SET left expression intend'
       TabOrder = 3
     end
+    object ChkBoxSelectAliasIntend: TCheckBox
+      Left = 10
+      Top = 75
+      Width = 181
+      Height = 17
+      Caption = 'Expressions alias intend'
+      TabOrder = 4
+    end
   end
   object GroupBox4: TGroupBox
     Left = 200
-    Top = 208
+    Top = 160
     Width = 200
     Height = 96
     Caption = ' CASE expr. '
@@ -303,43 +309,13 @@ object FormSettings: TFormSettings
       TabOrder = 4
     end
   end
-  object GroupBox2: TGroupBox
-    Left = 200
-    Top = 95
-    Width = 200
-    Height = 51
-    Caption = ' SELECT '
-    TabOrder = 5
-    object ChkBoxSelectAliasIntend: TCheckBox
-      Left = 10
-      Top = 15
-      Width = 181
-      Height = 17
-      Caption = 'Expressions alias intend'
-      TabOrder = 0
-    end
-    object CheckBoxExtQueryKeywordStyle: TCheckBox
-      Left = 10
-      Top = 30
-      Width = 176
-      Height = 17
-      Caption = 'Ext. query keyword style'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 1
-    end
-  end
   object GroupBox1: TGroupBox
     Left = 200
-    Top = 148
+    Top = 100
     Width = 200
     Height = 54
-    Caption = ' FROM '
-    TabOrder = 6
+    Caption = ' FROM / JOIN '
+    TabOrder = 5
     object ChkBoxFromTableAndAliasIntend: TCheckBox
       Left = 10
       Top = 15
@@ -369,7 +345,7 @@ object FormSettings: TFormSettings
     Width = 200
     Height = 82
     Caption = ' CREATE TABLE '
-    TabOrder = 7
+    TabOrder = 6
     object CheckBoxCreateTableColConstrBreakLine: TCheckBox
       Left = 10
       Top = 30
@@ -409,7 +385,7 @@ object FormSettings: TFormSettings
     Width = 200
     Height = 69
     Caption = ' General '
-    TabOrder = 8
+    TabOrder = 7
     object ChkBoxNoSemicolonOnSingleQuery: TCheckBox
       Left = 10
       Top = 15
@@ -458,7 +434,7 @@ object FormSettings: TFormSettings
     ParentFont = False
     ReadOnly = True
     ShowButtons = False
-    TabOrder = 9
+    TabOrder = 8
     OnDblClick = TreeView1DblClick
   end
   object GroupBoxLengths: TGroupBox
@@ -466,8 +442,8 @@ object FormSettings: TFormSettings
     Top = 154
     Width = 200
     Height = 137
-    Caption = ' Max lenghts '
-    TabOrder = 10
+    Caption = ' Max intend lenghts '
+    TabOrder = 9
     object LabelColMaxLen: TLabel
       Left = 10
       Top = 15
@@ -565,7 +541,7 @@ object FormSettings: TFormSettings
     Width = 200
     Height = 60
     Caption = ' LINES '
-    TabOrder = 11
+    TabOrder = 10
     object Label2: TLabel
       Left = 10
       Top = 15
@@ -919,7 +895,7 @@ object FormSettings: TFormSettings
       FC00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00E5E5E500C7C7C700F8F8F800FFFFFF00FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
       FF00FFFFFF00FFFCFC00FFFFFF00FF999900FF232300FFE0E000FFFFFF00FFFE
       FE00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FDFEFD00FFFF
@@ -927,7 +903,7 @@ object FormSettings: TFormSettings
       16007ABD7A00FFFFFF00FCFEFC00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
       FF00FDFDFF00FFFFFF00D2D2FF001111FF001919FF000606FF006D6DFF00FFFF
       FF00FCFCFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FEFEFE00FFFFFF00DDDDDD00B6B6B600F5F5F500FFFFFF00FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
       FF00FFFFFF00FFFBFB00FFFFFF00FF7F7F00FF000000FFD8D800FFFFFF00FFFD
       FD00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FEFFFE00FFFF
@@ -935,7 +911,7 @@ object FormSettings: TFormSettings
       9B00C7E3C700FFFFFF00FEFFFE00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
       FF00FEFEFF00FFFFFF00EAEAFF009292FF009595FF008C8CFF00BCBCFF00FFFF
       FF00FEFEFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FBFBFB00F5F5F500FEFEFE00FFFFFF00FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFECEC00FFD6D600FFFAFA00FFFFFF00FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF

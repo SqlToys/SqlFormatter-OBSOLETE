@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/GtVisual.pas 147   17-12-15 22:20 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/GtVisual.pas 148   18-01-28 12:47 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2003.03.30                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -197,7 +197,7 @@ function CharInSet(ch: Char; chset: gtstdcharset): Boolean;
 implementation
 
 uses Windows, Dialogs, ExtDlgs, Messages, ComObj,
-     GtExtUnit
+     GtExternals
      {$IF CompilerVersion >= 24} , System.Actions {$ELSE}  {$IFEND} ;
 
 {--------------------------------------  --------------------------------------}

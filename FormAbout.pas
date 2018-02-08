@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormAboutGitHub.pas 1     17-12-18 1:26 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormAboutGitHub.pas 2     18-01-28 12:47 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.08.11                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -28,7 +28,7 @@ type
 
 implementation
 
-uses SysUtils, GtExtUnit, SqlCommon, SqlVersion;
+uses SysUtils, GtExternals, SqlCommon, SqlVersion;
 
 {$R *.dfm}
 

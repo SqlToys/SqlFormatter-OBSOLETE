@@ -18,19 +18,6 @@ object FormSettings: TFormSettings
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 606
-    Top = 2
-    Width = 168
-    Height = 13
-    Caption = 'Converters (double click to change)'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
-  end
   object PanelBtn: TPanel
     Left = 0
     Top = 313
@@ -107,7 +94,7 @@ object FormSettings: TFormSettings
     Left = 0
     Top = 0
     Width = 200
-    Height = 89
+    Height = 72
     Caption = ' Empty lines '
     TabOrder = 1
     object ChkBoxEmptyLinesBeforeClauses: TCheckBox
@@ -129,7 +116,7 @@ object FormSettings: TFormSettings
       Top = 30
       Width = 161
       Height = 17
-      Caption = 'except subqueries'
+      Caption = 'except subqueries -- TO REMOVE !!'
       TabOrder = 1
     end
     object ChkBoxEmptyLinesBeforeClausesExcShortQuery: TCheckBox
@@ -137,13 +124,14 @@ object FormSettings: TFormSettings
       Top = 45
       Width = 161
       Height = 17
-      Caption = 'except short queries'
+      Caption = 'except short queries -- TO REMOVE !!'
       TabOrder = 2
+      StyleElements = [seClient, seBorder]
     end
   end
   object GroupBoxSpacings: TGroupBox
     Left = 0
-    Top = 95
+    Top = 72
     Width = 200
     Height = 140
     Caption = ' Spaces '
@@ -214,8 +202,8 @@ object FormSettings: TFormSettings
     end
   end
   object GroupBoxIntendation: TGroupBox
-    Left = 200
-    Top = 0
+    Left = 0
+    Top = 215
     Width = 200
     Height = 97
     Caption = ' Expressions && conditions '
@@ -263,7 +251,7 @@ object FormSettings: TFormSettings
   end
   object GroupBox4: TGroupBox
     Left = 200
-    Top = 160
+    Top = 210
     Width = 200
     Height = 96
     Caption = ' CASE expr. '
@@ -311,7 +299,7 @@ object FormSettings: TFormSettings
   end
   object GroupBox1: TGroupBox
     Left = 200
-    Top = 100
+    Top = 155
     Width = 200
     Height = 54
     Caption = ' FROM / JOIN '
@@ -340,8 +328,8 @@ object FormSettings: TFormSettings
     end
   end
   object GroupBoxCreateTable: TGroupBox
-    Left = 400
-    Top = 0
+    Left = 200
+    Top = 70
     Width = 200
     Height = 82
     Caption = ' CREATE TABLE '
@@ -380,8 +368,8 @@ object FormSettings: TFormSettings
     end
   end
   object GroupBox5: TGroupBox
-    Left = 0
-    Top = 238
+    Left = 200
+    Top = 0
     Width = 200
     Height = 69
     Caption = ' General '
@@ -391,7 +379,7 @@ object FormSettings: TFormSettings
       Top = 15
       Width = 176
       Height = 17
-      Caption = 'No semicolon on single query'
+      Caption = 'No semicolon on single query -- TO REMOVE !!'
       TabOrder = 0
     end
     object ChkBoxColumnConstraint: TCheckBox
@@ -417,33 +405,13 @@ object FormSettings: TFormSettings
       TabOrder = 2
     end
   end
-  object TreeView1: TTreeView
-    Left = 606
-    Top = 15
-    Width = 200
-    Height = 292
-    DoubleBuffered = True
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    Images = ImageList1
-    Indent = 19
-    ParentDoubleBuffered = False
-    ParentFont = False
-    ReadOnly = True
-    ShowButtons = False
-    TabOrder = 8
-    OnDblClick = TreeView1DblClick
-  end
   object GroupBoxLengths: TGroupBox
     Left = 400
-    Top = 154
+    Top = 60
     Width = 200
     Height = 137
     Caption = ' Max intend lenghts '
-    TabOrder = 9
+    TabOrder = 8
     object LabelColMaxLen: TLabel
       Left = 10
       Top = 15
@@ -537,11 +505,11 @@ object FormSettings: TFormSettings
   end
   object GroupBoxLinesCount: TGroupBox
     Left = 400
-    Top = 88
+    Top = 0
     Width = 200
     Height = 60
     Caption = ' LINES '
-    TabOrder = 10
+    TabOrder = 9
     object Label2: TLabel
       Left = 10
       Top = 15
@@ -572,6 +540,39 @@ object FormSettings: TFormSettings
       Height = 21
       TabOrder = 2
       Text = '20'
+    end
+  end
+  object GroupBox2: TGroupBox
+    Left = 600
+    Top = 0
+    Width = 200
+    Height = 310
+    Caption = ' Converters (double click to change) '
+    TabOrder = 10
+    object TreeView1: TTreeView
+      Left = 2
+      Top = 15
+      Width = 196
+      Height = 293
+      Align = alClient
+      DoubleBuffered = True
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      Images = ImageList1
+      Indent = 19
+      ParentDoubleBuffered = False
+      ParentFont = False
+      ReadOnly = True
+      ShowButtons = False
+      TabOrder = 0
+      OnDblClick = TreeView1DblClick
+      ExplicitLeft = 0
+      ExplicitTop = 20
+      ExplicitWidth = 200
+      ExplicitHeight = 292
     end
   end
   object ImageList1: TImageList

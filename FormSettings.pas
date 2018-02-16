@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 106   18-01-28 17:44 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 107   18-02-10 13:21 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -61,8 +61,6 @@ type
     ChkBoxNoSemicolonOnSingleQuery: TCheckBox;
     ChkBoxColumnConstraint: TCheckBox;
     ChkBoxRightIntend: TCheckBox;
-    TreeView1: TTreeView;
-    Label1: TLabel;
     GroupBoxLengths: TGroupBox;
     LabelColMaxLen: TLabel;
     EditColMaxLen: TEdit;
@@ -83,6 +81,8 @@ type
     EditShortQuery: TEdit;
     ImageList1: TImageList;
     ChkBoxSelectAliasIntend: TCheckBox;
+    GroupBox2: TGroupBox;
+    TreeView1: TTreeView;
 
     procedure FormShow(Sender: TObject);
     procedure BtnOKClick(Sender: TObject);
@@ -337,7 +337,7 @@ begin
 
   { lines }
 //LocalAction(aAction, gtstLineAfterQuery,          ChkBoxEmptyLineAfterQuery);
-  LocalAction(aAction, gtstLinesNoAfterQuery,       ChkBoxLinesNoAfterQuery);
+//LocalAction(aAction, gtstLinesNoAfterQuery,       ChkBoxLinesNoAfterQuery);
 //LocalAction(aAction, gtstEmptyLineBeforeClause,   ChkBoxEmptyLinesBeforeClauses);
   LocalAction(aAction, gtstEmptyLineBeforeClauseSkipSubquery,ChkBoxEmptyLinesBeforeClausesExcSubqueries);
   LocalAction(aAction, gtstEmptyLineBeforeClauseSkipShort,ChkBoxEmptyLinesBeforeClausesExcShortQuery);
@@ -651,7 +651,7 @@ begin
                       SQCC_NONE              : Result := 'Empty lines';
                       SQCC_LINE_BEF_CLAUSE   : Result := 'Before clauses';
                       SQCC_EXC_SUBQUERY      : Result := '    in subqueries';
-                      SQCC_EXC_SHORT_QUERY   : Result := '    in shortqueries';
+                      SQCC_EXC_SHORT_QUERY   : Result := '    in short queries';
                       SQCC_LINE_AROUND_UNION : Result := 'around UNION, MINUS etc.';
                     end;
   end;

@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 23    18-01-28 17:44 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 25    18-02-10 13:21 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -858,11 +858,11 @@ procedure SqlToysConvert_EmptyLine_Clause_Add(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if (aNode.Owner.Kind = gtsiDml) and
-     ((aNode.Keyword = gtkwSelect) or
-      (aNode.Keyword = gtkwFrom) or (aNode.Keyword = gtkwWhere) or (aNode.Keyword = gtkwGroup_By) or
-      (aNode.Keyword = gtkwHaving) or (aNode.Keyword = gtkwOrder_By) or (aNode.Keyword = gtkwConnect_By) or
-      (aNode.Keyword = gtkwSet) or (aNode.Keyword = gtkwValues))
+  if (aNode.Owner.Kind = gtsiDml) and not aNode.IsSubQuery and not aNode.IsShortQuery and aNode.IsClauseKeyword
+//     ((aNode.Keyword = gtkwSelect) or
+//      (aNode.Keyword = gtkwFrom) or (aNode.Keyword = gtkwWhere) or (aNode.Keyword = gtkwGroup_By) or
+//      (aNode.Keyword = gtkwHaving) or (aNode.Keyword = gtkwOrder_By) or (aNode.Keyword = gtkwConnect_By) or
+//      (aNode.Keyword = gtkwSet) or (aNode.Keyword = gtkwValues))
     then aNode.EmptyLineBefore := True;
 end;
 
@@ -871,11 +871,63 @@ procedure SqlToysConvert_EmptyLine_Clause_Remove(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if (aNode.Owner.Kind = gtsiDml) and
-     ((aNode.Keyword = gtkwSelect) or
-      (aNode.Keyword = gtkwFrom) or (aNode.Keyword = gtkwWhere) or (aNode.Keyword = gtkwGroup_By) or
-      (aNode.Keyword = gtkwHaving) or (aNode.Keyword = gtkwOrder_By) or (aNode.Keyword = gtkwConnect_By) or
-      (aNode.Keyword = gtkwSet) or (aNode.Keyword = gtkwValues))
+  if (aNode.Owner.Kind = gtsiDml) and not aNode.IsSubQuery and not aNode.IsShortQuery and aNode.IsClauseKeyword
+//     ((aNode.Keyword = gtkwSelect) or
+//      (aNode.Keyword = gtkwFrom) or (aNode.Keyword = gtkwWhere) or (aNode.Keyword = gtkwGroup_By) or
+//      (aNode.Keyword = gtkwHaving) or (aNode.Keyword = gtkwOrder_By) or (aNode.Keyword = gtkwConnect_By) or
+//      (aNode.Keyword = gtkwSet) or (aNode.Keyword = gtkwValues))
+    then aNode.EmptyLineBefore := False;
+end;
+
+{ procedure adds empty line before clause in subqueries }
+procedure SqlToysConvert_EmptyLine_ClauseSubquery_Add(aNode: TGtSqlNode);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Owner.Kind = gtsiDml) and aNode.IsSubQuery and not aNode.IsShortQuery and aNode.IsClauseKeyword
+//     ((aNode.Keyword = gtkwSelect) or
+//      (aNode.Keyword = gtkwFrom) or (aNode.Keyword = gtkwWhere) or (aNode.Keyword = gtkwGroup_By) or
+//      (aNode.Keyword = gtkwHaving) or (aNode.Keyword = gtkwOrder_By) or (aNode.Keyword = gtkwConnect_By) or
+//      (aNode.Keyword = gtkwSet) or (aNode.Keyword = gtkwValues))
+    then aNode.EmptyLineBefore := True;
+end;
+
+{ procedure removes empty line before clause in subqueries }
+procedure SqlToysConvert_EmptyLine_ClauseSubquery_Remove(aNode: TGtSqlNode);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Owner.Kind = gtsiDml) and aNode.IsSubQuery and not aNode.IsShortQuery and aNode.IsClauseKeyword
+//     ((aNode.Keyword = gtkwSelect) or
+//      (aNode.Keyword = gtkwFrom) or (aNode.Keyword = gtkwWhere) or (aNode.Keyword = gtkwGroup_By) or
+//      (aNode.Keyword = gtkwHaving) or (aNode.Keyword = gtkwOrder_By) or (aNode.Keyword = gtkwConnect_By) or
+//      (aNode.Keyword = gtkwSet) or (aNode.Keyword = gtkwValues))
+    then aNode.EmptyLineBefore := False;
+end;
+
+{ procedure adds empty line before clause in short queries }
+procedure SqlToysConvert_EmptyLine_ClauseShortQuery_Add(aNode: TGtSqlNode);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Owner.Kind = gtsiDml) and not aNode.IsSubQuery and aNode.IsShortQuery and aNode.IsClauseKeyword
+//     ((aNode.Keyword = gtkwSelect) or
+//      (aNode.Keyword = gtkwFrom) or (aNode.Keyword = gtkwWhere) or (aNode.Keyword = gtkwGroup_By) or
+//      (aNode.Keyword = gtkwHaving) or (aNode.Keyword = gtkwOrder_By) or (aNode.Keyword = gtkwConnect_By) or
+//      (aNode.Keyword = gtkwSet) or (aNode.Keyword = gtkwValues))
+    then aNode.EmptyLineBefore := True;
+end;
+
+{ procedure removes empty line before clause in short queries }
+procedure SqlToysConvert_EmptyLine_ClauseShortQuery_Remove(aNode: TGtSqlNode);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Owner.Kind = gtsiDml) and not aNode.IsSubQuery and aNode.IsShortQuery and aNode.IsClauseKeyword
+//     ((aNode.Keyword = gtkwSelect) or
+//      (aNode.Keyword = gtkwFrom) or (aNode.Keyword = gtkwWhere) or (aNode.Keyword = gtkwGroup_By) or
+//      (aNode.Keyword = gtkwHaving) or (aNode.Keyword = gtkwOrder_By) or (aNode.Keyword = gtkwConnect_By) or
+//      (aNode.Keyword = gtkwSet) or (aNode.Keyword = gtkwValues))
     then aNode.EmptyLineBefore := False;
 end;
 
@@ -990,12 +1042,13 @@ begin
                                                  SQCV_REMOVE : aNode.ForEach( SqlToysConvert_EmptyLine_Clause_Remove, True );
                                                end;
                       SQCC_EXC_SUBQUERY      : case aState of
-                                                 SQCV_ADD    : ;
-                                                 SQCV_REMOVE : ;
+                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_EmptyLine_ClauseSubquery_Add, True );
+                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_EmptyLine_ClauseSubquery_Remove, True );
                                                end;
                       SQCC_EXC_SHORT_QUERY   : case aState of
-                                                 SQCV_ADD    : ;
-                                                 SQCV_REMOVE : ;
+                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_EmptyLine_ClauseShortQuery_Add, True );
+                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_EmptyLine_ClauseShortQuery_Remove, True );
+
                                                end;
                       SQCC_LINE_AROUND_UNION : case aState of
                                                  SQCV_ADD    : aNode.ForEach( SqlToysConvert_EmptyLine_Union_Add, True );

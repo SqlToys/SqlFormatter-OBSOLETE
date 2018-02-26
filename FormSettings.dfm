@@ -90,52 +90,13 @@ object FormSettings: TFormSettings
       OnClick = ButtonGridFontClick
     end
   end
-  object GroupBoxLines: TGroupBox
-    Left = 0
-    Top = 0
-    Width = 200
-    Height = 72
-    Caption = ' Empty lines '
-    TabOrder = 1
-    object ChkBoxEmptyLinesBeforeClauses: TCheckBox
-      Left = 10
-      Top = 15
-      Width = 176
-      Height = 17
-      Caption = 'Empty line before clauses'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsStrikeOut]
-      ParentFont = False
-      TabOrder = 0
-    end
-    object ChkBoxEmptyLinesBeforeClausesExcSubqueries: TCheckBox
-      Left = 25
-      Top = 30
-      Width = 161
-      Height = 17
-      Caption = 'except subqueries -- TO REMOVE !!'
-      TabOrder = 1
-    end
-    object ChkBoxEmptyLinesBeforeClausesExcShortQuery: TCheckBox
-      Left = 25
-      Top = 45
-      Width = 161
-      Height = 17
-      Caption = 'except short queries -- TO REMOVE !!'
-      TabOrder = 2
-      StyleElements = [seClient, seBorder]
-    end
-  end
   object GroupBoxSpacings: TGroupBox
     Left = 0
     Top = 72
     Width = 200
     Height = 140
     Caption = ' Spaces '
-    TabOrder = 2
+    TabOrder = 1
     object ChkBoxSpaceBeforeComma: TCheckBox
       Left = 10
       Top = 105
@@ -207,7 +168,7 @@ object FormSettings: TFormSettings
     Width = 200
     Height = 97
     Caption = ' Expressions && conditions '
-    TabOrder = 3
+    TabOrder = 2
     object ChkBoxOneExprOnLine: TCheckBox
       Left = 10
       Top = 15
@@ -251,11 +212,11 @@ object FormSettings: TFormSettings
   end
   object GroupBox4: TGroupBox
     Left = 200
-    Top = 210
+    Top = 140
     Width = 200
     Height = 96
     Caption = ' CASE expr. '
-    TabOrder = 4
+    TabOrder = 3
     object ChkBoxCaseAtNewLine: TCheckBox
       Left = 10
       Top = 15
@@ -299,11 +260,11 @@ object FormSettings: TFormSettings
   end
   object GroupBox1: TGroupBox
     Left = 200
-    Top = 155
+    Top = 85
     Width = 200
     Height = 54
     Caption = ' FROM / JOIN '
-    TabOrder = 5
+    TabOrder = 4
     object ChkBoxFromTableAndAliasIntend: TCheckBox
       Left = 10
       Top = 15
@@ -329,11 +290,11 @@ object FormSettings: TFormSettings
   end
   object GroupBoxCreateTable: TGroupBox
     Left = 200
-    Top = 70
+    Top = 0
     Width = 200
     Height = 82
     Caption = ' CREATE TABLE '
-    TabOrder = 6
+    TabOrder = 5
     object CheckBoxCreateTableColConstrBreakLine: TCheckBox
       Left = 10
       Top = 30
@@ -368,12 +329,12 @@ object FormSettings: TFormSettings
     end
   end
   object GroupBox5: TGroupBox
-    Left = 200
+    Left = 0
     Top = 0
     Width = 200
     Height = 69
     Caption = ' General '
-    TabOrder = 7
+    TabOrder = 6
     object ChkBoxNoSemicolonOnSingleQuery: TCheckBox
       Left = 10
       Top = 15
@@ -411,7 +372,7 @@ object FormSettings: TFormSettings
     Width = 200
     Height = 137
     Caption = ' Max intend lenghts '
-    TabOrder = 8
+    TabOrder = 7
     object LabelColMaxLen: TLabel
       Left = 10
       Top = 15
@@ -509,7 +470,7 @@ object FormSettings: TFormSettings
     Width = 200
     Height = 60
     Caption = ' LINES '
-    TabOrder = 9
+    TabOrder = 8
     object Label2: TLabel
       Left = 10
       Top = 15
@@ -548,7 +509,7 @@ object FormSettings: TFormSettings
     Width = 200
     Height = 310
     Caption = ' Converters (double click to change) '
-    TabOrder = 10
+    TabOrder = 9
     object TreeView1: TTreeView
       Left = 2
       Top = 15
@@ -569,17 +530,13 @@ object FormSettings: TFormSettings
       ShowButtons = False
       TabOrder = 0
       OnDblClick = TreeView1DblClick
-      ExplicitLeft = 0
-      ExplicitTop = 20
-      ExplicitWidth = 200
-      ExplicitHeight = 292
     end
   end
   object ImageList1: TImageList
     BlendColor = clWhite
     BkColor = clWhite
-    Left = 760
-    Top = 24
+    Left = 752
+    Top = 16
     Bitmap = {
       494C010108000C00040010001000FFFFFF00FF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030

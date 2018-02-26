@@ -1,4 +1,4 @@
-﻿(* $Header: /SQL Toys/SqlFormatter/FrameScriptEdit.pas 59    18-01-28 12:11 Tomek $
+﻿(* $Header: /SQL Toys/SqlFormatter/FrameScriptEdit.pas 60    18-02-11 17:50 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2014.08.16                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -1358,7 +1358,7 @@ begin
   lModified := ScriptEdit.Modified;
   ParseScript(nil, False);
 
-  FormatScript(False);
+  FormatScript(False, False);
 
   ScriptEdit.Modified := lModified;
   ScriptEditFormatted:= True;

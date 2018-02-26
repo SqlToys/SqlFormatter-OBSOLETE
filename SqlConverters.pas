@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 25    18-02-10 13:21 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 26    18-02-11 18:43 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -771,7 +771,7 @@ procedure SqlToysConvert_Joins_AddInner(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.JoinOp = gtkwInner then aNode.JoinInnerKeyword := True;
+  if aNode.{JoinOp} Operand = gtkwInner then aNode.JoinInnerKeyword := True;
 
 //  SqlToysExec_ForEach_DeepInside ( SqlToysConvert_Joins_AddInner, aNode );
 end;
@@ -781,7 +781,7 @@ procedure SqlToysConvert_Joins_RemoveInner(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.JoinOp = gtkwInner then aNode.JoinInnerKeyword := False;
+  if aNode.{JoinOp} Operand = gtkwInner then aNode.JoinInnerKeyword := False;
 
 //  SqlToysExec_ForEach_DeepInside ( SqlToysConvert_Joins_RemoveInner, aNode );
 end;
@@ -791,7 +791,7 @@ procedure SqlToysConvert_Joins_AddOuter(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if (aNode.JoinOp = gtkwLeft) or (aNode.JoinOp = gtkwRight) or (aNode.JoinOp = gtkwFull) then aNode.JoinOuterKeyword := True;
+  if (aNode.{JoinOp} Operand = gtkwLeft) or (aNode.{JoinOp} Operand = gtkwRight) or (aNode.{JoinOp} Operand = gtkwFull) then aNode.JoinOuterKeyword := True;
 
 //  SqlToysExec_ForEach_DeepInside ( SqlToysConvert_Joins_AddOuter, aNode );
 end;
@@ -801,7 +801,7 @@ procedure SqlToysConvert_Joins_RemoveOuter(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if (aNode.JoinOp = gtkwLeft) or (aNode.JoinOp = gtkwRight) or (aNode.JoinOp = gtkwFull) then aNode.JoinOuterKeyword := False;
+  if (aNode.{JoinOp} Operand = gtkwLeft) or (aNode.{JoinOp} Operand = gtkwRight) or (aNode.{JoinOp} Operand = gtkwFull) then aNode.JoinOuterKeyword := False;
 
 //  SqlToysExec_ForEach_DeepInside ( SqlToysConvert_Joins_RemoveOuter, aNode );
 end;
@@ -819,7 +819,7 @@ var sTableNameOrAlias: String;
   begin
     if not Assigned(aCond) then Exit;
     if aCond.Kind <> gtsiCond then Exit;
-    if aCond.CompOp <> gttkEqual then Exit;
+    if aCond.{CompOp} Operand <> gttkEqual then Exit;
     if aCond.Count <> 2 then Exit;
 
     if aCond[0].ExprHasReferenceTo(sTableNameOrAlias) then Exit;

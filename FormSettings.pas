@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 107   18-02-10 13:21 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 108   18-02-11 18:43 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -25,10 +25,6 @@ type
     BtnStored: TButton;
     ButtonEditFont: TButton;
     ButtonGridFont: TButton;
-    GroupBoxLines: TGroupBox;
-    ChkBoxEmptyLinesBeforeClauses: TCheckBox;
-    ChkBoxEmptyLinesBeforeClausesExcSubqueries: TCheckBox;
-    ChkBoxEmptyLinesBeforeClausesExcShortQuery: TCheckBox;
     GroupBoxSpacings: TGroupBox;
     ChkBoxSpaceBeforeComma: TCheckBox;
     ChkBoxSpaceBeforeSemicolon: TCheckBox;
@@ -339,8 +335,8 @@ begin
 //LocalAction(aAction, gtstLineAfterQuery,          ChkBoxEmptyLineAfterQuery);
 //LocalAction(aAction, gtstLinesNoAfterQuery,       ChkBoxLinesNoAfterQuery);
 //LocalAction(aAction, gtstEmptyLineBeforeClause,   ChkBoxEmptyLinesBeforeClauses);
-  LocalAction(aAction, gtstEmptyLineBeforeClauseSkipSubquery,ChkBoxEmptyLinesBeforeClausesExcSubqueries);
-  LocalAction(aAction, gtstEmptyLineBeforeClauseSkipShort,ChkBoxEmptyLinesBeforeClausesExcShortQuery);
+//LocalAction(aAction, gtstEmptyLineBeforeClauseSkipSubquery,ChkBoxEmptyLinesBeforeClausesExcSubqueries);
+//LocalAction(aAction, gtstEmptyLineBeforeClauseSkipShort,ChkBoxEmptyLinesBeforeClausesExcShortQuery);
 //LocalAction(aAction, gtstEmptyLineAroundUnion,    ChkBoxEmptyLinesAroundUnion);
 
   { CREATE TABLE }

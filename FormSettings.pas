@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 108   18-02-11 18:43 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 109   18-03-11 14:30 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -39,12 +39,6 @@ type
     ChkBoxCommaAtNewLine: TCheckBox;
     ChkBoxOneCondOnLine: TCheckBox;
     ChkBoxSetLeftExprIntend: TCheckBox;
-    GroupBox4: TGroupBox;
-    ChkBoxCaseAtNewLine: TCheckBox;
-    ChkBoxCaseWhenAtNewLine: TCheckBox;
-    ChkBoxCaseThenAtNewLine: TCheckBox;
-    ChkBoxCaseElseAtNewLine: TCheckBox;
-    ChkBoxCaseEndAtNewLine: TCheckBox;
     GroupBox1: TGroupBox;
     ChkBoxFromTableAndAliasIntend: TCheckBox;
     ChkBoxOnCondIntend: TCheckBox;
@@ -360,11 +354,11 @@ begin
   LocalAction(aAction, gtstOneExprOnLine,           ChkBoxOneExprOnLine);
   LocalAction(aAction, gtstCommaAtNewLine,          ChkBoxCommaAtNewLine);
   LocalAction(aAction, gtstOneCondOnLine,           ChkBoxOneCondOnLine);
-  LocalAction(aAction, gtstCaseAtNewLine,           ChkBoxCaseAtNewLine);
-  LocalAction(aAction, gtstCaseWhenAtNewLine,       ChkBoxCaseWhenAtNewLine);
-  LocalAction(aAction, gtstCaseThenAtNewLine,       ChkBoxCaseThenAtNewLine);
-  LocalAction(aAction, gtstCaseElseAtNewLine,       ChkBoxCaseElseAtNewLine);
-  LocalAction(aAction, gtstCaseEndAtNewLine,        ChkBoxCaseEndAtNewLine);
+//LocalAction(aAction, gtstCaseAtNewLine,           ChkBoxCaseAtNewLine);
+//LocalAction(aAction, gtstCaseWhenAtNewLine,       ChkBoxCaseWhenAtNewLine);
+//LocalAction(aAction, gtstCaseThenAtNewLine,       ChkBoxCaseThenAtNewLine);
+//LocalAction(aAction, gtstCaseElseAtNewLine,       ChkBoxCaseElseAtNewLine);
+//LocalAction(aAction, gtstCaseEndAtNewLine,        ChkBoxCaseEndAtNewLine);
   LocalAction(aAction, gtstTableAndAliasIntend,     ChkBoxFromTableAndAliasIntend);
   LocalAction(aAction, gtstSetExprIntend,           ChkBoxSetLeftExprIntend);
   LocalAction(aAction, gtstOnCondIntend,            ChkBoxOnCondIntend);
@@ -601,6 +595,11 @@ begin
                       SQCC_EXC_SUBQUERY      : Result := SQCV_REMOVE;
                       SQCC_EXC_SHORT_QUERY   : Result := SQCV_REMOVE;
                       SQCC_LINE_AROUND_UNION : Result := SQCV_ADD;
+                    //SQCC_LINE_CASE_CASE    : Result := SQCV_ADD;
+                      SQCC_LINE_CASE_WHEN    : Result := SQCV_ADD;
+                      SQCC_LINE_CASE_THEN    : Result := SQCV_ADD;
+                      SQCC_LINE_CASE_ELSE    : Result := SQCV_ADD;
+                    //SQCC_LINE_CASE_END     : Result := SQCV_ADD;
                     end;
   end;
 end;
@@ -645,10 +644,15 @@ begin
                     end;
     SQCG_LINES    : case aItem of
                       SQCC_NONE              : Result := 'Empty lines';
-                      SQCC_LINE_BEF_CLAUSE   : Result := 'Before clauses';
+                      SQCC_LINE_BEF_CLAUSE   : Result := 'before clauses';
                       SQCC_EXC_SUBQUERY      : Result := '    in subqueries';
                       SQCC_EXC_SHORT_QUERY   : Result := '    in short queries';
                       SQCC_LINE_AROUND_UNION : Result := 'around UNION, MINUS etc.';
+                    //SQCC_LINE_CASE_CASE    : Result := 'before CASE in CASE expr.';
+                      SQCC_LINE_CASE_WHEN    : Result := 'before WHEN in CASE expr.';
+                      SQCC_LINE_CASE_THEN    : Result := 'before THEN in CASE expr.';
+                      SQCC_LINE_CASE_ELSE    : Result := 'before ELSE in CASE expr.';
+                    //SQCC_LINE_CASE_END     : Result := 'before END  in CASE expr.';
                     end;
   end;
 end;

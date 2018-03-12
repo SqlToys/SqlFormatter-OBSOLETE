@@ -210,61 +210,13 @@ object FormSettings: TFormSettings
       TabOrder = 4
     end
   end
-  object GroupBox4: TGroupBox
-    Left = 200
-    Top = 140
-    Width = 200
-    Height = 96
-    Caption = ' CASE expr. '
-    TabOrder = 3
-    object ChkBoxCaseAtNewLine: TCheckBox
-      Left = 10
-      Top = 15
-      Width = 171
-      Height = 17
-      Caption = 'CASE at new line'
-      TabOrder = 0
-    end
-    object ChkBoxCaseWhenAtNewLine: TCheckBox
-      Left = 10
-      Top = 30
-      Width = 161
-      Height = 17
-      Caption = 'WHEN at new line'
-      TabOrder = 1
-    end
-    object ChkBoxCaseThenAtNewLine: TCheckBox
-      Left = 10
-      Top = 45
-      Width = 161
-      Height = 17
-      Caption = 'THEN at new line'
-      TabOrder = 2
-    end
-    object ChkBoxCaseElseAtNewLine: TCheckBox
-      Left = 10
-      Top = 60
-      Width = 156
-      Height = 17
-      Caption = 'ELSE at new line'
-      TabOrder = 3
-    end
-    object ChkBoxCaseEndAtNewLine: TCheckBox
-      Left = 10
-      Top = 75
-      Width = 156
-      Height = 17
-      Caption = 'END at new line'
-      TabOrder = 4
-    end
-  end
   object GroupBox1: TGroupBox
     Left = 200
     Top = 85
     Width = 200
     Height = 54
     Caption = ' FROM / JOIN '
-    TabOrder = 4
+    TabOrder = 3
     object ChkBoxFromTableAndAliasIntend: TCheckBox
       Left = 10
       Top = 15
@@ -294,7 +246,7 @@ object FormSettings: TFormSettings
     Width = 200
     Height = 82
     Caption = ' CREATE TABLE '
-    TabOrder = 5
+    TabOrder = 4
     object CheckBoxCreateTableColConstrBreakLine: TCheckBox
       Left = 10
       Top = 30
@@ -334,7 +286,7 @@ object FormSettings: TFormSettings
     Width = 200
     Height = 69
     Caption = ' General '
-    TabOrder = 6
+    TabOrder = 5
     object ChkBoxNoSemicolonOnSingleQuery: TCheckBox
       Left = 10
       Top = 15
@@ -372,7 +324,7 @@ object FormSettings: TFormSettings
     Width = 200
     Height = 137
     Caption = ' Max intend lenghts '
-    TabOrder = 7
+    TabOrder = 6
     object LabelColMaxLen: TLabel
       Left = 10
       Top = 15
@@ -470,7 +422,7 @@ object FormSettings: TFormSettings
     Width = 200
     Height = 60
     Caption = ' LINES '
-    TabOrder = 8
+    TabOrder = 7
     object Label2: TLabel
       Left = 10
       Top = 15
@@ -509,7 +461,7 @@ object FormSettings: TFormSettings
     Width = 200
     Height = 310
     Caption = ' Converters (double click to change) '
-    TabOrder = 9
+    TabOrder = 8
     object TreeView1: TTreeView
       Left = 2
       Top = 15

@@ -9,10 +9,10 @@ This is a small free program written with Delphi, which is able to format sql qu
 
 ## Parser
 * This tool uses my own sql parser which consumed some hundreds hours of hard work. 
-* It works pretty well for my personal needs, parses complex queries with several sub-queries or some hundreds of unions
-* It doesn't cover any sql dialect fully at current development stage, only most used statements and clauses
-* test unit with almost 850 queries I've made to work through years
-* test method: parse query to a tree, list that tree to text, then compare source and result text with uppercase and wo. white spaces
+* Works pretty well for my personal needs, parses complex queries with several sub-queries or some hundreds of unions
+* Doesn't cover any sql dialect fully at current development stage, only most used statements and clauses
+* Test unit with almost 850 queries I've made to work through years
+* Test method: parse query to a tree, list that tree to text, then compare source and result text with uppercase and wo. white spaces
 
 ## Things to do 
 ### General ideas

@@ -5,7 +5,7 @@ This is a small free program written with Delphi, which is able to format sql qu
 * over 48 color settings for keywords, identifiers, numbers, strings, tables, columns, functions, parameters, etc.
 * dedicated case settings for keywords, tables, columns, aliases, parameters and functions
 * many intendation for expressions lists, joins, conditions etc.
-* sort join conditions (flip sides) to have joined table always on left side
+* flip join conditions to have joined table always on left side
 
 ## Parser
 * This tool uses my own sql parser which consumed some hundreds hours of hard work. 

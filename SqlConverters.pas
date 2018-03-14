@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 27    18-03-11 14:30 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 28    18-03-11 15:54 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -19,18 +19,22 @@ const { converters settings values, same as icon numbers }
 
   { converter groups }
   SQCG_NONE     = 0;
-  SQCG_MAX      = 6;
+  SQCG_MAX      = 7;
 
-  SQCG_CASES    = 1;
-  SQCG_KEYWORD  = 2;
-  SQCG_DATA     = 3;
-  SQCG_JOIN     = 4;
-  SQCG_ORDER    = 5;
-  SQCG_LINES    = 6;
+  SQCG_GENERAL  = 1;
+  SQCG_CASES    = 2;
+  SQCG_KEYWORD  = 3;
+  SQCG_DATA     = 4;
+  SQCG_JOIN     = 5;
+  SQCG_ORDER    = 6;
+  SQCG_LINES    = 7;
 
   { converters = converter items }
   SQCC_NONE              = 0;
   SQCC_MAX               = 9;
+
+  SQCC_GEN_SEMICOLON     = 1;
+  SQCC_GEN_SEMICOLON_SQ  = 2;
 
   SQCC_CASE_KEYWORD      = 1;
   SQCC_CASE_TABLE        = 2;
@@ -160,6 +164,42 @@ implementation
 uses SysUtils;
 
 {----------------------------------- General ----------------------------------}
+
+{ adds semicolon to query }
+procedure SqlToysConvert_Semicolon_Add(aNode: TGtSqlNode);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) then aNode.Semicolon := True;
+end;
+
+{ removes semicolon from query }
+procedure SqlToysConvert_Semicolon_Remove(aNode: TGtSqlNode);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) then aNode.Semicolon := False;
+end;
+
+{ adds semicolon to single query }
+procedure SqlToysConvert_Semicolon_SingleQuery_Add(aNode: TGtSqlNode);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) and
+     (aNode.Owner.Kind = gtsiQueryList) and (aNode.Owner.Count = 1)
+      then aNode.Semicolon := True;
+end;
+
+{ removed semicolon from single query }
+procedure SqlToysConvert_Semicolon_SingleQuery_Remove(aNode: TGtSqlNode);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) and
+     (aNode.Owner.Kind = gtsiQueryList) and (aNode.Owner.Count = 1)
+      then aNode.Semicolon := False;
+end;
 
 //procedure SqlToysConvert_ExecuteAll(aNode: TGtSqlNode; aOptions: TGtListerSettingsArray;
 //                                    aCaseOpt: TGtListerCaseSettingsArray);
@@ -1046,6 +1086,16 @@ end;
 procedure SqlConvertExecute( aGroup, aItem, aState: Integer; aNode: TGtSqlNode ); overload;
 begin
   case aGroup of
+    SQCG_GENERAL  : case aItem of
+                      SQCC_GEN_SEMICOLON     : case aState of
+                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_Semicolon_Add, True );
+                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_Semicolon_Remove, True );
+                                               end;
+                      SQCC_GEN_SEMICOLON_SQ  : case aState of
+                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_Semicolon_SingleQuery_Add, True );
+                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_Semicolon_SingleQuery_Remove, True );
+                                               end;
+                    end;
     SQCG_CASES    : case aItem of
                       SQCC_CASE_KEYWORD      : case aState of
                                                  SQCV_UPPER  : aNode.ForEach( SqlToysConvert_CaseKeyword_Upper, True );

@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 109   18-03-11 14:30 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 110   18-03-11 15:54 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -48,7 +48,6 @@ type
     ChkBoxCreateTableColDatatypeIntend: TCheckBox;
     ChkBoxCreateTableEmptyLineBeforeComplexContraints: TCheckBox;
     GroupBox5: TGroupBox;
-    ChkBoxNoSemicolonOnSingleQuery: TCheckBox;
     ChkBoxColumnConstraint: TCheckBox;
     ChkBoxRightIntend: TCheckBox;
     GroupBoxLengths: TGroupBox;
@@ -321,7 +320,7 @@ begin
 //LocalAction (aAction, gtstExtQueryKeywordStyle,    CheckBoxExtQueryKeywordStyle);
 
   { general }
-  LocalAction (aAction, gtstNoSemicolonOnSingleQuery,ChkBoxNoSemicolonOnSingleQuery);
+//LocalAction (aAction, gtstNoSemicolonOnSingleQuery,ChkBoxNoSemicolonOnSingleQuery);
 //LocalAction (aAction, gtstJoinCondLeftSideOrderCONVERTER,CheckBoxJoinCondLeftSideOrder);
 //LocalAction (aAction, gtstOnCondRefsFirstCONVERTER,CheckBoxJoinCondRefsFirst);
 
@@ -536,6 +535,8 @@ begin
 
   if aState <= SQCV_NONE then Result := SQCV_NONE else
   case aGroup of
+    SQCG_GENERAL  : if aState <= SQCV_ADD    then Result := SQCV_ADD    else
+                    if aState <= SQCV_REMOVE then Result := SQCV_REMOVE else Result := SQCV_NONE ;
     SQCG_CASES    : if aState <= SQCV_UPPER  then Result := SQCV_UPPER  else
                     if aState <= SQCV_LOWER  then Result := SQCV_LOWER  else Result := SQCV_NONE ;
     SQCG_KEYWORD  : if aState <= SQCV_ADD    then Result := SQCV_ADD    else
@@ -563,6 +564,10 @@ begin
   Result := SQCV_NONE;
 
   case aGroup of
+    SQCG_GENERAL  : case aItem of
+                      SQCC_GEN_SEMICOLON     : Result := SQCV_NONE;
+                      SQCC_GEN_SEMICOLON_SQ  : Result := SQCV_REMOVE;
+                    end;
     SQCG_CASES    : case aItem of
                       SQCC_CASE_KEYWORD      : Result := SQCV_UPPER;
                       SQCC_CASE_TABLE        : Result := SQCV_NONE;
@@ -595,11 +600,11 @@ begin
                       SQCC_EXC_SUBQUERY      : Result := SQCV_REMOVE;
                       SQCC_EXC_SHORT_QUERY   : Result := SQCV_REMOVE;
                       SQCC_LINE_AROUND_UNION : Result := SQCV_ADD;
-                    //SQCC_LINE_CASE_CASE    : Result := SQCV_ADD;
-                      SQCC_LINE_CASE_WHEN    : Result := SQCV_ADD;
-                      SQCC_LINE_CASE_THEN    : Result := SQCV_ADD;
-                      SQCC_LINE_CASE_ELSE    : Result := SQCV_ADD;
-                    //SQCC_LINE_CASE_END     : Result := SQCV_ADD;
+                    //SQCC_LINE_CASE_CASE    : Result := SQCV_NONE;
+                      SQCC_LINE_CASE_WHEN    : Result := SQCV_NONE;
+                      SQCC_LINE_CASE_THEN    : Result := SQCV_NONE;
+                      SQCC_LINE_CASE_ELSE    : Result := SQCV_NONE;
+                    //SQCC_LINE_CASE_END     : Result := SQCV_NONE;
                     end;
   end;
 end;
@@ -610,6 +615,11 @@ begin
   Result := '';
 
   case aGroup of
+    SQCG_GENERAL  : case aItem of
+                      SQCC_NONE              : Result := 'General';
+                      SQCC_GEN_SEMICOLON     : Result := 'Semicolon';
+                      SQCC_GEN_SEMICOLON_SQ  : Result := '    on single query';
+                    end;
     SQCG_CASES    : case aItem of
                       SQCC_NONE              : Result := 'Cases';
                       SQCC_CASE_KEYWORD      : Result := 'Keywords';
@@ -643,7 +653,7 @@ begin
                       SQCC_ORDER_KWD_DEF     : Result := 'Default keywords';
                     end;
     SQCG_LINES    : case aItem of
-                      SQCC_NONE              : Result := 'Empty lines';
+                      SQCC_NONE              : Result := 'New lines';
                       SQCC_LINE_BEF_CLAUSE   : Result := 'before clauses';
                       SQCC_EXC_SUBQUERY      : Result := '    in subqueries';
                       SQCC_EXC_SHORT_QUERY   : Result := '    in short queries';

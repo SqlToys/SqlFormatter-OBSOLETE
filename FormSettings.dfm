@@ -2,8 +2,8 @@ object FormSettings: TFormSettings
   Left = 247
   Top = 63
   BorderStyle = bsDialog
-  ClientHeight = 349
-  ClientWidth = 817
+  ClientHeight = 660
+  ClientWidth = 454
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,16 +20,18 @@ object FormSettings: TFormSettings
   TextHeight = 13
   object PanelBtn: TPanel
     Left = 0
-    Top = 313
-    Width = 817
+    Top = 624
+    Width = 454
     Height = 36
     Align = alBottom
     TabOrder = 0
+    ExplicitTop = 313
+    ExplicitWidth = 817
     DesignSize = (
-      817
+      454
       36)
     object BtnCancel: TButton
-      Left = 729
+      Left = 366
       Top = 6
       Width = 75
       Height = 25
@@ -37,9 +39,10 @@ object FormSettings: TFormSettings
       Caption = 'Cancel'
       ModalResult = 2
       TabOrder = 3
+      ExplicitLeft = 729
     end
     object BtnOK: TButton
-      Left = 648
+      Left = 285
       Top = 6
       Width = 75
       Height = 25
@@ -49,6 +52,7 @@ object FormSettings: TFormSettings
       ModalResult = 1
       TabOrder = 2
       OnClick = BtnOKClick
+      ExplicitLeft = 648
     end
     object BtnReset: TButton
       Left = 10
@@ -92,7 +96,7 @@ object FormSettings: TFormSettings
   end
   object GroupBoxSpacings: TGroupBox
     Left = 0
-    Top = 72
+    Top = 50
     Width = 200
     Height = 140
     Caption = ' Spaces '
@@ -164,7 +168,7 @@ object FormSettings: TFormSettings
   end
   object GroupBoxIntendation: TGroupBox
     Left = 0
-    Top = 215
+    Top = 190
     Width = 200
     Height = 97
     Caption = ' Expressions && conditions '
@@ -211,8 +215,8 @@ object FormSettings: TFormSettings
     end
   end
   object GroupBox1: TGroupBox
-    Left = 200
-    Top = 85
+    Left = 0
+    Top = 370
     Width = 200
     Height = 54
     Caption = ' FROM / JOIN '
@@ -241,8 +245,8 @@ object FormSettings: TFormSettings
     end
   end
   object GroupBoxCreateTable: TGroupBox
-    Left = 200
-    Top = 0
+    Left = 0
+    Top = 290
     Width = 200
     Height = 82
     Caption = ' CREATE TABLE '
@@ -284,20 +288,12 @@ object FormSettings: TFormSettings
     Left = 0
     Top = 0
     Width = 200
-    Height = 69
+    Height = 49
     Caption = ' General '
     TabOrder = 5
-    object ChkBoxNoSemicolonOnSingleQuery: TCheckBox
-      Left = 10
-      Top = 15
-      Width = 176
-      Height = 17
-      Caption = 'No semicolon on single query -- TO REMOVE !!'
-      TabOrder = 0
-    end
     object ChkBoxColumnConstraint: TCheckBox
       Left = 10
-      Top = 30
+      Top = 15
       Width = 176
       Height = 17
       Caption = 'Columns with their constraints'
@@ -307,20 +303,20 @@ object FormSettings: TFormSettings
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsBold]
       ParentFont = False
-      TabOrder = 1
+      TabOrder = 0
     end
     object ChkBoxRightIntend: TCheckBox
       Left = 10
-      Top = 45
+      Top = 30
       Width = 150
       Height = 17
       Caption = 'Right justify clauses'
-      TabOrder = 2
+      TabOrder = 1
     end
   end
   object GroupBoxLengths: TGroupBox
-    Left = 400
-    Top = 60
+    Left = 0
+    Top = 485
     Width = 200
     Height = 137
     Caption = ' Max intend lenghts '
@@ -417,8 +413,8 @@ object FormSettings: TFormSettings
     end
   end
   object GroupBoxLinesCount: TGroupBox
-    Left = 400
-    Top = 0
+    Left = 0
+    Top = 425
     Width = 200
     Height = 60
     Caption = ' LINES '
@@ -456,17 +452,17 @@ object FormSettings: TFormSettings
     end
   end
   object GroupBox2: TGroupBox
-    Left = 600
+    Left = 200
     Top = 0
-    Width = 200
-    Height = 310
+    Width = 250
+    Height = 622
     Caption = ' Converters (double click to change) '
     TabOrder = 8
     object TreeView1: TTreeView
       Left = 2
       Top = 15
-      Width = 196
-      Height = 293
+      Width = 246
+      Height = 605
       Align = alClient
       DoubleBuffered = True
       Font.Charset = DEFAULT_CHARSET
@@ -482,13 +478,16 @@ object FormSettings: TFormSettings
       ShowButtons = False
       TabOrder = 0
       OnDblClick = TreeView1DblClick
+      ExplicitLeft = 0
+      ExplicitTop = 14
     end
   end
   object ImageList1: TImageList
-    BlendColor = clWhite
+    BlendColor = clWindow
     BkColor = clWhite
-    Left = 752
-    Top = 16
+    DrawingStyle = dsSelected
+    Left = 352
+    Top = 24
     Bitmap = {
       494C010108000C00040010001000FFFFFF00FF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030

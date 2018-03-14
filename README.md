@@ -15,6 +15,11 @@ This is a small free program written with Delphi, which is able to format sql qu
 * test method: parse query to a tree, list that tree to text, then compare source and result text with uppercase and wo. white spaces
 
 ## Things to do 
+### General ideas
+* format of script selected part or even selected part of single query
+* inscript tags with used format options, required to apply same formatting rules to edited queries
+* keep comments, now they are removed while formatting
+* general parser rework to support BNF grammar definitions (biggest task)
 ### Soon 
 * xml output of parsed tree, and xml reader to script an xml back +small dedicated tools for those tasks -- <B>DONE</B>.
 * parsing of functional blocks (functions, procedures and triggers)
@@ -24,12 +29,7 @@ This is a small free program written with Delphi, which is able to format sql qu
     * only top clauses, expressions and joins at new line
     * clauses justified to left
     * clause body intented with the length of longest clause
-  * other format options should be realized as parse tree modifications (even query compact) -- <B>IN PROGRESS</B>
-### General ideas
-* format of script selected part or even selected part of single query
-* inscript tags with used format options, required to apply same formatting rules to edited queries
-* keep comments, now they are removed while formatting
-* general parser rework to support BNF grammar definitions (biggest task)
+  * other format options should be realized as parse tree modifications (even query compact) -- <B>60% DONE</B>
 ### Nice to have
 * some query converters ie. old joins to ansi joins, in conditions with subqueries to joins, single column fetching joins to subqueries etc. 
 * converters between dialects (ie. ORALCE to MS SQL)

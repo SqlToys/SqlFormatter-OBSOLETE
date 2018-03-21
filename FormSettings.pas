@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 110   18-03-11 15:54 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 111   18-03-11 17:43 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -43,31 +43,11 @@ type
     ChkBoxFromTableAndAliasIntend: TCheckBox;
     ChkBoxOnCondIntend: TCheckBox;
     GroupBoxCreateTable: TGroupBox;
-    CheckBoxCreateTableColConstrBreakLine: TCheckBox;
-    CheckBoxCreateTableColConstrNewLineAfter: TCheckBox;
     ChkBoxCreateTableColDatatypeIntend: TCheckBox;
     ChkBoxCreateTableEmptyLineBeforeComplexContraints: TCheckBox;
     GroupBox5: TGroupBox;
     ChkBoxColumnConstraint: TCheckBox;
     ChkBoxRightIntend: TCheckBox;
-    GroupBoxLengths: TGroupBox;
-    LabelColMaxLen: TLabel;
-    EditColMaxLen: TEdit;
-    LabelMaxDatatypeLen: TLabel;
-    EditMaxDataTypeLen: TEdit;
-    LabelTableMaxLen: TLabel;
-    EditTableMaxLen: TEdit;
-    LabelAliasMaxLen: TLabel;
-    EditAliasMaxLen: TEdit;
-    LabelMaxClauseKeywordIntend: TLabel;
-    LabelMaxIdentifierLength: TLabel;
-    EditMaxIdentifierLength: TEdit;
-    EditMaxClauseKeywordIntend: TEdit;
-    GroupBoxLinesCount: TGroupBox;
-    Label2: TLabel;
-    ChkBoxLinesNoAfterQuery: TCheckBox;
-    EditLinesNoAfterQuery: TEdit;
-    EditShortQuery: TEdit;
     ImageList1: TImageList;
     ChkBoxSelectAliasIntend: TCheckBox;
     GroupBox2: TGroupBox;
@@ -84,8 +64,8 @@ type
     procedure ButtonEditFontClick(Sender: TObject);
 
     procedure ChkBoxAction       (aAction: TYaSettingsAction);
-    procedure ComboAction        (aAction: TYaSettingsAction);
-    procedure EditAction         (aAction: TYaSettingsAction);
+  //procedure ComboAction        (aAction: TYaSettingsAction);
+  //procedure EditAction         (aAction: TYaSettingsAction);
     procedure ConvertersAction   (aAction: TYaSettingsAction);
     procedure ButtonGridFontClick(Sender: TObject);
     procedure TreeView1DblClick(Sender: TObject);
@@ -217,8 +197,8 @@ begin
   rguPutStr(YA_VERSION_KEY, VER_NUMBER);
 
   { commons }
-  EditAction(yacsPutToRegistry);
-  ComboAction(yacsPutToRegistry);
+//EditAction(yacsPutToRegistry);
+//ComboAction(yacsPutToRegistry);
   ChkBoxAction(yacsPutToRegistry);
   ConvertersAction(yacsPutToRegistry);
 
@@ -237,8 +217,8 @@ end;
 procedure TFormSettings.BtnResetClick(Sender: TObject);
 begin
   { commons }
-  EditAction(yacsDefault);
-  ComboAction(yacsDefault);
+//EditAction(yacsDefault);
+//ComboAction(yacsDefault);
   ChkBoxAction(yacsDefault);
   ConvertersAction(yacsDefault);
 end;
@@ -247,8 +227,8 @@ end;
 procedure TFormSettings.BtnStoredClick(Sender: TObject);
 begin
   { commons }
-  EditAction(yacsGetFromRegistry);
-  ComboAction(yacsGetFromRegistry);
+//EditAction(yacsGetFromRegistry);
+//ComboAction(yacsGetFromRegistry);
   ChkBoxAction(yacsGetFromRegistry);
   ConvertersAction(yacsGetFromRegistry);
 end;
@@ -333,8 +313,8 @@ begin
 //LocalAction(aAction, gtstEmptyLineAroundUnion,    ChkBoxEmptyLinesAroundUnion);
 
   { CREATE TABLE }
-  LocalAction(aAction, gtstCreateTable_ColConsBreakLine,CheckBoxCreateTableColConstrBreakLine);
-  LocalAction(aAction, gtstCreateTable_ColConsNewLineAfter,CheckBoxCreateTableColConstrNewLineAfter);
+//LocalAction(aAction, gtstCreateTable_ColConsBreakLine,CheckBoxCreateTableColConstrBreakLine);
+//LocalAction(aAction, gtstCreateTable_ColConsNewLineAfter,CheckBoxCreateTableColConstrNewLineAfter);
   LocalAction(aAction, gtstCreateTable_Intend,       ChkBoxCreateTableColDatatypeIntend);
   LocalAction(aAction, gtstCreateTable_EmptyLineBefComplexConstr,ChkBoxCreateTableEmptyLineBeforeComplexContraints);
 
@@ -376,56 +356,56 @@ begin
 end;
 
 { sets chain between visual controls and their ids }
-procedure TFormSettings.ComboAction(aAction: TYaSettingsAction);
-
-  procedure LocalAction(aAction: TYaSettingsAction; aSetting: TGtListerCaseSettings; aComboBox: TComboBox);
-  begin
-    case aAction of
-      yacsGetFromRegistry:  aComboBox.ItemIndex := Ord(GtRegistryGetCase(aSetting));
-      yacsPutToRegistry:    GtRegistryPutCase(aSetting, aComboBox.ItemIndex);
-      yacsDefault:          aComboBox.ItemIndex := Ord(GT_SET_CASE_ARR [aSetting].Def);
-    end;
-  end;
-
-begin
-//LocalAction (aAction, gtlcTableCONVERTER,            ComboBoxTableNameCase);
-//LocalAction (aAction, gtlcColumnCONVERTER,           ComboBoxColumnNameCase);
-//LocalAction (aAction, gtlcTableAliasCONVERTER,       ComboBoxTableAliasCase);
-//LocalAction (aAction, gtlcColumnAliasCONVERTER,      ComboBoxColumnAliasCase);
-//LocalAction (aAction, gtlcColumnQuotedAliasCONVERTER,ComboBoxColumnQuotedAliasCase);
-//LocalAction (aAction, gtlcParameterCONVERTER,        ComboBoxParameterCase);
-//LocalAction (aAction, gtlcIdentifierCONVERTER,       ComboBoxIdentifierCase);
-//LocalAction (aAction, gtlcKeyword,                   ComboBoxKeywordCase);
-//LocalAction (aAction, gtlcFunctionCONVERTER,         ComboBoxFunctionCase);
-end;
+//procedure TFormSettings.ComboAction(aAction: TYaSettingsAction);
+//
+//  procedure LocalAction(aAction: TYaSettingsAction; aSetting: TGtListerCaseSettings; aComboBox: TComboBox);
+//  begin
+//    case aAction of
+//      yacsGetFromRegistry:  aComboBox.ItemIndex := Ord(GtRegistryGetCase(aSetting));
+//      yacsPutToRegistry:    GtRegistryPutCase(aSetting, aComboBox.ItemIndex);
+//      yacsDefault:          aComboBox.ItemIndex := Ord(GT_SET_CASE_ARR [aSetting].Def);
+//    end;
+//  end;
+//
+//begin
+////LocalAction (aAction, gtlcTableCONVERTER,            ComboBoxTableNameCase);
+////LocalAction (aAction, gtlcColumnCONVERTER,           ComboBoxColumnNameCase);
+////LocalAction (aAction, gtlcTableAliasCONVERTER,       ComboBoxTableAliasCase);
+////LocalAction (aAction, gtlcColumnAliasCONVERTER,      ComboBoxColumnAliasCase);
+////LocalAction (aAction, gtlcColumnQuotedAliasCONVERTER,ComboBoxColumnQuotedAliasCase);
+////LocalAction (aAction, gtlcParameterCONVERTER,        ComboBoxParameterCase);
+////LocalAction (aAction, gtlcIdentifierCONVERTER,       ComboBoxIdentifierCase);
+////LocalAction (aAction, gtlcKeyword,                   ComboBoxKeywordCase);
+////LocalAction (aAction, gtlcFunctionCONVERTER,         ComboBoxFunctionCase);
+//end;
 
 { sets chain between visual controls and their ids }
-procedure TFormSettings.EditAction(aAction: TYaSettingsAction);
-
-  procedure LocalAction(aAction: TYaSettingsAction; aReg: String; aEdit: TEdit; aDef: String);
-  begin
-    case aAction of
-      yacsGetFromRegistry:  aEdit.Text := rguGetStr(aReg, aDef);
-      yacsPutToRegistry:    rguPutStr(aReg, aEdit.Text);
-      yacsDefault:          aEdit.Text := aDef;
-    end;
-  end;
-
-begin
-  LocalAction(aAction, YA_SET_KEY_TAB_MAX_LEN,          EditTableMaxLen, '30');
-  LocalAction(aAction, YA_SET_KEY_ALIAS_MAX_LEN,        EditAliasMaxLen, '10');
-
-//LocalAction(aAction, YA_SET_KEY_SET_MAX_LEN,          EditSetMaxLen,   '30'); // 20
-
-  LocalAction(aAction, YA_SET_KEY_COL_MAX_LEN,          EditColMaxLen, '20');
-  LocalAction(aAction, YA_SET_KEY_TYPE_MAX_LEN,         EditMaxDataTypeLen, '20');
-
-  LocalAction(aAction, YA_SET_KEY_SHORT_QUERY,          EditShortQuery, '20');
-  LocalAction(aAction, YA_SET_KEY_MAX_CLAUSE_KEYWORD_INT, EditMaxClauseKeywordIntend, '15');
-  LocalAction(aAction, YA_SET_KEY_MAX_IDENTIFIER_LEN,   EditMaxIdentifierLength, '30');
-
-  LocalAction(aAction, YA_SET_KEY_LINES_AFTER_QUERY,    EditLinesNoAfterQuery, '3');
-end;
+//procedure TFormSettings.EditAction(aAction: TYaSettingsAction);
+//
+//  procedure LocalAction(aAction: TYaSettingsAction; aReg: String; aEdit: TEdit; aDef: String);
+//  begin
+//    case aAction of
+//      yacsGetFromRegistry:  aEdit.Text := rguGetStr(aReg, aDef);
+//      yacsPutToRegistry:    rguPutStr(aReg, aEdit.Text);
+//      yacsDefault:          aEdit.Text := aDef;
+//    end;
+//  end;
+//
+//begin
+////LocalAction(aAction, YA_SET_KEY_TAB_MAX_LEN,          EditTableMaxLen, '30');
+////LocalAction(aAction, YA_SET_KEY_ALIAS_MAX_LEN,        EditAliasMaxLen, '10');
+//
+////LocalAction(aAction, YA_SET_KEY_SET_MAX_LEN,          EditSetMaxLen,   '30'); // 20
+//
+////LocalAction(aAction, YA_SET_KEY_COL_MAX_LEN,          EditColMaxLen, '20');
+////LocalAction(aAction, YA_SET_KEY_TYPE_MAX_LEN,         EditMaxDataTypeLen, '20');
+//
+////LocalAction(aAction, YA_SET_KEY_SHORT_QUERY,          EditShortQuery, '20');
+////LocalAction(aAction, YA_SET_KEY_MAX_CLAUSE_KEYWORD_INT, EditMaxClauseKeywordIntend, '15');
+////LocalAction(aAction, YA_SET_KEY_MAX_IDENTIFIER_LEN,   EditMaxIdentifierLength, '30');
+//
+////LocalAction(aAction, YA_SET_KEY_LINES_AFTER_QUERY,    EditLinesNoAfterQuery, '3');
+//end;
 
 procedure TFormSettings.ConvertersAction   (aAction: TYaSettingsAction);
 
@@ -605,6 +585,8 @@ begin
                       SQCC_LINE_CASE_THEN    : Result := SQCV_NONE;
                       SQCC_LINE_CASE_ELSE    : Result := SQCV_NONE;
                     //SQCC_LINE_CASE_END     : Result := SQCV_NONE;
+                      SQCC_LINE_BEF_CONSTR   : Result := SQCV_ADD;
+                    //SQCC_LINE_AFT_CONSTR   : Result := SQCV_ADD;
                     end;
   end;
 end;
@@ -663,6 +645,8 @@ begin
                       SQCC_LINE_CASE_THEN    : Result := 'before THEN in CASE expr.';
                       SQCC_LINE_CASE_ELSE    : Result := 'before ELSE in CASE expr.';
                     //SQCC_LINE_CASE_END     : Result := 'before END  in CASE expr.';
+                      SQCC_LINE_BEF_CONSTR   : Result := 'before CONSTRAINT';
+                    //SQCC_LINE_AFT_CONSTR   : Result := 'after  CONSTRAINT';
                     end;
   end;
 end;

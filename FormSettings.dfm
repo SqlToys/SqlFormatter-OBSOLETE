@@ -2,7 +2,7 @@ object FormSettings: TFormSettings
   Left = 247
   Top = 63
   BorderStyle = bsDialog
-  ClientHeight = 660
+  ClientHeight = 435
   ClientWidth = 454
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,13 +20,12 @@ object FormSettings: TFormSettings
   TextHeight = 13
   object PanelBtn: TPanel
     Left = 0
-    Top = 624
+    Top = 399
     Width = 454
     Height = 36
     Align = alBottom
     TabOrder = 0
-    ExplicitTop = 313
-    ExplicitWidth = 817
+    ExplicitTop = 576
     DesignSize = (
       454
       36)
@@ -39,7 +38,6 @@ object FormSettings: TFormSettings
       Caption = 'Cancel'
       ModalResult = 2
       TabOrder = 3
-      ExplicitLeft = 729
     end
     object BtnOK: TButton
       Left = 285
@@ -52,7 +50,6 @@ object FormSettings: TFormSettings
       ModalResult = 1
       TabOrder = 2
       OnClick = BtnOKClick
-      ExplicitLeft = 648
     end
     object BtnReset: TButton
       Left = 10
@@ -216,7 +213,7 @@ object FormSettings: TFormSettings
   end
   object GroupBox1: TGroupBox
     Left = 0
-    Top = 370
+    Top = 340
     Width = 200
     Height = 54
     Caption = ' FROM / JOIN '
@@ -248,40 +245,24 @@ object FormSettings: TFormSettings
     Left = 0
     Top = 290
     Width = 200
-    Height = 82
+    Height = 52
     Caption = ' CREATE TABLE '
     TabOrder = 4
-    object CheckBoxCreateTableColConstrBreakLine: TCheckBox
-      Left = 10
-      Top = 30
-      Width = 176
-      Height = 12
-      Caption = 'Column constraint at new line'
-      TabOrder = 1
-    end
-    object CheckBoxCreateTableColConstrNewLineAfter: TCheckBox
-      Left = 25
-      Top = 45
-      Width = 169
-      Height = 12
-      Caption = 'New line after column constraint'
-      TabOrder = 2
-    end
     object ChkBoxCreateTableColDatatypeIntend: TCheckBox
       Left = 10
       Top = 15
       Width = 176
-      Height = 17
+      Height = 12
       Caption = 'Intend columns and datatypes'
       TabOrder = 0
     end
     object ChkBoxCreateTableEmptyLineBeforeComplexContraints: TCheckBox
-      Left = 9
-      Top = 60
+      Left = 10
+      Top = 30
       Width = 182
       Height = 12
       Caption = 'Empty line before complex contraints'
-      TabOrder = 3
+      TabOrder = 1
     end
   end
   object GroupBox5: TGroupBox
@@ -314,156 +295,22 @@ object FormSettings: TFormSettings
       TabOrder = 1
     end
   end
-  object GroupBoxLengths: TGroupBox
-    Left = 0
-    Top = 485
-    Width = 200
-    Height = 137
-    Caption = ' Max intend lenghts '
-    TabOrder = 6
-    object LabelColMaxLen: TLabel
-      Left = 10
-      Top = 15
-      Width = 40
-      Height = 13
-      Caption = 'Columns'
-    end
-    object LabelMaxDatatypeLen: TLabel
-      Left = 10
-      Top = 35
-      Width = 48
-      Height = 13
-      Caption = 'Datatypes'
-    end
-    object LabelTableMaxLen: TLabel
-      Left = 10
-      Top = 55
-      Width = 32
-      Height = 13
-      Caption = 'Tables'
-    end
-    object LabelAliasMaxLen: TLabel
-      Left = 10
-      Top = 75
-      Width = 33
-      Height = 13
-      Caption = 'Aliases'
-    end
-    object LabelMaxClauseKeywordIntend: TLabel
-      Left = 10
-      Top = 95
-      Width = 37
-      Height = 13
-      Caption = 'Clauses'
-    end
-    object LabelMaxIdentifierLength: TLabel
-      Left = 10
-      Top = 114
-      Width = 45
-      Height = 13
-      Caption = 'Identifiers'
-    end
-    object EditColMaxLen: TEdit
-      Left = 150
-      Top = 13
-      Width = 25
-      Height = 21
-      TabOrder = 0
-      Text = '20'
-    end
-    object EditMaxDataTypeLen: TEdit
-      Left = 150
-      Top = 33
-      Width = 25
-      Height = 21
-      TabOrder = 1
-      Text = '20'
-    end
-    object EditTableMaxLen: TEdit
-      Left = 150
-      Top = 53
-      Width = 25
-      Height = 21
-      TabOrder = 2
-      Text = '30'
-    end
-    object EditAliasMaxLen: TEdit
-      Left = 150
-      Top = 73
-      Width = 25
-      Height = 21
-      TabOrder = 3
-      Text = '10'
-    end
-    object EditMaxIdentifierLength: TEdit
-      Left = 150
-      Top = 113
-      Width = 25
-      Height = 21
-      TabOrder = 4
-      Text = '15'
-    end
-    object EditMaxClauseKeywordIntend: TEdit
-      Left = 150
-      Top = 93
-      Width = 25
-      Height = 21
-      TabOrder = 5
-      Text = '15'
-    end
-  end
-  object GroupBoxLinesCount: TGroupBox
-    Left = 0
-    Top = 425
-    Width = 200
-    Height = 60
-    Caption = ' LINES '
-    TabOrder = 7
-    object Label2: TLabel
-      Left = 10
-      Top = 15
-      Width = 103
-      Height = 13
-      Caption = 'Short query line count'
-    end
-    object ChkBoxLinesNoAfterQuery: TCheckBox
-      Left = 10
-      Top = 32
-      Width = 119
-      Height = 17
-      Caption = 'Lines after query'
-      TabOrder = 0
-    end
-    object EditLinesNoAfterQuery: TEdit
-      Left = 150
-      Top = 33
-      Width = 25
-      Height = 21
-      TabOrder = 1
-      Text = '1'
-    end
-    object EditShortQuery: TEdit
-      Left = 150
-      Top = 13
-      Width = 25
-      Height = 21
-      TabOrder = 2
-      Text = '20'
-    end
-  end
   object GroupBox2: TGroupBox
     Left = 200
     Top = 0
     Width = 250
-    Height = 622
+    Height = 394
     Caption = ' Converters (double click to change) '
-    TabOrder = 8
+    TabOrder = 6
+    DesignSize = (
+      250
+      394)
     object TreeView1: TTreeView
-      Left = 2
-      Top = 15
-      Width = 246
-      Height = 605
-      Align = alClient
+      Left = 5
+      Top = 17
+      Width = 240
+      Height = 372
+      Anchors = [akLeft, akTop, akRight, akBottom]
       DoubleBuffered = True
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -478,8 +325,7 @@ object FormSettings: TFormSettings
       ShowButtons = False
       TabOrder = 0
       OnDblClick = TreeView1DblClick
-      ExplicitLeft = 0
-      ExplicitTop = 14
+      ExplicitHeight = 550
     end
   end
   object ImageList1: TImageList

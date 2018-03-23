@@ -2,7 +2,7 @@ object FormSettings: TFormSettings
   Left = 247
   Top = 63
   BorderStyle = bsDialog
-  ClientHeight = 435
+  ClientHeight = 421
   ClientWidth = 454
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,12 +20,11 @@ object FormSettings: TFormSettings
   TextHeight = 13
   object PanelBtn: TPanel
     Left = 0
-    Top = 399
+    Top = 385
     Width = 454
     Height = 36
     Align = alBottom
     TabOrder = 0
-    ExplicitTop = 576
     DesignSize = (
       454
       36)
@@ -213,7 +212,7 @@ object FormSettings: TFormSettings
   end
   object GroupBox1: TGroupBox
     Left = 0
-    Top = 340
+    Top = 325
     Width = 200
     Height = 54
     Caption = ' FROM / JOIN '
@@ -245,7 +244,7 @@ object FormSettings: TFormSettings
     Left = 0
     Top = 290
     Width = 200
-    Height = 52
+    Height = 35
     Caption = ' CREATE TABLE '
     TabOrder = 4
     object ChkBoxCreateTableColDatatypeIntend: TCheckBox
@@ -255,14 +254,6 @@ object FormSettings: TFormSettings
       Height = 12
       Caption = 'Intend columns and datatypes'
       TabOrder = 0
-    end
-    object ChkBoxCreateTableEmptyLineBeforeComplexContraints: TCheckBox
-      Left = 10
-      Top = 30
-      Width = 182
-      Height = 12
-      Caption = 'Empty line before complex contraints'
-      TabOrder = 1
     end
   end
   object GroupBox5: TGroupBox
@@ -299,17 +290,17 @@ object FormSettings: TFormSettings
     Left = 200
     Top = 0
     Width = 250
-    Height = 394
+    Height = 380
     Caption = ' Converters (double click to change) '
     TabOrder = 6
     DesignSize = (
       250
-      394)
+      380)
     object TreeView1: TTreeView
       Left = 5
       Top = 17
       Width = 240
-      Height = 372
+      Height = 358
       Anchors = [akLeft, akTop, akRight, akBottom]
       DoubleBuffered = True
       Font.Charset = DEFAULT_CHARSET
@@ -325,7 +316,6 @@ object FormSettings: TFormSettings
       ShowButtons = False
       TabOrder = 0
       OnDblClick = TreeView1DblClick
-      ExplicitHeight = 550
     end
   end
   object ImageList1: TImageList

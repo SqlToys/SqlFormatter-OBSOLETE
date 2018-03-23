@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 111   18-03-11 17:43 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 112   18-03-11 21:49 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -44,7 +44,6 @@ type
     ChkBoxOnCondIntend: TCheckBox;
     GroupBoxCreateTable: TGroupBox;
     ChkBoxCreateTableColDatatypeIntend: TCheckBox;
-    ChkBoxCreateTableEmptyLineBeforeComplexContraints: TCheckBox;
     GroupBox5: TGroupBox;
     ChkBoxColumnConstraint: TCheckBox;
     ChkBoxRightIntend: TCheckBox;
@@ -316,7 +315,7 @@ begin
 //LocalAction(aAction, gtstCreateTable_ColConsBreakLine,CheckBoxCreateTableColConstrBreakLine);
 //LocalAction(aAction, gtstCreateTable_ColConsNewLineAfter,CheckBoxCreateTableColConstrNewLineAfter);
   LocalAction(aAction, gtstCreateTable_Intend,       ChkBoxCreateTableColDatatypeIntend);
-  LocalAction(aAction, gtstCreateTable_EmptyLineBefComplexConstr,ChkBoxCreateTableEmptyLineBeforeComplexContraints);
+//LocalAction(aAction, gtstCreateTable_EmptyLineBefComplexConstr,ChkBoxCreateTableEmptyLineBeforeComplexContraints);
 
   { spacings }
   LocalAction(aAction, gtstRightIntend,             ChkBoxRightIntend);
@@ -535,6 +534,8 @@ begin
                     end;
     SQCG_LINES    : if aState <= SQCV_ADD    then Result := SQCV_ADD    else
                     if aState <= SQCV_REMOVE then Result := SQCV_REMOVE else Result := SQCV_NONE ;
+    SQCG_EMPTY    : if aState <= SQCV_ADD    then Result := SQCV_ADD    else
+                    if aState <= SQCV_REMOVE then Result := SQCV_REMOVE else Result := SQCV_NONE ;
   end;
 end;
 
@@ -576,10 +577,6 @@ begin
                       SQCC_ORDER_KWD_DEF     : Result := SQCV_REMOVE;
                     end;
     SQCG_LINES    : case aItem of
-                      SQCC_LINE_BEF_CLAUSE   : Result := SQCV_ADD;
-                      SQCC_EXC_SUBQUERY      : Result := SQCV_REMOVE;
-                      SQCC_EXC_SHORT_QUERY   : Result := SQCV_REMOVE;
-                      SQCC_LINE_AROUND_UNION : Result := SQCV_ADD;
                     //SQCC_LINE_CASE_CASE    : Result := SQCV_NONE;
                       SQCC_LINE_CASE_WHEN    : Result := SQCV_NONE;
                       SQCC_LINE_CASE_THEN    : Result := SQCV_NONE;
@@ -587,6 +584,13 @@ begin
                     //SQCC_LINE_CASE_END     : Result := SQCV_NONE;
                       SQCC_LINE_BEF_CONSTR   : Result := SQCV_ADD;
                     //SQCC_LINE_AFT_CONSTR   : Result := SQCV_ADD;
+                    end;
+    SQCG_EMPTY    : case aItem of
+                      SQCC_EMPTY_BEF_CLAUSE  : Result := SQCV_ADD;
+                      SQCC_EXC_SUBQUERY      : Result := SQCV_REMOVE;
+                    //SQCC_EXC_SHORT_QUERY   : Result := SQCV_REMOVE;
+                      SQCC_EMPTY_AROUND_UNION: Result := SQCV_ADD;
+                      SQCC_EMPTY_CMPLX_CONSTR: Result := SQCV_ADD;
                     end;
   end;
 end;
@@ -636,10 +640,6 @@ begin
                     end;
     SQCG_LINES    : case aItem of
                       SQCC_NONE              : Result := 'New lines';
-                      SQCC_LINE_BEF_CLAUSE   : Result := 'before clauses';
-                      SQCC_EXC_SUBQUERY      : Result := '    in subqueries';
-                      SQCC_EXC_SHORT_QUERY   : Result := '    in short queries';
-                      SQCC_LINE_AROUND_UNION : Result := 'around UNION, MINUS etc.';
                     //SQCC_LINE_CASE_CASE    : Result := 'before CASE in CASE expr.';
                       SQCC_LINE_CASE_WHEN    : Result := 'before WHEN in CASE expr.';
                       SQCC_LINE_CASE_THEN    : Result := 'before THEN in CASE expr.';
@@ -647,6 +647,14 @@ begin
                     //SQCC_LINE_CASE_END     : Result := 'before END  in CASE expr.';
                       SQCC_LINE_BEF_CONSTR   : Result := 'before CONSTRAINT';
                     //SQCC_LINE_AFT_CONSTR   : Result := 'after  CONSTRAINT';
+                    end;
+    SQCG_EMPTY    : case aItem of
+                      SQCC_NONE              : Result := 'Empty lines';
+                      SQCC_EMPTY_BEF_CLAUSE  : Result := 'before clauses';
+                      SQCC_EXC_SUBQUERY      : Result := '    in subqueries';
+                    //SQCC_EXC_SHORT_QUERY   : Result := '    in short queries';
+                      SQCC_EMPTY_AROUND_UNION: Result := 'around UNION, MINUS etc.';
+                      SQCC_EMPTY_CMPLX_CONSTR: Result := 'before complex CONSTRAINT';
                     end;
   end;
 end;

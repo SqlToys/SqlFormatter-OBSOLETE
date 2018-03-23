@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 29    18-03-11 17:43 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 30    18-03-11 21:50 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -19,7 +19,7 @@ const { converters settings values, same as icon numbers }
 
   { converter groups }
   SQCG_NONE     = 0;
-  SQCG_MAX      = 7;
+  SQCG_MAX      = 8;
 
   SQCG_GENERAL  = 1;
   SQCG_CASES    = 2;
@@ -28,10 +28,11 @@ const { converters settings values, same as icon numbers }
   SQCG_JOIN     = 5;
   SQCG_ORDER    = 6;
   SQCG_LINES    = 7;
+  SQCG_EMPTY    = 8;
 
   { converters = converter items }
   SQCC_NONE              =  0;
-  SQCC_MAX               = 11;
+  SQCC_MAX               = 12;
 
   SQCC_GEN_SEMICOLON     = 1;
   SQCC_GEN_SEMICOLON_SQ  = 2;
@@ -58,17 +59,19 @@ const { converters settings values, same as icon numbers }
   SQCC_ORDER_KWD_LEN     = 1;
   SQCC_ORDER_KWD_DEF     = 2;
 
-  SQCC_LINE_BEF_CLAUSE   = 1;
+//SQCC_LINE_CASE_CASE    = 1;
+  SQCC_LINE_CASE_WHEN    = 2; {should be subnode}
+  SQCC_LINE_CASE_THEN    = 3; {should be subnode}
+  SQCC_LINE_CASE_ELSE    = 4; {should be subnode}
+//SQCC_LINE_CASE_END     = 5; {should be subnode}
+  SQCC_LINE_BEF_CONSTR   = 6;
+//SQCC_LINE_AFT_CONSTR   = 7;
+
+  SQCC_EMPTY_BEF_CLAUSE  = 1;
   SQCC_EXC_SUBQUERY      = 2; {should be subnode}
-  SQCC_EXC_SHORT_QUERY   = 3; {should be subnode}
-  SQCC_LINE_AROUND_UNION = 4;
-//SQCC_LINE_CASE_CASE    = 5;
-  SQCC_LINE_CASE_WHEN    = 6; {should be subnode}
-  SQCC_LINE_CASE_THEN    = 7; {should be subnode}
-  SQCC_LINE_CASE_ELSE    = 8; {should be subnode}
-//SQCC_LINE_CASE_END     = 9; {should be subnode}
-  SQCC_LINE_BEF_CONSTR   =10;
-//SQCC_LINE_AFT_CONSTR   =11;
+//SQCC_EXC_SHORT_QUERY   = 3; {should be subnode}
+  SQCC_EMPTY_AROUND_UNION= 4;
+  SQCC_EMPTY_CMPLX_CONSTR= 5;
 
 procedure SqlConvertExecute( aGroup, aItem, aState: Integer; aNode: TGtSqlNode );
 
@@ -1001,117 +1004,135 @@ begin
 end;
 
 { procedure adds empty line before CASE }
-//procedure SqlToysConvert_EmptyLine_Case_Add(aNode: TGtSqlNode);
+//procedure SqlToysConvert_NewLine_Case_Add(aNode: TGtSqlNode);
 //begin
 //  if not Assigned(aNode) then Exit;
 //
-//  if aNode.Check(gtsiExpr, gtkwCase) then aNode.EmptyLineBefore := True;
+//  if aNode.Check(gtsiExpr, gtkwCase) then aNode.NewLineBefore := True;
 //end;
 
 { procedure removes empty line before CASE }
-//procedure SqlToysConvert_EmptyLine_Case_Remove(aNode: TGtSqlNode);
+//procedure SqlToysConvert_NewLine_Case_Remove(aNode: TGtSqlNode);
 //begin
 //  if not Assigned(aNode) then Exit;
 //
-//  if aNode.Check(gtsiExpr, gtkwCase) then aNode.EmptyLineBefore := False;
+//  if aNode.Check(gtsiExpr, gtkwCase) then aNode.NewLineBefore := False;
 //end;
 
 { procedure adds empty line before WHEN }
-procedure SqlToysConvert_EmptyLine_When_Add(aNode: TGtSqlNode);
+procedure SqlToysConvert_NewLine_When_Add(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
   if aNode.Check(gtsiCondTree, gtkwWhen) or aNode.Check(gtsiExprTree, gtkwWhen)
-    then aNode.EmptyLineBefore := True;
+    then aNode.NewLineBefore := True;
 end;
 
 { procedure removes empty line before WHEN }
-procedure SqlToysConvert_EmptyLine_When_Remove(aNode: TGtSqlNode);
+procedure SqlToysConvert_NewLine_When_Remove(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
   if aNode.Check(gtsiCondTree, gtkwWhen) or aNode.Check(gtsiExprTree, gtkwWhen)
-    then aNode.EmptyLineBefore := False;
+    then aNode.NewLineBefore := False;
 end;
 
 { procedure adds empty line before THEN }
-procedure SqlToysConvert_EmptyLine_Then_Add(aNode: TGtSqlNode);
+procedure SqlToysConvert_NewLine_Then_Add(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiExprTree, gtkwThen) then aNode.EmptyLineBefore := True;
+  if aNode.Check(gtsiExprTree, gtkwThen) then aNode.NewLineBefore := True;
 end;
 
 { procedure removes empty line before THEN }
-procedure SqlToysConvert_EmptyLine_Then_Remove(aNode: TGtSqlNode);
+procedure SqlToysConvert_NewLine_Then_Remove(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiExprTree, gtkwThen) then aNode.EmptyLineBefore := False;
+  if aNode.Check(gtsiExprTree, gtkwThen) then aNode.NewLineBefore := False;
 end;
 
 { procedure adds empty line before ELSE }
-procedure SqlToysConvert_EmptyLine_Else_Add(aNode: TGtSqlNode);
+procedure SqlToysConvert_NewLine_Else_Add(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiExprTree, gtkwElse) then aNode.EmptyLineBefore := True;
+  if aNode.Check(gtsiExprTree, gtkwElse) then aNode.NewLineBefore := True;
 end;
 
 { procedure removes empty line before ELSE }
-procedure SqlToysConvert_EmptyLine_Else_Remove(aNode: TGtSqlNode);
+procedure SqlToysConvert_NewLine_Else_Remove(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiExprTree, gtkwElse) then aNode.EmptyLineBefore := False;
+  if aNode.Check(gtsiExprTree, gtkwElse) then aNode.NewLineBefore := False;
 end;
 
 { procedure adds empty line before END }
-//procedure SqlToysConvert_EmptyLine_End_Add(aNode: TGtSqlNode);
+//procedure SqlToysConvert_NewLine_End_Add(aNode: TGtSqlNode);
 //begin
 //  if not Assigned(aNode) then Exit;
 //
-//  if aNode.Check(gtsiExpr, gtkwEnd) then aNode.EmptyLineBefore := True;
+//  if aNode.Check(gtsiExpr, gtkwEnd) then aNode.NewLineBefore := True;
 //end;
 
 { procedure removes empty line before END }
-//procedure SqlToysConvert_EmptyLine_End_Remove(aNode: TGtSqlNode);
+//procedure SqlToysConvert_NewLine_End_Remove(aNode: TGtSqlNode);
 //begin
 //  if not Assigned(aNode) then Exit;
 //
-//  if aNode.Check(gtsiExpr, gtkwEnd) then aNode.EmptyLineBefore := False;
+//  if aNode.Check(gtsiExpr, gtkwEnd) then aNode.NewLineBefore := False;
 //end;
 
 { adds empty line before CREATE TABLE CONSTRAINT }
-procedure SqlToysConvert_EmptyLine_Bef_Constraint_Add(aNode: TGtSqlNode);
+procedure SqlToysConvert_NewLine_Bef_Constraint_Add(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiConstraint) then aNode.EmptyLineBefore := True;
+  if aNode.Check(gtsiConstraint) then aNode.NewLineBefore := True;
 end;
 
 { removes empty line before CREATE TABLE CONSTRAINT }
-procedure SqlToysConvert_EmptyLine_Bef_Constraint_Remove(aNode: TGtSqlNode);
+procedure SqlToysConvert_NewLine_Bef_Constraint_Remove(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiConstraint) then aNode.EmptyLineBefore := False;
+  if aNode.Check(gtsiConstraint) then aNode.NewLineBefore := False;
 end;
 
 { adds empty line after CREATE TABLE CONSTRAINT }
-procedure SqlToysConvert_EmptyLine_Aft_Constraint_Add(aNode: TGtSqlNode);
+procedure SqlToysConvert_NewLine_Aft_Constraint_Add(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiConstraint) then aNode.EmptyLineAfter := True;
+  if aNode.Check(gtsiConstraint) then aNode.NewLineAfter := True;
 end;
 
 { removes empty line after CREATE TABLE CONSTRAINT }
-procedure SqlToysConvert_EmptyLine_Aft_Constraint_Remove(aNode: TGtSqlNode);
+procedure SqlToysConvert_NewLine_Aft_Constraint_Remove(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiConstraint) then aNode.EmptyLineAfter := False;
+  if aNode.Check(gtsiConstraint) then aNode.NewLineAfter := False;
+end;
+
+{ adds empty line before complex CONSTRAINT }
+procedure SqlToysConvert_EmptyLine_Complex_Constraint_Add(aNode: TGtSqlNode);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if aNode.Check(gtsiConstraint) and not aNode.SingleColumnConstraint
+    then aNode.EmptyLineBefore := True;
+end;
+
+{ removes empty line before complex CONSTRAINT }
+procedure SqlToysConvert_EmptyLine_Complex_Constraint_Remove(aNode: TGtSqlNode);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if aNode.Check(gtsiConstraint) and not aNode.SingleColumnConstraint
+    then aNode.EmptyLineBefore := False;
 end;
 
 {----------------------------------- General ----------------------------------}
@@ -1208,7 +1229,37 @@ begin
                       end;
                     end;
     SQCG_LINES    : case aItem of
-                      SQCC_LINE_BEF_CLAUSE   : case aState of
+//                      SQCC_LINE_CASE_CASE    : case aState of
+//                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_NewLine_Case_Add, True );
+//                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_NewLine_Case_Remove, True );
+//                                               end;
+                      SQCC_LINE_CASE_WHEN    : case aState of
+                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_NewLine_When_Add, True );
+                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_NewLine_When_Remove, True );
+                                               end;
+                      SQCC_LINE_CASE_THEN    : case aState of
+                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_NewLine_Then_Add, True );
+                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_NewLine_Then_Remove, True );
+                                               end;
+                      SQCC_LINE_CASE_ELSE    : case aState of
+                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_NewLine_Else_Add, True );
+                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_NewLine_Else_Remove, True );
+                                               end;
+//                      SQCC_LINE_CASE_END     : case aState of
+//                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_NewLine_End_Add, True );
+//                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_NewLine_End_Remove, True );
+//                                               end;
+                      SQCC_LINE_BEF_CONSTR   : case aState of
+                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_NewLine_Bef_Constraint_Add, True );
+                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_NewLine_Bef_Constraint_Remove, True );
+                                               end;
+//                      SQCC_LINE_AFT_CONSTR   : case aState of
+//                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_NewLine_Aft_Constraint_Add, True );
+//                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_NewLine_Aft_Constraint_Remove, True );
+//                                               end;
+                    end;
+    SQCG_EMPTY    : case aItem of
+                      SQCC_EMPTY_BEF_CLAUSE  : case aState of
                                                  SQCV_ADD    : aNode.ForEach( SqlToysConvert_EmptyLine_Clause_Add, True );
                                                  SQCV_REMOVE : aNode.ForEach( SqlToysConvert_EmptyLine_Clause_Remove, True );
                                                end;
@@ -1216,42 +1267,18 @@ begin
                                                  SQCV_ADD    : aNode.ForEach( SqlToysConvert_EmptyLine_ClauseSubquery_Add, True );
                                                  SQCV_REMOVE : aNode.ForEach( SqlToysConvert_EmptyLine_ClauseSubquery_Remove, True );
                                                end;
-                      SQCC_EXC_SHORT_QUERY   : case aState of
-                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_EmptyLine_ClauseShortQuery_Add, True );
-                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_EmptyLine_ClauseShortQuery_Remove, True );
-                                               end;
-                      SQCC_LINE_AROUND_UNION : case aState of
+//                      SQCC_EXC_SHORT_QUERY   : case aState of
+//                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_EmptyLine_ClauseShortQuery_Add, True );
+//                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_EmptyLine_ClauseShortQuery_Remove, True );
+//                                               end;
+                      SQCC_EMPTY_AROUND_UNION: case aState of
                                                  SQCV_ADD    : aNode.ForEach( SqlToysConvert_EmptyLine_Union_Add, True );
                                                  SQCV_REMOVE : aNode.ForEach( SqlToysConvert_EmptyLine_Union_Remove, True );
                                                end;
-//                      SQCC_LINE_CASE_CASE    : case aState of
-//                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_EmptyLine_Case_Add, True );
-//                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_EmptyLine_Case_Remove, True );
-//                                               end;
-                      SQCC_LINE_CASE_WHEN    : case aState of
-                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_EmptyLine_When_Add, True );
-                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_EmptyLine_When_Remove, True );
+                      SQCC_EMPTY_CMPLX_CONSTR: case aState of
+                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_EmptyLine_Complex_Constraint_Add, True );
+                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_EmptyLine_Complex_Constraint_Remove, True );
                                                end;
-                      SQCC_LINE_CASE_THEN    : case aState of
-                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_EmptyLine_Then_Add, True );
-                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_EmptyLine_Then_Remove, True );
-                                               end;
-                      SQCC_LINE_CASE_ELSE    : case aState of
-                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_EmptyLine_Else_Add, True );
-                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_EmptyLine_Else_Remove, True );
-                                               end;
-//                      SQCC_LINE_CASE_END     : case aState of
-//                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_EmptyLine_End_Add, True );
-//                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_EmptyLine_End_Remove, True );
-//                                               end;
-                      SQCC_LINE_BEF_CONSTR   : case aState of
-                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_EmptyLine_Bef_Constraint_Add, True );
-                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_EmptyLine_Bef_Constraint_Remove, True );
-                                               end;
-//                      SQCC_LINE_AFT_CONSTR   : case aState of
-//                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_EmptyLine_Aft_Constraint_Add, True );
-//                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_EmptyLine_Aft_Constraint_Remove, True );
-//                                               end;
                     end;
   end;
 end;

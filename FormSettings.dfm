@@ -92,7 +92,7 @@ object FormSettings: TFormSettings
   end
   object GroupBoxSpacings: TGroupBox
     Left = 0
-    Top = 50
+    Top = 0
     Width = 200
     Height = 140
     Caption = ' Spaces '
@@ -164,9 +164,9 @@ object FormSettings: TFormSettings
   end
   object GroupBoxIntendation: TGroupBox
     Left = 0
-    Top = 190
+    Top = 140
     Width = 200
-    Height = 97
+    Height = 69
     Caption = ' Expressions && conditions '
     TabOrder = 2
     object ChkBoxOneExprOnLine: TCheckBox
@@ -193,98 +193,6 @@ object FormSettings: TFormSettings
       Caption = 'One condition on line'
       TabOrder = 2
     end
-    object ChkBoxSetLeftExprIntend: TCheckBox
-      Left = 10
-      Top = 60
-      Width = 176
-      Height = 17
-      Caption = 'SET left expression intend'
-      TabOrder = 3
-    end
-    object ChkBoxSelectAliasIntend: TCheckBox
-      Left = 10
-      Top = 75
-      Width = 181
-      Height = 17
-      Caption = 'Expressions alias intend'
-      TabOrder = 4
-    end
-  end
-  object GroupBox1: TGroupBox
-    Left = 0
-    Top = 325
-    Width = 200
-    Height = 54
-    Caption = ' FROM / JOIN '
-    TabOrder = 3
-    object ChkBoxFromTableAndAliasIntend: TCheckBox
-      Left = 10
-      Top = 15
-      Width = 171
-      Height = 17
-      Caption = 'Table and alias intend'
-      TabOrder = 0
-    end
-    object ChkBoxOnCondIntend: TCheckBox
-      Left = 10
-      Top = 30
-      Width = 171
-      Height = 17
-      Caption = 'ON condition intend'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 1
-    end
-  end
-  object GroupBoxCreateTable: TGroupBox
-    Left = 0
-    Top = 290
-    Width = 200
-    Height = 35
-    Caption = ' CREATE TABLE '
-    TabOrder = 4
-    object ChkBoxCreateTableColDatatypeIntend: TCheckBox
-      Left = 10
-      Top = 15
-      Width = 176
-      Height = 12
-      Caption = 'Intend columns and datatypes'
-      TabOrder = 0
-    end
-  end
-  object GroupBox5: TGroupBox
-    Left = 0
-    Top = 0
-    Width = 200
-    Height = 49
-    Caption = ' General '
-    TabOrder = 5
-    object ChkBoxColumnConstraint: TCheckBox
-      Left = 10
-      Top = 15
-      Width = 176
-      Height = 17
-      Caption = 'Columns with their constraints'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      TabOrder = 0
-    end
-    object ChkBoxRightIntend: TCheckBox
-      Left = 10
-      Top = 30
-      Width = 150
-      Height = 17
-      Caption = 'Right justify clauses'
-      TabOrder = 1
-    end
   end
   object GroupBox2: TGroupBox
     Left = 200
@@ -292,7 +200,7 @@ object FormSettings: TFormSettings
     Width = 250
     Height = 380
     Caption = ' Converters (double click to change) '
-    TabOrder = 6
+    TabOrder = 3
     DesignSize = (
       250
       380)

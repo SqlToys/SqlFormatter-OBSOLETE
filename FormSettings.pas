@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 112   18-03-11 21:49 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 113   18-03-19 20:12 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -38,17 +38,7 @@ type
     ChkBoxOneExprOnLine: TCheckBox;
     ChkBoxCommaAtNewLine: TCheckBox;
     ChkBoxOneCondOnLine: TCheckBox;
-    ChkBoxSetLeftExprIntend: TCheckBox;
-    GroupBox1: TGroupBox;
-    ChkBoxFromTableAndAliasIntend: TCheckBox;
-    ChkBoxOnCondIntend: TCheckBox;
-    GroupBoxCreateTable: TGroupBox;
-    ChkBoxCreateTableColDatatypeIntend: TCheckBox;
-    GroupBox5: TGroupBox;
-    ChkBoxColumnConstraint: TCheckBox;
-    ChkBoxRightIntend: TCheckBox;
     ImageList1: TImageList;
-    ChkBoxSelectAliasIntend: TCheckBox;
     GroupBox2: TGroupBox;
     TreeView1: TTreeView;
 
@@ -314,11 +304,11 @@ begin
   { CREATE TABLE }
 //LocalAction(aAction, gtstCreateTable_ColConsBreakLine,CheckBoxCreateTableColConstrBreakLine);
 //LocalAction(aAction, gtstCreateTable_ColConsNewLineAfter,CheckBoxCreateTableColConstrNewLineAfter);
-  LocalAction(aAction, gtstCreateTable_Intend,       ChkBoxCreateTableColDatatypeIntend);
+//LocalAction(aAction, gtstCreateTable_Intend,       ChkBoxCreateTableColDatatypeIntend);
 //LocalAction(aAction, gtstCreateTable_EmptyLineBefComplexConstr,ChkBoxCreateTableEmptyLineBeforeComplexContraints);
 
   { spacings }
-  LocalAction(aAction, gtstRightIntend,             ChkBoxRightIntend);
+//LocalAction(aAction, gtstRightIntend,             ChkBoxRightIntend);
   LocalAction(aAction, gtstSpaceBeforeSemicolon,    ChkBoxSpaceBeforeSemicolon);
   LocalAction(aAction, gtstSpaceInsideBrackets,     ChkBoxSpaceInsideBrackets);
   LocalAction(aAction, gtstSpaceInsideBracketsSkipFun,ChkBoxSpaceInsideBracketsSkipOnFun);
@@ -337,21 +327,21 @@ begin
 //LocalAction(aAction, gtstCaseThenAtNewLine,       ChkBoxCaseThenAtNewLine);
 //LocalAction(aAction, gtstCaseElseAtNewLine,       ChkBoxCaseElseAtNewLine);
 //LocalAction(aAction, gtstCaseEndAtNewLine,        ChkBoxCaseEndAtNewLine);
-  LocalAction(aAction, gtstTableAndAliasIntend,     ChkBoxFromTableAndAliasIntend);
-  LocalAction(aAction, gtstSetExprIntend,           ChkBoxSetLeftExprIntend);
-  LocalAction(aAction, gtstOnCondIntend,            ChkBoxOnCondIntend);
+//LocalAction(aAction, gtstTableAndAliasIntend,     ChkBoxFromTableAndAliasIntend);
+//LocalAction(aAction, gtstSetExprIntend,           ChkBoxSetLeftExprIntend);
+//LocalAction(aAction, gtstOnCondIntend,            ChkBoxOnCondIntend);
 
   { keywords }
 //LocalAction(aAction, gtstExprAsKeywordCONVERTER,  ChkBoxExprAs);
 //LocalAction(aAction, gtstTableAsKeywordCONVERTER, ChkBoxTableAs);
-  LocalAction(aAction, gtstColumnConstraint,        ChkBoxColumnConstraint);
+//LocalAction(aAction, gtstColumnConstraint,        ChkBoxColumnConstraint);
 //LocalAction(aAction, gtstInnerJoinCONVERTER,      ChkBoxInnerJoins);
 //LocalAction(aAction, gtstOuterJoinCONVERTER,      ChkBoxOuterJoins);
 //LocalAction(aAction, gtstSortShortCONVERTER,      ChkBoxSortShort);
 //LocalAction(aAction, gtstSkipAscendingCONVERTER,  ChkBoxSkipAscending);
 
   { case }
-  LocalAction(aAction, gtstSelectAliasIntend,       ChkBoxSelectAliasIntend);
+//LocalAction(aAction, gtstSelectAliasIntend,       ChkBoxSelectAliasIntend);
 end;
 
 { sets chain between visual controls and their ids }

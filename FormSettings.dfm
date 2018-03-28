@@ -2,8 +2,8 @@ object FormSettings: TFormSettings
   Left = 247
   Top = 63
   BorderStyle = bsDialog
-  ClientHeight = 421
-  ClientWidth = 454
+  ClientHeight = 637
+  ClientWidth = 384
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,16 +20,18 @@ object FormSettings: TFormSettings
   TextHeight = 13
   object PanelBtn: TPanel
     Left = 0
-    Top = 385
-    Width = 454
+    Top = 601
+    Width = 384
     Height = 36
     Align = alBottom
     TabOrder = 0
+    ExplicitTop = 385
+    ExplicitWidth = 454
     DesignSize = (
-      454
+      384
       36)
     object BtnCancel: TButton
-      Left = 366
+      Left = 296
       Top = 6
       Width = 75
       Height = 25
@@ -37,9 +39,10 @@ object FormSettings: TFormSettings
       Caption = 'Cancel'
       ModalResult = 2
       TabOrder = 3
+      ExplicitLeft = 366
     end
     object BtnOK: TButton
-      Left = 285
+      Left = 215
       Top = 6
       Width = 75
       Height = 25
@@ -49,6 +52,7 @@ object FormSettings: TFormSettings
       ModalResult = 1
       TabOrder = 2
       OnClick = BtnOKClick
+      ExplicitLeft = 285
     end
     object BtnReset: TButton
       Left = 10
@@ -90,125 +94,25 @@ object FormSettings: TFormSettings
       OnClick = ButtonGridFontClick
     end
   end
-  object GroupBoxSpacings: TGroupBox
-    Left = 0
-    Top = 0
-    Width = 200
-    Height = 140
-    Caption = ' Spaces '
-    TabOrder = 1
-    object ChkBoxSpaceBeforeComma: TCheckBox
-      Left = 10
-      Top = 105
-      Width = 150
-      Height = 17
-      Caption = 'Space before comma'
-      TabOrder = 6
-    end
-    object ChkBoxSpaceBeforeSemicolon: TCheckBox
-      Left = 10
-      Top = 15
-      Width = 150
-      Height = 17
-      Caption = 'Space before semicolon'
-      TabOrder = 0
-    end
-    object ChkBoxSpaceOutsideBrackets: TCheckBox
-      Left = 10
-      Top = 75
-      Width = 176
-      Height = 17
-      Caption = 'Space outside brackets'
-      TabOrder = 4
-    end
-    object ChkBoxSpaceInsideBrackets: TCheckBox
-      Left = 10
-      Top = 30
-      Width = 176
-      Height = 17
-      Caption = 'Space inside brackets'
-      TabOrder = 1
-    end
-    object ChkBoxSpaceAroundOperator: TCheckBox
-      Left = 10
-      Top = 90
-      Width = 176
-      Height = 17
-      Caption = 'Space around operator'
-      TabOrder = 5
-    end
-    object ChkBoxSpaceAfterComma: TCheckBox
-      Left = 10
-      Top = 120
-      Width = 176
-      Height = 17
-      Caption = 'Space after comma'
-      TabOrder = 7
-    end
-    object ChkBoxSpaceInsideBracketsSkipOnFun: TCheckBox
-      Left = 25
-      Top = 45
-      Width = 161
-      Height = 17
-      Caption = 'except single param functions'
-      TabOrder = 2
-    end
-    object ChkBoxSpaceInsideBracketsSkipOnDatatype: TCheckBox
-      Left = 25
-      Top = 60
-      Width = 161
-      Height = 17
-      Caption = 'except datatypes'
-      TabOrder = 3
-    end
-  end
-  object GroupBoxIntendation: TGroupBox
-    Left = 0
-    Top = 140
-    Width = 200
-    Height = 69
-    Caption = ' Expressions && conditions '
-    TabOrder = 2
-    object ChkBoxOneExprOnLine: TCheckBox
-      Left = 10
-      Top = 15
-      Width = 176
-      Height = 17
-      Caption = 'One expression on line'
-      TabOrder = 0
-    end
-    object ChkBoxCommaAtNewLine: TCheckBox
-      Left = 25
-      Top = 30
-      Width = 161
-      Height = 17
-      Caption = 'Comma at new line left side'
-      TabOrder = 1
-    end
-    object ChkBoxOneCondOnLine: TCheckBox
-      Left = 10
-      Top = 45
-      Width = 176
-      Height = 17
-      Caption = 'One condition on line'
-      TabOrder = 2
-    end
-  end
   object GroupBox2: TGroupBox
-    Left = 200
+    Left = 0
     Top = 0
-    Width = 250
-    Height = 380
+    Width = 384
+    Height = 601
+    Align = alClient
     Caption = ' Converters (double click to change) '
-    TabOrder = 3
+    TabOrder = 1
+    ExplicitLeft = 196
+    ExplicitWidth = 250
+    ExplicitHeight = 600
     DesignSize = (
-      250
-      380)
+      384
+      601)
     object TreeView1: TTreeView
       Left = 5
       Top = 17
-      Width = 240
-      Height = 358
+      Width = 374
+      Height = 579
       Anchors = [akLeft, akTop, akRight, akBottom]
       DoubleBuffered = True
       Font.Charset = DEFAULT_CHARSET
@@ -224,6 +128,8 @@ object FormSettings: TFormSettings
       ShowButtons = False
       TabOrder = 0
       OnDblClick = TreeView1DblClick
+      ExplicitWidth = 240
+      ExplicitHeight = 358
     end
   end
   object ImageList1: TImageList

@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 113   18-03-19 20:12 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 114   18-03-20 18:41 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -25,19 +25,6 @@ type
     BtnStored: TButton;
     ButtonEditFont: TButton;
     ButtonGridFont: TButton;
-    GroupBoxSpacings: TGroupBox;
-    ChkBoxSpaceBeforeComma: TCheckBox;
-    ChkBoxSpaceBeforeSemicolon: TCheckBox;
-    ChkBoxSpaceOutsideBrackets: TCheckBox;
-    ChkBoxSpaceInsideBrackets: TCheckBox;
-    ChkBoxSpaceAroundOperator: TCheckBox;
-    ChkBoxSpaceAfterComma: TCheckBox;
-    ChkBoxSpaceInsideBracketsSkipOnFun: TCheckBox;
-    ChkBoxSpaceInsideBracketsSkipOnDatatype: TCheckBox;
-    GroupBoxIntendation: TGroupBox;
-    ChkBoxOneExprOnLine: TCheckBox;
-    ChkBoxCommaAtNewLine: TCheckBox;
-    ChkBoxOneCondOnLine: TCheckBox;
     ImageList1: TImageList;
     GroupBox2: TGroupBox;
     TreeView1: TTreeView;
@@ -52,7 +39,7 @@ type
 
     procedure ButtonEditFontClick(Sender: TObject);
 
-    procedure ChkBoxAction       (aAction: TYaSettingsAction);
+  //procedure ChkBoxAction       (aAction: TYaSettingsAction);
   //procedure ComboAction        (aAction: TYaSettingsAction);
   //procedure EditAction         (aAction: TYaSettingsAction);
     procedure ConvertersAction   (aAction: TYaSettingsAction);
@@ -188,7 +175,7 @@ begin
   { commons }
 //EditAction(yacsPutToRegistry);
 //ComboAction(yacsPutToRegistry);
-  ChkBoxAction(yacsPutToRegistry);
+//ChkBoxAction(yacsPutToRegistry);
   ConvertersAction(yacsPutToRegistry);
 
   { Close }
@@ -208,7 +195,7 @@ begin
   { commons }
 //EditAction(yacsDefault);
 //ComboAction(yacsDefault);
-  ChkBoxAction(yacsDefault);
+//ChkBoxAction(yacsDefault);
   ConvertersAction(yacsDefault);
 end;
 
@@ -218,7 +205,7 @@ begin
   { commons }
 //EditAction(yacsGetFromRegistry);
 //ComboAction(yacsGetFromRegistry);
-  ChkBoxAction(yacsGetFromRegistry);
+//ChkBoxAction(yacsGetFromRegistry);
   ConvertersAction(yacsGetFromRegistry);
 end;
 
@@ -265,27 +252,27 @@ begin
 end;
 
 { sets chain between visual controls and their ids }
-procedure TFormSettings.ChkBoxAction(aAction: TYaSettingsAction);
+//procedure TFormSettings.ChkBoxAction(aAction: TYaSettingsAction);
 
-  procedure LocalAction(aAction: TYaSettingsAction; aSetting: TGtListerSettings; aCheckBox: TCheckBox);
-  begin
-    case aAction of
-      yacsGetFromRegistry:  aCheckBox.Checked := GtRegistryGetBool (aSetting);
-      yacsPutToRegistry:    GtRegistryPutBool(aSetting, aCheckBox.Checked);
-      yacsDefault:          aCheckBox.Checked := GT_SET_BOOL_ARR [aSetting].Def;
-    end;
-  end;
+//  procedure LocalAction(aAction: TYaSettingsAction; aSetting: TGtListerSettings; aCheckBox: TCheckBox);
+//  begin
+//    case aAction of
+//      yacsGetFromRegistry:  aCheckBox.Checked := GtRegistryGetBool (aSetting);
+//      yacsPutToRegistry:    GtRegistryPutBool(aSetting, aCheckBox.Checked);
+//      yacsDefault:          aCheckBox.Checked := GT_SET_BOOL_ARR [aSetting].Def;
+//    end;
+//  end;
+//
+//  procedure LocalAction2(aAction: TYaSettingsAction; aSetting: TYaBoolSettings; aCheckBox: TCheckBox);
+//  begin
+//    case aAction of
+//      yacsGetFromRegistry:  aCheckBox.Checked := YaRegistryGetBool (aSetting);
+//      yacsPutToRegistry:    YaRegistryPutBool(aSetting, aCheckBox.Checked);
+//      yacsDefault:          aCheckBox.Checked := YA_SET_BOOL_ARR [aSetting].Def;
+//    end;
+//  end;
 
-  procedure LocalAction2(aAction: TYaSettingsAction; aSetting: TYaBoolSettings; aCheckBox: TCheckBox);
-  begin
-    case aAction of
-      yacsGetFromRegistry:  aCheckBox.Checked := YaRegistryGetBool (aSetting);
-      yacsPutToRegistry:    YaRegistryPutBool(aSetting, aCheckBox.Checked);
-      yacsDefault:          aCheckBox.Checked := YA_SET_BOOL_ARR [aSetting].Def;
-    end;
-  end;
-
-begin
+//begin
 //LocalAction (aAction, gtstExtQueryKeywordStyle,    CheckBoxExtQueryKeywordStyle);
 
   { general }
@@ -309,19 +296,19 @@ begin
 
   { spacings }
 //LocalAction(aAction, gtstRightIntend,             ChkBoxRightIntend);
-  LocalAction(aAction, gtstSpaceBeforeSemicolon,    ChkBoxSpaceBeforeSemicolon);
-  LocalAction(aAction, gtstSpaceInsideBrackets,     ChkBoxSpaceInsideBrackets);
-  LocalAction(aAction, gtstSpaceInsideBracketsSkipFun,ChkBoxSpaceInsideBracketsSkipOnFun);
-  LocalAction(aAction, gtstSpaceInsideBracketsSkipDatatype,ChkBoxSpaceInsideBracketsSkipOnDatatype);
-  LocalAction(aAction, gtstSpaceOutsideBrackets,    ChkBoxSpaceOutsideBrackets);
-  LocalAction(aAction, gtstSpaceAroundOperator,     ChkBoxSpaceAroundOperator);
-  LocalAction(aAction, gtstSpaceBeforeComma,        ChkBoxSpaceBeforeComma);
-  LocalAction(aAction, gtstSpaceAfterComma,         ChkBoxSpaceAfterComma);
+//LocalAction(aAction, gtstSpaceBeforeSemicolon,    ChkBoxSpaceBeforeSemicolon);
+//LocalAction(aAction, gtstSpaceInsideBrackets,     ChkBoxSpaceInsideBrackets);
+//LocalAction(aAction, gtstSpaceInsideBracketsSkipFun,ChkBoxSpaceInsideBracketsSkipOnFun);
+//LocalAction(aAction, gtstSpaceInsideBracketsSkipDatatype,ChkBoxSpaceInsideBracketsSkipOnDatatype);
+//LocalAction(aAction, gtstSpaceOutsideBrackets,    ChkBoxSpaceOutsideBrackets);
+//LocalAction(aAction, gtstSpaceAroundOperator,     ChkBoxSpaceAroundOperator);
+//LocalAction(aAction, gtstSpaceBeforeComma,        ChkBoxSpaceBeforeComma);
+//LocalAction(aAction, gtstSpaceAfterComma,         ChkBoxSpaceAfterComma);
 
   { intendation }
-  LocalAction(aAction, gtstOneExprOnLine,           ChkBoxOneExprOnLine);
-  LocalAction(aAction, gtstCommaAtNewLine,          ChkBoxCommaAtNewLine);
-  LocalAction(aAction, gtstOneCondOnLine,           ChkBoxOneCondOnLine);
+//LocalAction(aAction, gtstOneExprOnLine,           ChkBoxOneExprOnLine);
+//LocalAction(aAction, gtstCommaAtNewLine,          ChkBoxCommaAtNewLine);
+//LocalAction(aAction, gtstOneCondOnLine,           ChkBoxOneCondOnLine);
 //LocalAction(aAction, gtstCaseAtNewLine,           ChkBoxCaseAtNewLine);
 //LocalAction(aAction, gtstCaseWhenAtNewLine,       ChkBoxCaseWhenAtNewLine);
 //LocalAction(aAction, gtstCaseThenAtNewLine,       ChkBoxCaseThenAtNewLine);
@@ -342,7 +329,7 @@ begin
 
   { case }
 //LocalAction(aAction, gtstSelectAliasIntend,       ChkBoxSelectAliasIntend);
-end;
+//end;
 
 { sets chain between visual controls and their ids }
 //procedure TFormSettings.ComboAction(aAction: TYaSettingsAction);

@@ -25,8 +25,6 @@ object FormSettings: TFormSettings
     Height = 36
     Align = alBottom
     TabOrder = 0
-    ExplicitTop = 385
-    ExplicitWidth = 454
     DesignSize = (
       384
       36)
@@ -39,7 +37,6 @@ object FormSettings: TFormSettings
       Caption = 'Cancel'
       ModalResult = 2
       TabOrder = 3
-      ExplicitLeft = 366
     end
     object BtnOK: TButton
       Left = 215
@@ -52,7 +49,6 @@ object FormSettings: TFormSettings
       ModalResult = 1
       TabOrder = 2
       OnClick = BtnOKClick
-      ExplicitLeft = 285
     end
     object BtnReset: TButton
       Left = 10
@@ -100,17 +96,14 @@ object FormSettings: TFormSettings
     Width = 384
     Height = 601
     Align = alClient
-    Caption = ' Converters (double click to change) '
+    Caption = ' Syntax tree converters (double click to change)  '
     TabOrder = 1
-    ExplicitLeft = 196
-    ExplicitWidth = 250
-    ExplicitHeight = 600
     DesignSize = (
       384
       601)
     object TreeView1: TTreeView
-      Left = 5
-      Top = 17
+      Left = 3
+      Top = 16
       Width = 374
       Height = 579
       Anchors = [akLeft, akTop, akRight, akBottom]
@@ -128,15 +121,13 @@ object FormSettings: TFormSettings
       ShowButtons = False
       TabOrder = 0
       OnDblClick = TreeView1DblClick
-      ExplicitWidth = 240
-      ExplicitHeight = 358
     end
   end
   object ImageList1: TImageList
     BlendColor = clWindow
     BkColor = clWhite
     DrawingStyle = dsSelected
-    Left = 352
+    Left = 248
     Top = 24
     Bitmap = {
       494C010108000C00040010001000FFFFFF00FF10FFFFFFFFFFFFFFFF424D3600

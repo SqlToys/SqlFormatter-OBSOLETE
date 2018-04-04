@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormFormatter.pas 62    18-01-28 12:47 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormFormatter.pas 63    18-03-25 17:17 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2011.07.24                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -442,7 +442,7 @@ begin
                 strBreakOnFirst2( '''',
                 StringReplace(
                 FrameScriptEdit.ScriptEdit.Lines[i]
-                , gttkApostrophe.Text + gttkApostrophe.Text, gttkApostrophe.Text, [rfReplaceAll])
+                , gttkApostrophe.TokenText + gttkApostrophe.TokenText, gttkApostrophe.TokenText, [rfReplaceAll])
                 ) ) );
     end;
 
@@ -476,9 +476,9 @@ begin
 
     { normalnie }
     for i := 0 to lSL.Count -1 do
-      lSL[i] := gttkApostrophe.Text +
-                StringReplace(lSL[i], gttkApostrophe.Text, gttkApostrophe.Text + gttkApostrophe.Text, [rfReplaceAll]) +
-                gttkApostrophe.Text + strif(i=lSL.Count-1, ';', '#13#10 +');
+      lSL[i] := gttkApostrophe.TokenText +
+                StringReplace(lSL[i], gttkApostrophe.TokenText, gttkApostrophe.TokenText + gttkApostrophe.TokenText, [rfReplaceAll]) +
+                gttkApostrophe.TokenText + strif(i=lSL.Count-1, ';', '#13#10 +');
 
     FrameScriptEdit.ScriptEdit.SelectAll;
     FrameScriptEdit.ScriptEdit.SelText := lSL.Text;

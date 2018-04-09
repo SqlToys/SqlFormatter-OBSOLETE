@@ -1,11 +1,11 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 30    18-03-11 21:50 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 31    18-03-25 21:55 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
 
 interface
 
-uses SqlTokenizers, SqlStructs, SqlLister;
+uses GtTokenizers, SqlStructs, SqlLister;
 
 const { converters settings values, same as icon numbers }
   SQCV_NONE     = 0;
@@ -166,7 +166,7 @@ procedure SqlConvertExecute( aGroup, aItem, aState: Integer; aNode: TGtSqlNode )
 
 implementation
 
-uses SysUtils;
+uses SysUtils, SqlCommon;
 
 {----------------------------------- General ----------------------------------}
 

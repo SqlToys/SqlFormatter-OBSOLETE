@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormFormatter.pas 63    18-03-25 17:17 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormFormatter.pas 64    18-03-25 21:55 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2011.07.24                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -215,7 +215,7 @@ var
 implementation
 
 uses Windows, ShellApi, Graphics, SysUtils, Dialogs,
-     GtStandard, GtVisual, GtRegistry, SqlTokenizers, GtExternals,
+     GtStandard, GtVisual, GtRegistry, GtTokenizers, GtExternals,
      {$IFDEF DEBUG} SqlTest0, {$ENDIF}
      SqlCommon, SqlLister, SqlConverters, SqlVersion,
      FormSettings, FormColors, FormAbout;

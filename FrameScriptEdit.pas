@@ -1,4 +1,4 @@
-﻿(* $Header: /SQL Toys/SqlFormatter/FrameScriptEdit.pas 60    18-02-11 17:50 Tomek $
+﻿(* $Header: /SQL Toys/SqlFormatter/FrameScriptEdit.pas 61    18-03-25 21:55 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2014.08.16                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -187,7 +187,7 @@ implementation
 
 uses SysUtils, Dialogs, Windows, Clipbrd, ShellApi,
      System.UITypes, System.Contnrs,
-     GtStandard, GtVisual, GtRegistry, SqlTokenizers,
+     GtStandard, GtVisual, GtRegistry, GtTokenizers,
      SqlCommon, SqlVersion, SqlXmlTree, FormFind, FormSettings
      {$IFDEF GtGarbageCollector} , GtGarbageCollector {$ENDIF} ;
 

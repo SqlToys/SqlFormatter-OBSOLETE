@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormColors.pas 7     17-12-15 22:20 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormColors.pas 8     18-03-25 21:55 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -10,7 +10,7 @@ unit FormColors;
 interface
 
 uses Forms, Controls, StdCtrls, ComCtrls, Classes, ExtCtrls, Graphics,
-     SqlTokenizers, SqlCommon, SqlLister;
+     GtTokenizers, SqlCommon, SqlLister;
 
 type
   TYaSettingsAction = ( yacsGetFromRegistry, yacsPutToRegistry, yacsDefault );

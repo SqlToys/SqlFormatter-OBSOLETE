@@ -9,7 +9,7 @@ uses
   GtContainers in '..\SqlFormat\GtContainers.pas',
   SqlStructs in '..\SqlFormat\SqlStructs.pas',
   SqlCommon in '..\SqlFormat\SqlCommon.pas',
-  SqlTokenizers in '..\SqlFormat\SqlTokenizers.pas',
+  GtTokenizers in '..\SqlFormat\GtTokenizers.pas',
   SqlParser in '..\SqlFormat\SqlParser.pas',
   SqlLister in '..\SqlFormat\SqlLister.pas',
   SqlConverters in 'SqlConverters.pas',

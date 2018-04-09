@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 114   18-03-20 18:41 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 115   18-03-25 21:55 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -10,7 +10,7 @@ unit FormSettings;
 interface
 
 uses Forms, Controls, StdCtrls, ComCtrls, Classes, ExtCtrls, Graphics, Vcl.ImgList,
-     SqlStructs, SqlTokenizers, SqlLister, SqlCommon;
+     SqlStructs, GtTokenizers, SqlLister, SqlCommon;
 
 type
   TYaSettingsAction = ( yacsGetFromRegistry, yacsPutToRegistry, yacsDefault );

@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 31    18-03-25 21:55 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 32    18-04-03 22:14 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -73,7 +73,7 @@ const { converters settings values, same as icon numbers }
   SQCC_EMPTY_AROUND_UNION= 4;
   SQCC_EMPTY_CMPLX_CONSTR= 5;
 
-procedure SqlConvertExecute( aGroup, aItem, aState: Integer; aNode: TGtSqlNode );
+procedure SqlConvertExecute( aGroup, aItem, aState: Integer; aNode: TGtSqlNode; aTokenList: TGtLexTokenList );
 
 {---------------------------- Navigation procedures ---------------------------}
 
@@ -474,6 +474,20 @@ begin
   if aNode.Keyword <> gttkNone then aNode.Keyword := aNode.Keyword ;
 
 //  SqlToysExec_ForEach_Node( SqlToysConvert_CaseKeyword_Upper, aNode );
+end;
+
+procedure TokenConvert_CaseKeyword_Upper(aToken: TGtLexToken);
+begin
+  if not Assigned(aToken) then Exit;
+
+  if aToken.TokenKind = gtttKeyword then aToken.TokenCase := gtcoUpperCase;
+end;
+
+procedure TokenConvert_CaseKeyword_Lower(aToken: TGtLexToken);
+begin
+  if not Assigned(aToken) then Exit;
+
+  if aToken.TokenKind = gtttKeyword then aToken.TokenCase := gtcoLowerCase;
 end;
 
 //procedure SqlToysConvert_CaseTableName(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
@@ -1138,7 +1152,7 @@ end;
 {----------------------------------- General ----------------------------------}
 
 { executes converter }
-procedure SqlConvertExecute( aGroup, aItem, aState: Integer; aNode: TGtSqlNode ); overload;
+procedure SqlConvertExecute( aGroup, aItem, aState: Integer; aNode: TGtSqlNode; aTokenList: TGtLexTokenList );
 begin
   case aGroup of
     SQCG_GENERAL  : case aItem of
@@ -1153,8 +1167,10 @@ begin
                     end;
     SQCG_CASES    : case aItem of
                       SQCC_CASE_KEYWORD      : case aState of
-                                                 SQCV_UPPER  : aNode.ForEach( SqlToysConvert_CaseKeyword_Upper, True );
-                                                 SQCV_LOWER  : aNode.ForEach( SqlToysConvert_CaseKeyword_Lower, True );
+//                                                 SQCV_UPPER  : aNode.ForEach( SqlToysConvert_CaseKeyword_Upper, True );
+//                                                 SQCV_LOWER  : aNode.ForEach( SqlToysConvert_CaseKeyword_Lower, True );
+                                                 SQCV_UPPER  : aTokenList.ForEach( TokenConvert_CaseKeyword_Upper );
+                                                 SQCV_LOWER  : aTokenList.ForEach( TokenConvert_CaseKeyword_Lower );
                                                end;
                       SQCC_CASE_TABLE        : case aState of
                                                  SQCV_UPPER  : aNode.ForEach( SqlToysConvert_CaseTableName_Upper, True );

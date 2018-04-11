@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 115   18-03-25 21:55 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 116   18-04-03 22:14 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -106,7 +106,7 @@ function  SqlConvertGetValue( aGroup, aItem: Integer ): Integer;
 function  SqlConvertValidateValue( aGroup, aItem, aState: Integer ): Integer;
 procedure SqlConvertSetValue( aGroup, aItem, aState: Integer );
 function  SqlConvertDefValue( aGroup, aItem: Integer ): Integer;
-procedure SqlConvertExecuteAll( aNode: TGtSqlNode );
+procedure SqlConvertExecuteAll( aNode: TGtSqlNode; aTokenList: TGtLexTokenList );
 
 implementation
 
@@ -637,12 +637,12 @@ begin
 end;
 
 { execute all converters }
-procedure SqlConvertExecuteAll( aNode: TGtSqlNode );
+procedure SqlConvertExecuteAll( aNode: TGtSqlNode; aTokenList: TGtLexTokenList );
 var Group, Item: Integer;
 begin
   for Group := 1 to SQCG_MAX do
     for Item := 1 to SQCC_MAX do
-      SqlConvertExecute( Group, Item, SqlConvertGetValue( Group, Item ), aNode );
+      SqlConvertExecute( Group, Item, SqlConvertGetValue( Group, Item ), aNode, aTokenList );
 end;
 
 end.

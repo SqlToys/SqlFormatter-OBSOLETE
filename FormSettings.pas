@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 116   18-04-03 22:14 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 117   18-04-05 21:49 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -535,7 +535,13 @@ begin
                       SQCC_CASE_COLUMN_QUOTE : Result := SQCV_NONE;
                       SQCC_CASE_PARAM        : Result := SQCV_NONE;
                       SQCC_CASE_FUNC         : Result := SQCV_NONE;
-                      SQCC_CASE_IDENT        : Result := SQCV_NONE;
+                    //SQCC_CASE_IDENT        : Result := SQCV_NONE;
+                      SQCC_CASE_VIEW         : Result := SQCV_NONE;
+                      SQCC_CASE_CONSTRAINT   : Result := SQCV_NONE;
+                      SQCC_CASE_SYNONYM      : Result := SQCV_NONE;
+                      SQCC_CASE_TRANSACTION  : Result := SQCV_NONE;
+                      SQCC_CASE_FUN_PARAM    : Result := SQCV_NONE;
+                      SQCC_CASE_EXTQ_ALIAS   : Result := SQCV_NONE;
                     end;
     SQCG_KEYWORD  : case aItem of
                       SQCC_KWD_AS_TABLES     : Result := SQCV_ADD;
@@ -593,7 +599,13 @@ begin
                       SQCC_CASE_COLUMN_QUOTE : Result := 'Column quoted aliases';
                       SQCC_CASE_PARAM        : Result := 'Parameters';
                       SQCC_CASE_FUNC         : Result := 'Functions';
-                      SQCC_CASE_IDENT        : Result := 'Identifiers';
+                    //SQCC_CASE_IDENT        : Result := 'Identifiers';
+                      SQCC_CASE_VIEW         : Result := 'View names';
+                      SQCC_CASE_CONSTRAINT   : Result := 'Constraint names';
+                      SQCC_CASE_SYNONYM      : Result := 'Synonym names';
+                      SQCC_CASE_TRANSACTION  : Result := 'Transaction names';
+                      SQCC_CASE_FUN_PARAM    : Result := 'Function params';
+                      SQCC_CASE_EXTQ_ALIAS   : Result := 'Ext/Upper query alias';
                     end;
     SQCG_KEYWORD  : case aItem of
                       SQCC_NONE              : Result := 'Keywords';

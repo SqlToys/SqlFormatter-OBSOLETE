@@ -109,7 +109,7 @@ object MainForm: TMainForm
         Caption = 'Others'
         Page = RibbonPageOthers
       end>
-    TabIndex = 3
+    TabIndex = 2
     OnRecentItemClick = RibbonRecentItemClick
     DesignSize = (
       1016
@@ -247,6 +247,23 @@ object MainForm: TMainForm
         GroupIndex = 4
       end
     end
+    object RibbonPageOthers: TRibbonPage
+      Left = 0
+      Top = 50
+      Width = 1015
+      Height = 93
+      Caption = 'Others'
+      Index = 3
+      object RibbonGroupConvertJoinsCond: TRibbonGroup
+        Left = 4
+        Top = 3
+        Width = 68
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Join conditions'
+        GroupIndex = 0
+      end
+    end
     object RibbonPageCase: TRibbonPage
       Left = 0
       Top = 50
@@ -325,32 +342,6 @@ object MainForm: TMainForm
         ActionManager = ActionManager
         Caption = 'Quoted col alias case'
         GroupIndex = 12
-      end
-      object RibbonGroupConvertIdentCase: TRibbonGroup
-        Left = 540
-        Top = 3
-        Width = 65
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Identifier case'
-        GroupIndex = 13
-      end
-    end
-    object RibbonPageOthers: TRibbonPage
-      Left = 0
-      Top = 50
-      Width = 1015
-      Height = 93
-      Caption = 'Others'
-      Index = 3
-      object RibbonGroupConvertJoinsCond: TRibbonGroup
-        Left = 4
-        Top = 3
-        Width = 68
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Join conditions'
-        GroupIndex = 0
       end
     end
   end
@@ -842,18 +833,6 @@ object MainForm: TMainForm
         ActionBar = RibbonGroupConvertColQuotedAliasCase
       end
       item
-        Items = <
-          item
-            Action = actConvertCaseIdentUpper
-            Caption = '&upper'
-            ImageIndex = 52
-          end
-          item
-            Action = actConvertCaseIdentLower
-            Caption = '&lower'
-            ImageIndex = 51
-          end>
-        ActionBar = RibbonGroupConvertIdentCase
       end
       item
         Items = <
@@ -1198,18 +1177,6 @@ object MainForm: TMainForm
       Caption = 'upper'
       ImageIndex = 50
       OnExecute = actConvertCaseColQuoteAliasUpperExecute
-    end
-    object actConvertCaseIdentUpper: TAction
-      Category = 'Convert IdentCase'
-      Caption = 'upper'
-      ImageIndex = 52
-      OnExecute = actConvertCaseIdentUpperExecute
-    end
-    object actConvertCaseIdentLower: TAction
-      Category = 'Convert IdentCase'
-      Caption = 'lower'
-      ImageIndex = 51
-      OnExecute = actConvertCaseIdentLowerExecute
     end
     object actFilesExportXML: TAction
       Category = 'Files'

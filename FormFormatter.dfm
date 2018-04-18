@@ -98,19 +98,15 @@ object MainForm: TMainForm
         Page = RibbonPageGeneral
       end
       item
-        Caption = 'Keywords'
+        Caption = 'Cases'
         Page = RibbonPageConverters
       end
       item
-        Caption = 'Cases'
+        Caption = 'Keywords'
         Page = RibbonPageCase
-      end
-      item
-        Caption = 'Others'
-        Page = RibbonPageOthers
       end>
-    TabIndex = 2
     OnRecentItemClick = RibbonRecentItemClick
+    ExplicitTop = -6
     DesignSize = (
       1016
       143)
@@ -132,75 +128,13 @@ object MainForm: TMainForm
         end>
       RecentItems = <>
     end
-    object RibbonPageGeneral: TRibbonPage
-      Left = 0
-      Top = 50
-      Width = 1015
-      Height = 93
-      Caption = 'General'
-      Index = 0
-      object RibbonGroupClipboard: TRibbonGroup
-        Left = 4
-        Top = 3
-        Width = 104
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Clipboard'
-        GroupIndex = 0
-      end
-      object RibbonGroupFindReplace: TRibbonGroup
-        Left = 110
-        Top = 3
-        Width = 50
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Find'
-        GroupIndex = 2
-      end
-      object RibbonGroupFormat: TRibbonGroup
-        Left = 162
-        Top = 3
-        Width = 175
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Script'
-        GroupIndex = 3
-      end
-      object RibbonGroupHighlight: TRibbonGroup
-        Left = 339
-        Top = 3
-        Width = 125
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Highlight'
-        GroupIndex = 4
-      end
-      object RibbonGroupPreferences: TRibbonGroup
-        Left = 466
-        Top = 3
-        Width = 194
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Preferences'
-        GroupIndex = 5
-      end
-      object RibbonGroupAbout: TRibbonGroup
-        Left = 662
-        Top = 3
-        Width = 92
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'About'
-        GroupIndex = 6
-      end
-    end
     object RibbonPageConverters: TRibbonPage
       Left = 0
       Top = 50
       Width = 1015
       Height = 93
       Caption = 'Keywords'
-      Index = 1
+      Index = 2
       object RibbonGroupConvertTableAlias: TRibbonGroup
         Left = 82
         Top = 3
@@ -247,30 +181,13 @@ object MainForm: TMainForm
         GroupIndex = 4
       end
     end
-    object RibbonPageOthers: TRibbonPage
-      Left = 0
-      Top = 50
-      Width = 1015
-      Height = 93
-      Caption = 'Others'
-      Index = 3
-      object RibbonGroupConvertJoinsCond: TRibbonGroup
-        Left = 4
-        Top = 3
-        Width = 68
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Join conditions'
-        GroupIndex = 0
-      end
-    end
     object RibbonPageCase: TRibbonPage
       Left = 0
       Top = 50
       Width = 1015
       Height = 93
       Caption = 'Cases'
-      Index = 2
+      Index = 1
       object RibbonGroupConvertKeywordCase: TRibbonGroup
         Left = 4
         Top = 3
@@ -334,14 +251,67 @@ object MainForm: TMainForm
         Caption = 'Func case'
         GroupIndex = 11
       end
-      object RibbonGroupConvertColQuotedAliasCase: TRibbonGroup
-        Left = 473
+    end
+    object RibbonPageGeneral: TRibbonPage
+      Left = 0
+      Top = 50
+      Width = 1015
+      Height = 93
+      Caption = 'General'
+      Index = 0
+      object RibbonGroupClipboard: TRibbonGroup
+        Left = 4
         Top = 3
-        Width = 65
+        Width = 104
         Height = 86
         ActionManager = ActionManager
-        Caption = 'Quoted col alias case'
-        GroupIndex = 12
+        Caption = 'Clipboard'
+        GroupIndex = 0
+      end
+      object RibbonGroupFindReplace: TRibbonGroup
+        Left = 110
+        Top = 3
+        Width = 50
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Find'
+        GroupIndex = 2
+      end
+      object RibbonGroupFormat: TRibbonGroup
+        Left = 162
+        Top = 3
+        Width = 175
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Script'
+        GroupIndex = 3
+      end
+      object RibbonGroupHighlight: TRibbonGroup
+        Left = 339
+        Top = 3
+        Width = 125
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Highlight'
+        GroupIndex = 4
+      end
+      object RibbonGroupPreferences: TRibbonGroup
+        Left = 466
+        Top = 3
+        Width = 194
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Preferences'
+        GroupIndex = 5
+      end
+      object RibbonGroupAbout: TRibbonGroup
+        Left = 662
+        Top = 3
+        Width = 92
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'About'
+        GroupIndex = 6
       end
     end
   end
@@ -819,18 +789,6 @@ object MainForm: TMainForm
         ActionBar = RibbonGroupConvertFuncCase
       end
       item
-        Items = <
-          item
-            Action = actConvertCaseColQuoteAliasUpper
-            Caption = '&upper'
-            ImageIndex = 50
-          end
-          item
-            Action = actConvertCaseColQuoteAliasLower
-            Caption = '&lower'
-            ImageIndex = 49
-          end>
-        ActionBar = RibbonGroupConvertColQuotedAliasCase
       end
       item
       end
@@ -840,7 +798,6 @@ object MainForm: TMainForm
             Action = actConvertJoinCondRefToLeft
             Caption = '&refs to left'
           end>
-        ActionBar = RibbonGroupConvertJoinsCond
       end>
     DisabledImages = ImageList16disabled
     LargeDisabledImages = ImageList32disabled
@@ -1165,18 +1122,6 @@ object MainForm: TMainForm
       Caption = 'upper'
       ImageIndex = 48
       OnExecute = actConvertCaseFuncUpperExecute
-    end
-    object actConvertCaseColQuoteAliasLower: TAction
-      Category = 'Convert ColQAliasCase'
-      Caption = 'lower'
-      ImageIndex = 49
-      OnExecute = actConvertCaseColQuoteAliasLowerExecute
-    end
-    object actConvertCaseColQuoteAliasUpper: TAction
-      Category = 'Convert ColQAliasCase'
-      Caption = 'upper'
-      ImageIndex = 50
-      OnExecute = actConvertCaseColQuoteAliasUpperExecute
     end
     object actFilesExportXML: TAction
       Category = 'Files'

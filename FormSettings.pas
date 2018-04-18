@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 117   18-04-05 21:49 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 118   18-04-06 21:15 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -106,7 +106,10 @@ function  SqlConvertGetValue( aGroup, aItem: Integer ): Integer;
 function  SqlConvertValidateValue( aGroup, aItem, aState: Integer ): Integer;
 procedure SqlConvertSetValue( aGroup, aItem, aState: Integer );
 function  SqlConvertDefValue( aGroup, aItem: Integer ): Integer;
-procedure SqlConvertExecuteAll( aNode: TGtSqlNode; aTokenList: TGtLexTokenList );
+
+//procedure SqlConvertExecuteAll( aNode: TGtSqlNode; aTokenList: TGtLexTokenList );
+procedure TokenListConvertExecuteAll( aTokenList: TGtLexTokenList );
+procedure SyntaxTreeConvertExecuteAll( aNode: TGtSqlNode );
 
 implementation
 
@@ -532,7 +535,7 @@ begin
                       SQCC_CASE_TABLE_ALIAS  : Result := SQCV_UPPER;
                       SQCC_CASE_COLUMN       : Result := SQCV_NONE;
                       SQCC_CASE_COLUMN_ALIAS : Result := SQCV_UPPER;
-                      SQCC_CASE_COLUMN_QUOTE : Result := SQCV_NONE;
+                    //SQCC_CASE_COLUMN_QUOTE : Result := SQCV_NONE;
                       SQCC_CASE_PARAM        : Result := SQCV_NONE;
                       SQCC_CASE_FUNC         : Result := SQCV_NONE;
                     //SQCC_CASE_IDENT        : Result := SQCV_NONE;
@@ -596,7 +599,7 @@ begin
                       SQCC_CASE_TABLE_ALIAS  : Result := 'Table aliases';
                       SQCC_CASE_COLUMN       : Result := 'Column names';
                       SQCC_CASE_COLUMN_ALIAS : Result := 'Column aliases';
-                      SQCC_CASE_COLUMN_QUOTE : Result := 'Column quoted aliases';
+                    //SQCC_CASE_COLUMN_QUOTE : Result := 'Column quoted aliases';
                       SQCC_CASE_PARAM        : Result := 'Parameters';
                       SQCC_CASE_FUNC         : Result := 'Functions';
                     //SQCC_CASE_IDENT        : Result := 'Identifiers';
@@ -648,13 +651,22 @@ begin
   end;
 end;
 
-{ execute all converters }
-procedure SqlConvertExecuteAll( aNode: TGtSqlNode; aTokenList: TGtLexTokenList );
+{ executes all token list converters }
+procedure TokenListConvertExecuteAll( aTokenList: TGtLexTokenList );
 var Group, Item: Integer;
 begin
   for Group := 1 to SQCG_MAX do
     for Item := 1 to SQCC_MAX do
-      SqlConvertExecute( Group, Item, SqlConvertGetValue( Group, Item ), aNode, aTokenList );
+      TokenListConvertExecute( Group, Item, SqlConvertGetValue( Group, Item ), aTokenList );
+end;
+
+{ executes all syntax tree converters }
+procedure SyntaxTreeConvertExecuteAll( aNode: TGtSqlNode );
+var Group, Item: Integer;
+begin
+  for Group := 1 to SQCG_MAX do
+    for Item := 1 to SQCC_MAX do
+      SyntaxTreeConvertExecute( Group, Item, SqlConvertGetValue( Group, Item ), aNode );
 end;
 
 end.

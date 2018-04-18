@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormFormatter.pas 65    18-04-05 21:48 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormFormatter.pas 66    18-04-06 21:15 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2011.07.24                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -120,15 +120,10 @@ type
     RibbonGroupConvertFuncCase: TRibbonGroup;
     actConvertCaseFuncLower: TAction;
     actConvertCaseFuncUpper: TAction;
-    actConvertCaseColQuoteAliasLower: TAction;
-    actConvertCaseColQuoteAliasUpper: TAction;
-    RibbonGroupConvertColQuotedAliasCase: TRibbonGroup;
     RibbonPageCase: TRibbonPage;
     actFilesExportXML: TAction;
     actFilesImportXml: TAction;
-    RibbonPageOthers: TRibbonPage;
     actConvertJoinCondRefToLeft: TAction;
-    RibbonGroupConvertJoinsCond: TRibbonGroup;
 
     { form & control events }
     procedure FormCreate(Sender: TObject);
@@ -189,8 +184,8 @@ type
     procedure actConvertCaseParamLowerExecute(Sender: TObject);
     procedure actConvertCaseFuncUpperExecute(Sender: TObject);
     procedure actConvertCaseFuncLowerExecute(Sender: TObject);
-    procedure actConvertCaseColQuoteAliasLowerExecute(Sender: TObject);
-    procedure actConvertCaseColQuoteAliasUpperExecute(Sender: TObject);
+  //procedure actConvertCaseColQuoteAliasLowerExecute(Sender: TObject);
+  //procedure actConvertCaseColQuoteAliasUpperExecute(Sender: TObject);
   //procedure actConvertCaseIdentUpperExecute(Sender: TObject);
   //procedure actConvertCaseIdentLowerExecute(Sender: TObject);
     procedure actConvertJoinCondRefToLeftExecute(Sender: TObject);
@@ -669,25 +664,25 @@ begin
   actConvertCaseColAliasUpper.Enabled := False;
 end;
 
-procedure TMainForm.actConvertCaseColQuoteAliasLowerExecute(Sender: TObject);
-begin
-//FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseColumnQuotedAlias_Lower );
-//SqlConvertExecute( SQCG_CASES, SQCC_CASE_COLUMN_QUOTE, SQCV_LOWER, FrameScriptEdit.Parser.QueryList );
-  FrameScriptEdit.ScriptConvert(True, SQCG_CASES, SQCC_CASE_COLUMN_QUOTE, SQCV_LOWER );
+//procedure TMainForm.actConvertCaseColQuoteAliasLowerExecute(Sender: TObject);
+//begin
+////FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseColumnQuotedAlias_Lower );
+////SqlConvertExecute( SQCG_CASES, SQCC_CASE_COLUMN_QUOTE, SQCV_LOWER, FrameScriptEdit.Parser.QueryList );
+//  FrameScriptEdit.ScriptConvert(True, SQCG_CASES, SQCC_CASE_COLUMN_QUOTE, SQCV_LOWER );
+//
+//  actConvertCaseColQuoteAliasLower.Enabled := False;
+//  actConvertCaseColQuoteAliasUpper.Enabled := True;
+//end;
 
-  actConvertCaseColQuoteAliasLower.Enabled := False;
-  actConvertCaseColQuoteAliasUpper.Enabled := True;
-end;
-
-procedure TMainForm.actConvertCaseColQuoteAliasUpperExecute(Sender: TObject);
-begin
-//FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseColumnQuotedAlias_Upper );
-//SqlConvertExecute( SQCG_CASES, SQCC_CASE_COLUMN_QUOTE, SQCV_UPPER, FrameScriptEdit.Parser.QueryList );
-  FrameScriptEdit.ScriptConvert(True, SQCG_CASES, SQCC_CASE_COLUMN_QUOTE, SQCV_UPPER );
-
-  actConvertCaseColQuoteAliasLower.Enabled := True;
-  actConvertCaseColQuoteAliasUpper.Enabled := False;
-end;
+//procedure TMainForm.actConvertCaseColQuoteAliasUpperExecute(Sender: TObject);
+//begin
+////FrameScriptEdit.ScriptConvert(True, SqlToysConvert_CaseColumnQuotedAlias_Upper );
+////SqlConvertExecute( SQCG_CASES, SQCC_CASE_COLUMN_QUOTE, SQCV_UPPER, FrameScriptEdit.Parser.QueryList );
+//  FrameScriptEdit.ScriptConvert(True, SQCG_CASES, SQCC_CASE_COLUMN_QUOTE, SQCV_UPPER );
+//
+//  actConvertCaseColQuoteAliasLower.Enabled := True;
+//  actConvertCaseColQuoteAliasUpper.Enabled := False;
+//end;
 
 procedure TMainForm.actConvertCaseColumnLowerExecute(Sender: TObject);
 begin

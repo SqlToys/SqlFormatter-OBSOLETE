@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 118   18-04-06 21:15 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 119   18-04-07 20:42 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -545,6 +545,7 @@ begin
                       SQCC_CASE_TRANSACTION  : Result := SQCV_NONE;
                       SQCC_CASE_FUN_PARAM    : Result := SQCV_NONE;
                       SQCC_CASE_EXTQ_ALIAS   : Result := SQCV_NONE;
+                      SQCC_CASE_IDENTIFIER   : Result := SQCV_NONE;
                     end;
     SQCG_KEYWORD  : case aItem of
                       SQCC_KWD_AS_TABLES     : Result := SQCV_ADD;
@@ -609,6 +610,7 @@ begin
                       SQCC_CASE_TRANSACTION  : Result := 'Transaction names';
                       SQCC_CASE_FUN_PARAM    : Result := 'Function params';
                       SQCC_CASE_EXTQ_ALIAS   : Result := 'Ext/Upper query alias';
+                      SQCC_CASE_IDENTIFIER   : Result := 'Identifier';
                     end;
     SQCG_KEYWORD  : case aItem of
                       SQCC_NONE              : Result := 'Keywords';

@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 36    18-04-06 21:15 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 37    18-04-07 20:43 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -32,7 +32,7 @@ const { converters settings values, same as icon numbers }
 
   { converters = converter items }
   SQCC_NONE              =  0;
-  SQCC_MAX               = 15;
+  SQCC_MAX               = 16;
 
   SQCC_GEN_SEMICOLON     = 1;
   SQCC_GEN_SEMICOLON_SQ  = 2;
@@ -53,6 +53,7 @@ const { converters settings values, same as icon numbers }
   SQCC_CASE_TRANSACTION  =13;   // gtttIdentifier, gtlsTransaction
   SQCC_CASE_FUN_PARAM    =14;   // gtttIdentifier, gtlsFunParameter
   SQCC_CASE_EXTQ_ALIAS   =15;   // gtttIdentifier, gtlsExtQueryAliasOrTable
+  SQCC_CASE_IDENTIFIER   =16;   // gtttIdentifier, gtlsIdentifier
 
   SQCC_KWD_AS_TABLES     = 1;
   SQCC_KWD_AS_COLUMNS    = 2;
@@ -1267,6 +1268,10 @@ begin
                         SQCC_CASE_EXTQ_ALIAS   : case aState of
                                                  SQCV_UPPER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsExtQueryAliasOrTable, TokenConvert_UpperCase );
                                                  SQCV_LOWER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsExtQueryAliasOrTable, TokenConvert_LowerCase );
+                                                 end;
+                        SQCC_CASE_IDENTIFIER   : case aState of
+                                                 SQCV_UPPER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsIdentifier, TokenConvert_UpperCase );
+                                                 SQCV_LOWER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsIdentifier, TokenConvert_LowerCase );
                                                  end;
                     end;
 //  SQCG_KEYWORD  : case aItem of

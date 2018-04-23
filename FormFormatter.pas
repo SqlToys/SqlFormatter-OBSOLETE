@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormFormatter.pas 67    18-04-07 20:42 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormFormatter.pas 68    18-04-07 21:43 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2011.07.24                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -119,6 +119,13 @@ type
     actConvertCaseFunParamNames: TAction;
     actConvertCaseExtQueryAliases: TAction;
     actConvertCaseIdentifierNames: TAction;
+    RibbonGroupSpaces: TRibbonGroup;
+    actConvertSpacesBeforeSemicolon: TAction;
+    actConvertSpacesBeforeComma: TAction;
+    actConvertSpacesAfterComma: TAction;
+    actConvertSpacesAroundOperator: TAction;
+    actConvertSpacesInsideBrackets: TAction;
+    actConvertSpacesOutsideBrackets: TAction;
 
     { form & control events }
     procedure FormCreate(Sender: TObject);
@@ -198,6 +205,12 @@ type
     procedure actConvertCaseFunParamNamesExecute(Sender: TObject);
     procedure actConvertCaseExtQueryAliasesExecute(Sender: TObject);
     procedure actConvertCaseIdentifierNamesExecute(Sender: TObject);
+    procedure actConvertSpacesBeforeSemicolonExecute(Sender: TObject);
+    procedure actConvertSpacesBeforeCommaExecute(Sender: TObject);
+    procedure actConvertSpacesAfterCommaExecute(Sender: TObject);
+    procedure actConvertSpacesAroundOperatorExecute(Sender: TObject);
+    procedure actConvertSpacesInsideBracketsExecute(Sender: TObject);
+    procedure actConvertSpacesOutsideBracketsExecute(Sender: TObject);
   public
     Before_FullScreen_State: TWindowState;
     Before_FullScreen_Top,   Before_FullScreen_Left,
@@ -1139,6 +1152,90 @@ begin
   actConvertSortOrderLongKeywords.Enabled      := True;
 end;
 
+procedure TMainForm.actConvertSpacesAfterCommaExecute(Sender: TObject);
+begin
+  case actConvertSpacesAfterComma.ImageIndex of
+    37 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_SPACES, SQCC_SPACE_AFT_COMMA, SQCV_ADD );
+           actConvertSpacesAfterComma.ImageIndex := 38;
+         end;
+    38 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_SPACES, SQCC_SPACE_AFT_COMMA, SQCV_REMOVE );
+           actConvertSpacesAfterComma.ImageIndex := 37;
+         end;
+  end;
+end;
+
+procedure TMainForm.actConvertSpacesAroundOperatorExecute(Sender: TObject);
+begin
+  case actConvertSpacesAroundOperator.ImageIndex of
+    37 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_SPACES, SQCC_SPACE_AROUND_OPER, SQCV_ADD );
+           actConvertSpacesAroundOperator.ImageIndex := 38;
+         end;
+    38 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_SPACES, SQCC_SPACE_AROUND_OPER, SQCV_REMOVE );
+           actConvertSpacesAroundOperator.ImageIndex := 37;
+         end;
+  end;
+end;
+
+procedure TMainForm.actConvertSpacesBeforeCommaExecute(Sender: TObject);
+begin
+  case actConvertSpacesBeforeComma.ImageIndex of
+    37 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_SPACES, SQCC_SPACE_BEF_COMMA, SQCV_ADD );
+           actConvertSpacesBeforeComma.ImageIndex := 38;
+         end;
+    38 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_SPACES, SQCC_SPACE_BEF_COMMA, SQCV_REMOVE );
+           actConvertSpacesBeforeComma.ImageIndex := 37;
+         end;
+  end;
+end;
+
+procedure TMainForm.actConvertSpacesBeforeSemicolonExecute(Sender: TObject);
+begin
+  case actConvertSpacesBeforeSemicolon.ImageIndex of
+    37 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_SPACES, SQCC_SPACE_BEF_SEMICOLON, SQCV_ADD );
+           actConvertSpacesBeforeSemicolon.ImageIndex := 38;
+         end;
+    38 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_SPACES, SQCC_SPACE_BEF_SEMICOLON, SQCV_REMOVE );
+           actConvertSpacesBeforeSemicolon.ImageIndex := 37;
+         end;
+  end;
+end;
+
+procedure TMainForm.actConvertSpacesInsideBracketsExecute(Sender: TObject);
+begin
+  case actConvertSpacesInsideBrackets.ImageIndex of
+    37 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_SPACES, SQCC_SPACE_INSIDE_BRACKET, SQCV_ADD );
+           actConvertSpacesInsideBrackets.ImageIndex := 38;
+         end;
+    38 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_SPACES, SQCC_SPACE_INSIDE_BRACKET, SQCV_REMOVE );
+           actConvertSpacesInsideBrackets.ImageIndex := 37;
+         end;
+  end;
+end;
+
+procedure TMainForm.actConvertSpacesOutsideBracketsExecute(Sender: TObject);
+begin
+  case actConvertSpacesOutsideBrackets.ImageIndex of
+    37 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_SPACES, SQCC_SPACE_OUTSIDE_BRACKET, SQCV_ADD );
+           actConvertSpacesOutsideBrackets.ImageIndex := 38;
+         end;
+    38 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_SPACES, SQCC_SPACE_OUTSIDE_BRACKET, SQCV_REMOVE );
+           actConvertSpacesOutsideBrackets.ImageIndex := 37;
+         end;
+  end;
+end;
+
 { action Convert }
 procedure TMainForm.actConvertSortOrderLongKeywordsExecute(Sender: TObject);
 begin
@@ -1231,12 +1328,14 @@ procedure TMainForm.Ribbon_Minimize_Width;
 var i,j,k: Integer;
 begin
   for i := 0 to Ribbon.Tabs.Count -1 do
-    for j := 0 to Ribbon.Tabs[i].Page.GroupCount -1 do
-      for k := 0 to Ribbon.Tabs[i].Page.Groups[j].Items.Count-1 do begin
-        Ribbon.Tabs[i].Page.Groups[j].Items[k].ShowCaption := False;
-        TButtonProperties(Ribbon.Tabs[i].Page.Groups[j].Items[k].CommandProperties).ButtonSize := bsSmall;
-        Ribbon.Tabs[i].Page.Groups[j].Items[k].Visible := Ribbon.Tabs[i].Page.Groups[j].Items[k].Action.Visible;
-      end;
+    if Ribbon.Tabs[i].Page.GroupCount > 0 then
+      for j := 0 to Ribbon.Tabs[i].Page.GroupCount -1 do
+        if Assigned(Ribbon.Tabs[i].Page.Groups[j].Items) then
+          for k := 0 to Ribbon.Tabs[i].Page.Groups[j].Items.Count-1 do begin
+            Ribbon.Tabs[i].Page.Groups[j].Items[k].ShowCaption := False;
+            TButtonProperties(Ribbon.Tabs[i].Page.Groups[j].Items[k].CommandProperties).ButtonSize := bsSmall;
+            Ribbon.Tabs[i].Page.Groups[j].Items[k].Visible := Ribbon.Tabs[i].Page.Groups[j].Items[k].Action.Visible;
+          end;
 end;
 
 { Ribbon, Maximize }
@@ -1244,12 +1343,14 @@ procedure TMainForm.Ribbon_Maximize_Width;
 var i,j,k: Integer;
 begin
   for i := 0 to Ribbon.Tabs.Count -1 do
-    for j := 0 to Ribbon.Tabs[i].Page.GroupCount -1 do
-      for k := 0 to Ribbon.Tabs[i].Page.Groups[j].Items.Count-1 do begin
-        Ribbon.Tabs[i].Page.Groups[j].Items[k].ShowCaption := True;
-        TButtonProperties(Ribbon.Tabs[i].Page.Groups[j].Items[k].CommandProperties).ButtonSize := bsLarge;
-        Ribbon.Tabs[i].Page.Groups[j].Items[k].Visible := Ribbon.Tabs[i].Page.Groups[j].Items[k].Action.Visible;
-      end;
+    if Ribbon.Tabs[i].Page.GroupCount > 0 then
+      for j := 0 to Ribbon.Tabs[i].Page.GroupCount -1 do
+        if Assigned(Ribbon.Tabs[i].Page.Groups[j].Items) then
+          for k := 0 to Ribbon.Tabs[i].Page.Groups[j].Items.Count-1 do begin
+            Ribbon.Tabs[i].Page.Groups[j].Items[k].ShowCaption := True;
+            TButtonProperties(Ribbon.Tabs[i].Page.Groups[j].Items[k].CommandProperties).ButtonSize := bsLarge;
+            Ribbon.Tabs[i].Page.Groups[j].Items[k].Visible := Ribbon.Tabs[i].Page.Groups[j].Items[k].Action.Visible;
+          end;
 end;
 
 end.

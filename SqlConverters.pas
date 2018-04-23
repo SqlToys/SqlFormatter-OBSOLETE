@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 37    18-04-07 20:43 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 38    18-04-07 21:43 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -19,7 +19,7 @@ const { converters settings values, same as icon numbers }
 
   { converter groups }
   SQCG_NONE     = 0;
-  SQCG_MAX      = 8;
+  SQCG_MAX      = 9;
 
   SQCG_GENERAL  = 1;
   SQCG_CASES    = 2;
@@ -29,6 +29,7 @@ const { converters settings values, same as icon numbers }
   SQCG_ORDER    = 6;
   SQCG_LINES    = 7;
   SQCG_EMPTY    = 8;
+  SQCG_SPACES   = 9;
 
   { converters = converter items }
   SQCC_NONE              =  0;
@@ -80,6 +81,17 @@ const { converters settings values, same as icon numbers }
 //SQCC_EXC_SHORT_QUERY   = 3; {should be subnode}
   SQCC_EMPTY_AROUND_UNION= 4;
   SQCC_EMPTY_CMPLX_CONSTR= 5;
+
+  SQCC_SPACE_BEF_SEMICOLON       = 1; { TODO }
+  SQCC_SPACE_BEF_COMMA           = 2; { TODO }
+  SQCC_SPACE_AFT_COMMA           = 3; { TODO }
+  SQCC_SPACE_AROUND_OPER         = 4; { TODO }
+  SQCC_SPACE_AROUND_OPER_MATH    = 5; { TODO }
+  SQCC_SPACE_AROUND_OPER_CONC    = 6; { TODO }
+  SQCC_SPACE_INSIDE_BRACKET      = 7; { TODO }
+  SQCC_SPACE_INSIDE_BRACKET_SPF  = 8; { TODO }
+  SQCC_SPACE_INSIDE_BRACKET_DATA = 9; { TODO }
+  SQCC_SPACE_OUTSIDE_BRACKET     =10; { TODO }
 
 procedure TokenListConvertExecute( aGroup, aItem, aState: Integer; aTokenList: TGtLexTokenList );
 procedure SyntaxTreeConvertExecute( aGroup, aItem, aState: Integer; aNode: TGtSqlNode );
@@ -472,6 +484,30 @@ begin
   if not Assigned(aToken) then Exit;
 
   aToken.TokenCase := gtcoLowerCase;
+end;
+
+{ adds space before token }
+procedure TokenConvert_AddSpaceBefore(aToken: TGtLexToken);
+begin
+  // TODO !!
+end;
+
+{ adds space after token }
+procedure TokenConvert_AddSpaceAfter(aToken: TGtLexToken);
+begin
+  // TODO !!
+end;
+
+{ removes space before token }
+procedure TokenConvert_RemoveSpaceBefore(aToken: TGtLexToken);
+begin
+  // TODO !!
+end;
+
+{ removes space after token }
+procedure TokenConvert_RemoveSpaceAfter(aToken: TGtLexToken);
+begin
+  // TODO !!
 end;
 
 //procedure SqlToysConvert_CaseKeyword(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
@@ -1245,34 +1281,34 @@ begin
                                                                  aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsAggrFunction, TokenConvert_LowerCase );
                                                                end;
                                                end;
-                        SQCC_CASE_VIEW         : case aState of
+                      SQCC_CASE_VIEW         : case aState of
                                                  SQCV_UPPER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsView, TokenConvert_UpperCase );
                                                  SQCV_LOWER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsView, TokenConvert_LowerCase );
-                                                 end;
-                        SQCC_CASE_CONSTRAINT   : case aState of
+                                               end;
+                      SQCC_CASE_CONSTRAINT   : case aState of
                                                  SQCV_UPPER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsConstraint, TokenConvert_UpperCase );
                                                  SQCV_LOWER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsConstraint, TokenConvert_LowerCase );
-                                                 end;
-                        SQCC_CASE_SYNONYM      : case aState of
+                                               end;
+                      SQCC_CASE_SYNONYM      : case aState of
                                                  SQCV_UPPER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsSynonym, TokenConvert_UpperCase );
                                                  SQCV_LOWER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsSynonym, TokenConvert_LowerCase );
-                                                 end;
-                        SQCC_CASE_TRANSACTION  : case aState of
+                                               end;
+                      SQCC_CASE_TRANSACTION  : case aState of
                                                  SQCV_UPPER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsTransaction, TokenConvert_UpperCase );
                                                  SQCV_LOWER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsTransaction, TokenConvert_LowerCase );
-                                                 end;
-                        SQCC_CASE_FUN_PARAM    : case aState of
+                                               end;
+                      SQCC_CASE_FUN_PARAM    : case aState of
                                                  SQCV_UPPER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsFunParameter, TokenConvert_UpperCase );
                                                  SQCV_LOWER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsFunParameter, TokenConvert_LowerCase );
-                                                 end;
-                        SQCC_CASE_EXTQ_ALIAS   : case aState of
+                                               end;
+                      SQCC_CASE_EXTQ_ALIAS   : case aState of
                                                  SQCV_UPPER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsExtQueryAliasOrTable, TokenConvert_UpperCase );
                                                  SQCV_LOWER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsExtQueryAliasOrTable, TokenConvert_LowerCase );
-                                                 end;
-                        SQCC_CASE_IDENTIFIER   : case aState of
+                                               end;
+                      SQCC_CASE_IDENTIFIER   : case aState of
                                                  SQCV_UPPER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsIdentifier, TokenConvert_UpperCase );
                                                  SQCV_LOWER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsIdentifier, TokenConvert_LowerCase );
-                                                 end;
+                                               end;
                     end;
 //  SQCG_KEYWORD  : case aItem of
 //  SQCG_DATA     : case aItem of
@@ -1280,6 +1316,14 @@ begin
 //  SQCG_ORDER    : case aItem of
 //  SQCG_LINES    : case aItem of
 //  SQCG_EMPTY    : case aItem of
+    SQCG_SPACES   : case aItem of
+                      SQCC_SPACE_BEF_SEMICOLON  : ;
+                      SQCC_SPACE_BEF_COMMA      : ;
+                      SQCC_SPACE_AFT_COMMA      : ;
+                      SQCC_SPACE_AROUND_OPER    : ;
+                      SQCC_SPACE_INSIDE_BRACKET : ;
+                      SQCC_SPACE_OUTSIDE_BRACKET: ;
+                    end;
   end;
 end;
 

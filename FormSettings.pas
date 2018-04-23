@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 119   18-04-07 20:42 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 120   18-04-07 21:43 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -127,14 +127,14 @@ begin
   Caption := VER_NAME + ' - Settings...';
 
   { populate Converters TreeView }
-  for Group := 1 to 99 do
+  for Group := 1 to SQCG_MAX do
     if SqlConvertName( Group, 0 ) <> '' then begin
       GroupNode := TreeView1.Items.AddChild(nil, SqlConvertName( Group, 0 ) );
       GroupNode.ImageIndex := SqlConvertGetValue( Group, 0 );
       GroupNode.SelectedIndex := SqlConvertGetValue( Group, 0 );
       GroupNode.StateIndex := SqlConvertIndex( Group, 0 );
 
-      for Item := 1 to 99 do
+      for Item := 1 to SQCC_MAX do
       if SqlConvertName( Group, Item ) <> '' then begin
         ItemNode := TreeView1.Items.AddChild( GroupNode, SqlConvertName( Group, Item ) );
         ItemNode.ImageIndex := SqlConvertGetValue( Group, Item );
@@ -516,6 +516,8 @@ begin
                     if aState <= SQCV_REMOVE then Result := SQCV_REMOVE else Result := SQCV_NONE ;
     SQCG_EMPTY    : if aState <= SQCV_ADD    then Result := SQCV_ADD    else
                     if aState <= SQCV_REMOVE then Result := SQCV_REMOVE else Result := SQCV_NONE ;
+    SQCG_SPACES   : if aState <= SQCV_ADD    then Result := SQCV_ADD    else
+                    if aState <= SQCV_REMOVE then Result := SQCV_REMOVE else Result := SQCV_NONE ;
   end;
 end;
 
@@ -578,6 +580,18 @@ begin
                     //SQCC_EXC_SHORT_QUERY   : Result := SQCV_REMOVE;
                       SQCC_EMPTY_AROUND_UNION: Result := SQCV_ADD;
                       SQCC_EMPTY_CMPLX_CONSTR: Result := SQCV_ADD;
+                    end;
+    SQCG_SPACES   : case aItem of
+                      SQCC_SPACE_BEF_SEMICOLON       : Result := SQCV_ADD;
+                      SQCC_SPACE_BEF_COMMA           : Result := SQCV_ADD;
+                      SQCC_SPACE_AFT_COMMA           : Result := SQCV_ADD;
+                      SQCC_SPACE_AROUND_OPER         : Result := SQCV_NONE;
+                      SQCC_SPACE_AROUND_OPER_MATH    : Result := SQCV_ADD;
+                      SQCC_SPACE_AROUND_OPER_CONC    : Result := SQCV_NONE;
+                      SQCC_SPACE_INSIDE_BRACKET      : Result := SQCV_ADD;
+                      SQCC_SPACE_INSIDE_BRACKET_SPF  : Result := SQCV_REMOVE;
+                      SQCC_SPACE_INSIDE_BRACKET_DATA : Result := SQCV_REMOVE;
+                      SQCC_SPACE_OUTSIDE_BRACKET     : Result := SQCV_ADD;
                     end;
   end;
 end;
@@ -649,6 +663,19 @@ begin
                     //SQCC_EXC_SHORT_QUERY   : Result := '    in short queries';
                       SQCC_EMPTY_AROUND_UNION: Result := 'around UNION, MINUS etc.';
                       SQCC_EMPTY_CMPLX_CONSTR: Result := 'before complex CONSTRAINT';
+                    end;
+    SQCG_SPACES   : case aItem of
+                      SQCC_NONE                      : Result := 'Spaces';
+                      SQCC_SPACE_BEF_SEMICOLON       : Result := 'before semicolon';
+                      SQCC_SPACE_BEF_COMMA           : Result := 'before comma';
+                      SQCC_SPACE_AFT_COMMA           : Result := 'after comma';
+                      SQCC_SPACE_AROUND_OPER         : Result := 'around operator';
+                      SQCC_SPACE_AROUND_OPER_MATH    : Result := '   mathematic';
+                      SQCC_SPACE_AROUND_OPER_CONC    : Result := '   concatenation';
+                      SQCC_SPACE_INSIDE_BRACKET      : Result := 'inside bracket';
+                      SQCC_SPACE_INSIDE_BRACKET_SPF  : Result := '   single param function';
+                      SQCC_SPACE_INSIDE_BRACKET_DATA : Result := '   datatype';
+                      SQCC_SPACE_OUTSIDE_BRACKET     : Result := 'outside bracket';
                     end;
   end;
 end;

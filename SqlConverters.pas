@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 38    18-04-07 21:43 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 39    18-04-08 9:39 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -489,25 +489,25 @@ end;
 { adds space before token }
 procedure TokenConvert_AddSpaceBefore(aToken: TGtLexToken);
 begin
-  // TODO !!
+  if Assigned(aToken) then aToken.AddSpaceBeforeToken;
 end;
 
 { adds space after token }
 procedure TokenConvert_AddSpaceAfter(aToken: TGtLexToken);
 begin
-  // TODO !!
+  if Assigned(aToken) then aToken.AddSpaceAfterToken;
 end;
 
 { removes space before token }
 procedure TokenConvert_RemoveSpaceBefore(aToken: TGtLexToken);
 begin
-  // TODO !!
+  if Assigned(aToken) then aToken.RemoveSpaceBeforeToken;
 end;
 
 { removes space after token }
 procedure TokenConvert_RemoveSpaceAfter(aToken: TGtLexToken);
 begin
-  // TODO !!
+  if Assigned(aToken) then aToken.RemoveSpaceAfterToken;
 end;
 
 //procedure SqlToysConvert_CaseKeyword(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
@@ -1317,7 +1317,10 @@ begin
 //  SQCG_LINES    : case aItem of
 //  SQCG_EMPTY    : case aItem of
     SQCG_SPACES   : case aItem of
-                      SQCC_SPACE_BEF_SEMICOLON  : ;
+                      SQCC_SPACE_BEF_SEMICOLON  : case aState of
+                                                    SQCV_ADD    : aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsSemicolon, TokenConvert_AddSpaceBefore );
+                                                    SQCV_REMOVE : aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsSemicolon, TokenConvert_RemoveSpaceBefore );
+                                                  end;
                       SQCC_SPACE_BEF_COMMA      : ;
                       SQCC_SPACE_AFT_COMMA      : ;
                       SQCC_SPACE_AROUND_OPER    : ;

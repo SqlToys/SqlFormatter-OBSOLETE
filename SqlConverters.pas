@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 39    18-04-08 9:39 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 40    18-04-08 15:18 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -1321,11 +1321,44 @@ begin
                                                     SQCV_ADD    : aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsSemicolon, TokenConvert_AddSpaceBefore );
                                                     SQCV_REMOVE : aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsSemicolon, TokenConvert_RemoveSpaceBefore );
                                                   end;
-                      SQCC_SPACE_BEF_COMMA      : ;
-                      SQCC_SPACE_AFT_COMMA      : ;
-                      SQCC_SPACE_AROUND_OPER    : ;
-                      SQCC_SPACE_INSIDE_BRACKET : ;
-                      SQCC_SPACE_OUTSIDE_BRACKET: ;
+                      SQCC_SPACE_BEF_COMMA      : case aState of
+                                                    SQCV_ADD    : aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsComma, TokenConvert_AddSpaceBefore );
+                                                    SQCV_REMOVE : aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsComma, TokenConvert_RemoveSpaceBefore );
+                                                  end;
+                      SQCC_SPACE_AFT_COMMA      : case aState of
+                                                    SQCV_ADD    : aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsComma, TokenConvert_AddSpaceAfter );
+                                                    SQCV_REMOVE : aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsComma, TokenConvert_RemoveSpaceAfter );
+                                                  end;
+                      SQCC_SPACE_AROUND_OPER    : case aState of
+                                                    SQCV_ADD    : begin
+                                                      aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsOperator, TokenConvert_AddSpaceBefore );
+                                                      aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsOperator, TokenConvert_AddSpaceAfter );
+                                                    end;
+                                                    SQCV_REMOVE : begin
+                                                      aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsOperator, TokenConvert_RemoveSpaceBefore );
+                                                      aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsOperator, TokenConvert_RemoveSpaceAfter );
+                                                    end;
+                                                  end;
+                      SQCC_SPACE_INSIDE_BRACKET : case aState of
+                                                    SQCV_ADD    : begin
+                                                      aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsBracketOpen1,  TokenConvert_AddSpaceAfter );
+                                                      aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsBracketClose1, TokenConvert_AddSpaceBefore );
+                                                    end;
+                                                    SQCV_REMOVE : begin
+                                                      aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsBracketOpen1,  TokenConvert_RemoveSpaceAfter );
+                                                      aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsBracketClose1, TokenConvert_RemoveSpaceBefore );
+                                                    end;
+                                                  end;
+                      SQCC_SPACE_OUTSIDE_BRACKET: case aState of
+                                                    SQCV_ADD    : begin
+                                                      aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsBracketOpen1,  TokenConvert_AddSpaceBefore );
+                                                      aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsBracketClose1, TokenConvert_AddSpaceAfter );
+                                                    end;
+                                                    SQCV_REMOVE : begin
+                                                      aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsBracketOpen1,  TokenConvert_RemoveSpaceBefore );
+                                                      aTokenList.ForEachTokenKindStyle( gtttRelevant, gtlsBracketClose1, TokenConvert_RemoveSpaceAfter );
+                                                    end;
+                                                  end;
                     end;
   end;
 end;

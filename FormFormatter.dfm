@@ -33,8 +33,6 @@ object MainForm: TMainForm
     inherited ScriptEdit: TRichEdit
       Width = 1016
       Height = 374
-      ExplicitLeft = -1
-      ExplicitTop = 2
       ExplicitWidth = 1016
       ExplicitHeight = 374
     end
@@ -109,6 +107,7 @@ object MainForm: TMainForm
       end>
     TabIndex = 1
     OnRecentItemClick = RibbonRecentItemClick
+    ExplicitTop = -6
     DesignSize = (
       1016
       143)

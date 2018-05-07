@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormColors.pas 8     18-03-25 21:55 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormColors.pas 9     18-04-08 15:18 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -570,12 +570,12 @@ begin
   ColorAndStyleSingleAction(aAction, gtlsCaseWhen5,   EditColorCases5,       CheckBoxBoldCases5,       CheckBoxItalicCases5,       CheckBoxUnderlineCases5);
   ColorAndStyleSingleAction(aAction, gtlsCaseWhen6,   EditColorCases6,       CheckBoxBoldCases6,       CheckBoxItalicCases6,       CheckBoxUnderlineCases6);
 
-  ColorAndStyleSingleAction(aAction, gtlsBracket1,    EditColorBrackets1,    CheckBoxBoldBrackets1,    CheckBoxItalicBrackets1,    CheckBoxUnderlineBrackets1);
-  ColorAndStyleSingleAction(aAction, gtlsBracket2,    EditColorBrackets2,    CheckBoxBoldBrackets2,    CheckBoxItalicBrackets2,    CheckBoxUnderlineBrackets2);
-  ColorAndStyleSingleAction(aAction, gtlsBracket3,    EditColorBrackets3,    CheckBoxBoldBrackets3,    CheckBoxItalicBrackets3,    CheckBoxUnderlineBrackets3);
-  ColorAndStyleSingleAction(aAction, gtlsBracket4,    EditColorBrackets4,    CheckBoxBoldBrackets4,    CheckBoxItalicBrackets4,    CheckBoxUnderlineBrackets4);
-  ColorAndStyleSingleAction(aAction, gtlsBracket5,    EditColorBrackets5,    CheckBoxBoldBrackets5,    CheckBoxItalicBrackets5,    CheckBoxUnderlineBrackets5);
-  ColorAndStyleSingleAction(aAction, gtlsBracket6,    EditColorBrackets6,    CheckBoxBoldBrackets6,    CheckBoxItalicBrackets6,    CheckBoxUnderlineBrackets6);
+  ColorAndStyleSingleAction(aAction, gtlsBracketOpen1,EditColorBrackets1,    CheckBoxBoldBrackets1,    CheckBoxItalicBrackets1,    CheckBoxUnderlineBrackets1);
+  ColorAndStyleSingleAction(aAction, gtlsBracketOpen2,EditColorBrackets2,    CheckBoxBoldBrackets2,    CheckBoxItalicBrackets2,    CheckBoxUnderlineBrackets2);
+  ColorAndStyleSingleAction(aAction, gtlsBracketOpen3,EditColorBrackets3,    CheckBoxBoldBrackets3,    CheckBoxItalicBrackets3,    CheckBoxUnderlineBrackets3);
+  ColorAndStyleSingleAction(aAction, gtlsBracketOpen4,EditColorBrackets4,    CheckBoxBoldBrackets4,    CheckBoxItalicBrackets4,    CheckBoxUnderlineBrackets4);
+  ColorAndStyleSingleAction(aAction, gtlsBracketOpen5,EditColorBrackets5,    CheckBoxBoldBrackets5,    CheckBoxItalicBrackets5,    CheckBoxUnderlineBrackets5);
+  ColorAndStyleSingleAction(aAction, gtlsBracketOpen6,EditColorBrackets6,    CheckBoxBoldBrackets6,    CheckBoxItalicBrackets6,    CheckBoxUnderlineBrackets6);
 end;
 
 { puts YA Integer Setting }

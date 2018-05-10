@@ -510,6 +510,72 @@ begin
   if Assigned(aToken) then aToken.RemoveSpaceAfterToken;
 end;
 
+{ adds keyword AS before token }
+procedure TokenConvert_AddKeywordAS(aToken: TGtLexToken);
+begin
+  if Assigned(aToken) then aToken.AddKeywordBeforeToken(gtkwAs);
+end;
+
+{ removes keyword AS before token }
+procedure TokenConvert_RemoveKeywordAS(aToken: TGtLexToken);
+begin
+  if Assigned(aToken) then aToken.RemoveKeywordBeforeToken(gtkwAs);
+end;
+
+{ adds keyword INNER before JOIN }
+procedure TokenConvert_AddKeywordINNER(aToken: TGtLexToken);
+var PrevToken: TGtLexToken;
+begin
+  if not Assigned(aToken) then Exit;
+  if(aToken.TokenKind <> gtttKeyword) or (aToken.TokenDef <> gtkwJoin) then Exit;
+
+  PrevToken := aToken.GetPrevToken(1);
+  if not Assigned(PrevToken) then Exit;
+  if(PrevToken.TokenKind <> gtttWhiteSpace) and (PrevToken.TokenKind <> gtttEndOfLine) then Exit;
+
+  PrevToken := aToken.GetPrevToken(2);
+  if not Assigned(PrevToken) then Exit;
+  if(PrevToken.TokenKind = gtttKeyword) and (PrevToken.TokenDef = gtkwInner) then Exit;
+  if(PrevToken.TokenKind = gtttKeyword) and (PrevToken.TokenDef = gtkwLeft)  then Exit;
+  if(PrevToken.TokenKind = gtttKeyword) and (PrevToken.TokenDef = gtkwRight) then Exit;
+  if(PrevToken.TokenKind = gtttKeyword) and (PrevToken.TokenDef = gtkwOuter) then Exit;
+
+  aToken.AddKeywordBeforeToken(gtkwInner);
+end;
+
+{ removes keyword INNER before JOIN }
+procedure TokenConvert_RemoveKeywordINNER(aToken: TGtLexToken);
+begin
+  if Assigned(aToken) then aToken.RemoveKeywordBeforeToken(gtkwInner);
+end;
+
+{ adds keyword INNER before JOIN }
+procedure TokenConvert_AddKeywordOUTER(aToken: TGtLexToken);
+var PrevToken: TGtLexToken;
+begin
+  if not Assigned(aToken) then Exit;
+  if(aToken.TokenKind <> gtttKeyword) or (aToken.TokenDef <> gtkwJoin) then Exit;
+
+  PrevToken := aToken.GetPrevToken(1);
+  if not Assigned(PrevToken) then Exit;
+  if(PrevToken.TokenKind <> gtttWhiteSpace) and (PrevToken.TokenKind <> gtttEndOfLine) then Exit;
+
+  PrevToken := aToken.GetPrevToken(2);
+  if not Assigned(PrevToken) then Exit;
+  if(PrevToken.TokenKind = gtttKeyword) and (PrevToken.TokenDef = gtkwInner) then Exit;
+  if(PrevToken.TokenKind = gtttKeyword) and (PrevToken.TokenDef = gtkwOuter) then Exit;
+  if(PrevToken.TokenKind <> gtttKeyword) or (PrevToken.TokenDef <> gtkwLeft)
+                                        and (PrevToken.TokenDef <> gtkwRight) then Exit;
+
+  aToken.AddKeywordBeforeToken(gtkwOuter);
+end;
+
+{ removes keyword INNER before JOIN }
+procedure TokenConvert_RemoveKeywordOUTER(aToken: TGtLexToken);
+begin
+  if Assigned(aToken) then aToken.RemoveKeywordBeforeToken(gtkwOuter);
+end;
+
 //procedure SqlToysConvert_CaseKeyword(aNode: TGtSqlNode; aCase: TGtSqlCaseOption = gtcoNoChange);
 //begin
 //  if not Assigned(aNode) then Exit;
@@ -1255,8 +1321,14 @@ begin
                                                  SQCV_LOWER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsTable, TokenConvert_LowerCase );
                                                end;
                       SQCC_CASE_TABLE_ALIAS  : case aState of
-                                                 SQCV_UPPER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsTableAlias, TokenConvert_UpperCase );
-                                                 SQCV_LOWER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsTableAlias, TokenConvert_LowerCase );
+                                                 SQCV_UPPER  : begin
+                                                                 aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsTableAlias, TokenConvert_UpperCase );
+                                                                 aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsTableAliasDef, TokenConvert_UpperCase );
+                                                               end;
+                                                 SQCV_LOWER  : begin
+                                                                 aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsTableAlias, TokenConvert_LowerCase );
+                                                                 aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsTableAliasDef, TokenConvert_LowerCase );
+                                                               end;
                                                end;
                       SQCC_CASE_COLUMN       : case aState of
                                                  SQCV_UPPER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsColumn, TokenConvert_UpperCase );
@@ -1310,9 +1382,30 @@ begin
                                                  SQCV_LOWER  : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsIdentifier, TokenConvert_LowerCase );
                                                end;
                     end;
-//  SQCG_KEYWORD  : case aItem of
+    SQCG_KEYWORD  : case aItem of
+                      SQCC_KWD_AS_TABLES     : case aState of
+                                                 SQCV_ADD    : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsTableAliasDef, TokenConvert_AddKeywordAS );
+                                                 SQCV_REMOVE : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsTableAliasDef, TokenConvert_RemoveKeywordAS );
+                                               end;
+                      SQCC_KWD_AS_COLUMNS    : case aState of
+                                                 SQCV_ADD    : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsColumnAlias, TokenConvert_AddKeywordAS );
+                                                 SQCV_REMOVE : aTokenList.ForEachTokenKindStyle( gtttIdentifier, gtlsColumnAlias, TokenConvert_RemoveKeywordAS );
+                                               end;
+                    end;
 //  SQCG_DATA     : case aItem of
-//  SQCG_JOIN     : case aItem of
+    SQCG_JOIN     : case aItem of
+                      SQCC_JOIN_INNER        : case aState of
+                                                 SQCV_ADD    : aTokenList.ForEachTokenKeyword( gtkwJoin, TokenConvert_AddKeywordINNER );
+                                                 SQCV_REMOVE : aTokenList.ForEachTokenKeyword( gtkwJoin, TokenConvert_RemoveKeywordINNER );
+                                               end;
+                      SQCC_JOIN_OUTER        : case aState of
+                                                 SQCV_ADD    : aTokenList.ForEachTokenKeyword( gtkwJoin, TokenConvert_AddKeywordOUTER );
+                                                 SQCV_REMOVE : aTokenList.ForEachTokenKeyword( gtkwJoin, TokenConvert_RemoveKeywordOUTER );
+                                               end;
+//                      SQCC_JOIN_ON_LEFT      : case aState of
+//                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_JoinCond_RefToLeft, True );
+//                                               end;
+                    end;
 //  SQCG_ORDER    : case aItem of
 //  SQCG_LINES    : case aItem of
 //  SQCG_EMPTY    : case aItem of

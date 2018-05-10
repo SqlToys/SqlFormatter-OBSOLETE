@@ -105,9 +105,8 @@ object MainForm: TMainForm
         Caption = 'Keywords'
         Page = RibbonPageConverters
       end>
-    TabIndex = 1
+    TabIndex = 2
     OnRecentItemClick = RibbonRecentItemClick
-    ExplicitTop = -6
     DesignSize = (
       1016
       143)
@@ -191,59 +190,6 @@ object MainForm: TMainForm
         GroupIndex = 6
       end
     end
-    object RibbonPageConverters: TRibbonPage
-      Left = 0
-      Top = 50
-      Width = 1015
-      Height = 93
-      Caption = 'Keywords'
-      Index = 2
-      object RibbonGroupConvertTableAlias: TRibbonGroup
-        Left = 82
-        Top = 3
-        Width = 76
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Table alias AS'
-        GroupIndex = 1
-      end
-      object RibbonGroupConvertExprAlias: TRibbonGroup
-        Left = 4
-        Top = 3
-        Width = 76
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Expr. alias AS'
-        GroupIndex = 0
-      end
-      object RibbonGroupConvertSortOrder: TRibbonGroup
-        Left = 160
-        Top = 3
-        Width = 131
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'ORDER BY keywords'
-        GroupIndex = 2
-      end
-      object RibbonGroupConvertDatatype: TRibbonGroup
-        Left = 293
-        Top = 3
-        Width = 73
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Datatypes'
-        GroupIndex = 3
-      end
-      object RibbonGroupConvertJoins: TRibbonGroup
-        Left = 368
-        Top = 3
-        Width = 144
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Join keywords'
-        GroupIndex = 4
-      end
-    end
     object RibbonPageCase: TRibbonPage
       Left = 0
       Top = 50
@@ -268,6 +214,41 @@ object MainForm: TMainForm
         ActionManager = ActionManager
         Caption = 'Spaces'
         GroupIndex = 2
+      end
+    end
+    object RibbonPageConverters: TRibbonPage
+      Left = 0
+      Top = 50
+      Width = 1015
+      Height = 93
+      Caption = 'Keywords'
+      Index = 2
+      object RibbonGroupConvertSortOrder: TRibbonGroup
+        Left = 4
+        Top = 3
+        Width = 131
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'ORDER BY keywords'
+        GroupIndex = 2
+      end
+      object RibbonGroupConvertJoins: TRibbonGroup
+        Left = 137
+        Top = 3
+        Width = 144
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Join keywords'
+        GroupIndex = 4
+      end
+      object RibbonGroupKeywords: TRibbonGroup
+        Left = 283
+        Top = 3
+        Width = 201
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Keywords'
+        GroupIndex = 5
       end
     end
   end
@@ -546,18 +527,6 @@ object MainForm: TMainForm
       item
       end
       item
-        Items = <
-          item
-            Action = actConvertTableAliasAddKeywordAs
-            Caption = '&Add'
-            ImageIndex = 33
-          end
-          item
-            Action = actConvertTableAliasRemoveKeywordAs
-            Caption = '&Remove'
-            ImageIndex = 34
-          end>
-        ActionBar = RibbonGroupConvertTableAlias
       end
       item
         Items = <
@@ -584,18 +553,6 @@ object MainForm: TMainForm
         ActionBar = RibbonGroupConvertSortOrder
       end
       item
-        Items = <
-          item
-            Action = actConvertDatatypeIntToInteger
-            Caption = '&Int'
-            ImageIndex = 23
-          end
-          item
-            Action = actConvertDatatypeIntegerToInt
-            Caption = 'I&nteger'
-            ImageIndex = 24
-          end>
-        ActionBar = RibbonGroupConvertDatatype
       end
       item
         Items = <
@@ -624,18 +581,6 @@ object MainForm: TMainForm
       item
       end
       item
-        Items = <
-          item
-            Action = actConvertExprAliasAddKeywordAs
-            Caption = '&Add'
-            ImageIndex = 21
-          end
-          item
-            Action = actConvertExprAliasRemoveKeywordAs
-            Caption = '&Remove'
-            ImageIndex = 22
-          end>
-        ActionBar = RibbonGroupConvertExprAlias
       end
       item
       end
@@ -757,6 +702,30 @@ object MainForm: TMainForm
             ImageIndex = 37
           end>
         ActionBar = RibbonGroupSpaces
+      end
+      item
+        Items = <
+          item
+            Action = actConvertKeywordExprAs
+            Caption = '&AS before expr. alias'
+            ImageIndex = 37
+          end
+          item
+            Action = actConvertKeywordTableAs
+            Caption = 'A&S before table alias'
+            ImageIndex = 37
+          end
+          item
+            Action = actConvertKeywordInner
+            Caption = '&INNER'
+            ImageIndex = 37
+          end
+          item
+            Action = actConvertKeywordOuter
+            Caption = '&OUTER'
+            ImageIndex = 37
+          end>
+        ActionBar = RibbonGroupKeywords
       end>
     DisabledImages = ImageList16disabled
     LargeDisabledImages = ImageList32disabled
@@ -910,30 +879,6 @@ object MainForm: TMainForm
       ImageIndex = 20
       OnExecute = actToolsQuoteFromDelphiExecute
     end
-    object actConvertExprAliasAddKeywordAs: TAction
-      Category = 'Convert ExprAlias Keywords'
-      Caption = 'Add'
-      ImageIndex = 21
-      OnExecute = actConvertExprAliasAddKeywordAsExecute
-    end
-    object actConvertExprAliasRemoveKeywordAs: TAction
-      Category = 'Convert ExprAlias Keywords'
-      Caption = 'Remove'
-      ImageIndex = 22
-      OnExecute = actConvertExprAliasRemoveKeywordAsExecute
-    end
-    object actConvertTableAliasAddKeywordAs: TAction
-      Category = 'Convert TableAlias Keyword'
-      Caption = 'Add'
-      ImageIndex = 33
-      OnExecute = actConvertTableAliasAddKeywordAsExecute
-    end
-    object actConvertTableAliasRemoveKeywordAs: TAction
-      Category = 'Convert TableAlias Keyword'
-      Caption = 'Remove'
-      ImageIndex = 34
-      OnExecute = actConvertTableAliasRemoveKeywordAsExecute
-    end
     object actConvertSortOrderShortKeywords: TAction
       Category = 'Convert OrderBy Keywords'
       Caption = 'Short'
@@ -957,18 +902,6 @@ object MainForm: TMainForm
       Caption = 'Remove'
       ImageIndex = 30
       OnExecute = actConvertSortOrderRemoveDefaultKeywordsExecute
-    end
-    object actConvertDatatypeIntToInteger: TAction
-      Category = 'Convert Datatypes'
-      Caption = 'Int'
-      ImageIndex = 23
-      OnExecute = actConvertDatatypeIntToIntegerExecute
-    end
-    object actConvertDatatypeIntegerToInt: TAction
-      Category = 'Convert Datatypes'
-      Caption = 'Integer'
-      ImageIndex = 24
-      OnExecute = actConvertDatatypeIntegerToIntExecute
     end
     object actConvertJoinsAddInner: TAction
       Category = 'Convert Join Keywords'
@@ -1136,6 +1069,30 @@ object MainForm: TMainForm
       Caption = 'outside brackets'
       ImageIndex = 37
       OnExecute = actConvertSpacesOutsideBracketsExecute
+    end
+    object actConvertKeywordExprAs: TAction
+      Category = 'Keywords'
+      Caption = 'AS before expr. alias'
+      ImageIndex = 37
+      OnExecute = actConvertKeywordExprAsExecute
+    end
+    object actConvertKeywordTableAs: TAction
+      Category = 'Keywords'
+      Caption = 'AS before table alias'
+      ImageIndex = 37
+      OnExecute = actConvertKeywordTableAsExecute
+    end
+    object actConvertKeywordInner: TAction
+      Category = 'Keywords'
+      Caption = 'INNER'
+      ImageIndex = 37
+      OnExecute = actConvertKeywordInnerExecute
+    end
+    object actConvertKeywordOuter: TAction
+      Category = 'Keywords'
+      Caption = 'OUTER'
+      ImageIndex = 37
+      OnExecute = actConvertKeywordOuterExecute
     end
   end
   object ImageList16: TImageList

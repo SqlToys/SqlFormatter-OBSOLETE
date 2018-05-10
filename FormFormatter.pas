@@ -76,12 +76,6 @@ type
     RibbonGroupAbout: TRibbonGroup;
 
     RibbonPageConverters: TRibbonPage;
-    actConvertExprAliasAddKeywordAs: TAction;
-    actConvertExprAliasRemoveKeywordAs: TAction;
-
-    RibbonGroupConvertTableAlias: TRibbonGroup;
-    actConvertTableAliasAddKeywordAs: TAction;
-    actConvertTableAliasRemoveKeywordAs: TAction;
 
     RibbonGroupConvertSortOrder: TRibbonGroup;
     actConvertSortOrderShortKeywords: TAction;
@@ -89,17 +83,12 @@ type
     actConvertSortOrderAddDefaultKeywords: TAction;
     actConvertSortOrderRemoveDefaultKeywords: TAction;
 
-    RibbonGroupConvertDatatype: TRibbonGroup;
-    actConvertDatatypeIntToInteger: TAction;
-    actConvertDatatypeIntegerToInt: TAction;
-
     RibbonGroupConvertJoins: TRibbonGroup;
     actConvertJoinsAddInner: TAction;
     actConvertJoinsRemoveInner: TAction;
     actConvertJoinsAddOuter: TAction;
     actConvertJoinsRemoveOuter: TAction;
     actConvertReset: TAction;
-    RibbonGroupConvertExprAlias: TRibbonGroup;
     RibbonPageCase: TRibbonPage;
     actFilesExportXML: TAction;
     actFilesImportXml: TAction;
@@ -126,6 +115,11 @@ type
     actConvertSpacesAroundOperator: TAction;
     actConvertSpacesInsideBrackets: TAction;
     actConvertSpacesOutsideBrackets: TAction;
+    RibbonGroupKeywords: TRibbonGroup;
+    actConvertKeywordExprAs: TAction;
+    actConvertKeywordTableAs: TAction;
+    actConvertKeywordInner: TAction;
+    actConvertKeywordOuter: TAction;
 
     { form & control events }
     procedure FormCreate(Sender: TObject);
@@ -157,15 +151,15 @@ type
     procedure actToolsQuoteFromDelphiExecute(Sender: TObject);
 
     procedure actConvertExprAliasAddKeywordAsExecute(Sender: TObject);
-    procedure actConvertExprAliasRemoveKeywordAsExecute(Sender: TObject);
-    procedure actConvertTableAliasAddKeywordAsExecute(Sender: TObject);
-    procedure actConvertTableAliasRemoveKeywordAsExecute(Sender: TObject);
+  //procedure actConvertExprAliasRemoveKeywordAsExecute(Sender: TObject);
+  //procedure actConvertTableAliasAddKeywordAsExecute(Sender: TObject);
+  //procedure actConvertTableAliasRemoveKeywordAsExecute(Sender: TObject);
     procedure actConvertSortOrderShortKeywordsExecute(Sender: TObject);
     procedure actConvertSortOrderLongKeywordsExecute(Sender: TObject);
     procedure actConvertSortOrderAddDefaultKeywordsExecute(Sender: TObject);
     procedure actConvertSortOrderRemoveDefaultKeywordsExecute(Sender: TObject);
-    procedure actConvertDatatypeIntegerToIntExecute(Sender: TObject);
-    procedure actConvertDatatypeIntToIntegerExecute(Sender: TObject);
+  //procedure actConvertDatatypeIntegerToIntExecute(Sender: TObject);
+  //procedure actConvertDatatypeIntToIntegerExecute(Sender: TObject);
 
     procedure actConvertJoinsAddInnerExecute(Sender: TObject);
     procedure actConvertJoinsRemoveInnerExecute(Sender: TObject);
@@ -211,6 +205,10 @@ type
     procedure actConvertSpacesAroundOperatorExecute(Sender: TObject);
     procedure actConvertSpacesInsideBracketsExecute(Sender: TObject);
     procedure actConvertSpacesOutsideBracketsExecute(Sender: TObject);
+    procedure actConvertKeywordExprAsExecute(Sender: TObject);
+    procedure actConvertKeywordTableAsExecute(Sender: TObject);
+    procedure actConvertKeywordInnerExecute(Sender: TObject);
+    procedure actConvertKeywordOuterExecute(Sender: TObject);
   public
     Before_FullScreen_State: TWindowState;
     Before_FullScreen_Top,   Before_FullScreen_Left,
@@ -618,8 +616,8 @@ begin
 //actConvertExprAliasRemoveKeywordAs.Enabled          := True;
 //actConvertExprAliasChangeKeywordAs.ImageIndex       := actConvertExprAliasAddKeywordAs.ImageIndex;
 
-  actConvertTableAliasAddKeywordAs.Enabled            := True;
-  actConvertTableAliasRemoveKeywordAs.Enabled         := True;
+//actConvertTableAliasAddKeywordAs.Enabled            := True;
+//actConvertTableAliasRemoveKeywordAs.Enabled         := True;
 //actConvertTableAliasChangeKeywordAs.ImageIndex      := actConvertTableAliasAddKeywordAs.ImageIndex;
 
   actConvertSortOrderShortKeywords.Enabled            := True;
@@ -630,8 +628,8 @@ begin
   actConvertSortOrderRemoveDefaultKeywords.Enabled    := True;
 //actConvertSortOrderChangeDefaultKeywords.ImageIndex := actConvertSortOrderAddDefaultKeywords.ImageIndex;
 
-  actConvertDatatypeIntToInteger.Enabled              := True;
-  actConvertDatatypeIntegerToInt.Enabled              := True;
+//actConvertDatatypeIntToInteger.Enabled              := True;
+//actConvertDatatypeIntegerToInt.Enabled              := True;
 //actConvertDatatypeIntChange.ImageIndex              := actConvertDatatypeIntToInteger.ImageIndex;
 
   actConvertJoinsAddInner.Enabled                     := True;
@@ -644,26 +642,26 @@ begin
 end;
 
 { action Convert }
-procedure TMainForm.actConvertDatatypeIntegerToIntExecute(Sender: TObject);
-begin
-//FrameScriptEdit.ScriptConvert(True, SqlToysConvert_Datatype_IntegerToInt );
-//SqlConvertExecute( SQCG_DATA, SQCC_DATA_INT, SQCV_SHORT, FrameScriptEdit.Parser.QueryList );
-  FrameScriptEdit.ScriptConvert(True, SQCG_DATA, SQCC_DATA_INT, SQCV_SHORT );
-
-  actConvertDatatypeIntToInteger.Enabled := True;
-  actConvertDatatypeIntegerToInt.Enabled := False;
-end;
+//procedure TMainForm.actConvertDatatypeIntegerToIntExecute(Sender: TObject);
+//begin
+////FrameScriptEdit.ScriptConvert(True, SqlToysConvert_Datatype_IntegerToInt );
+////SqlConvertExecute( SQCG_DATA, SQCC_DATA_INT, SQCV_SHORT, FrameScriptEdit.Parser.QueryList );
+//  FrameScriptEdit.ScriptConvert(True, SQCG_DATA, SQCC_DATA_INT, SQCV_SHORT );
+//
+//  actConvertDatatypeIntToInteger.Enabled := True;
+//  actConvertDatatypeIntegerToInt.Enabled := False;
+//end;
 
 { action Convert }
-procedure TMainForm.actConvertDatatypeIntToIntegerExecute(Sender: TObject);
-begin
-//FrameScriptEdit.ScriptConvert(True, SqlToysConvert_Datatype_IntToInteger );
-//SqlConvertExecute( SQCG_DATA, SQCC_DATA_INT, SQCV_LONG, FrameScriptEdit.Parser.QueryList );
-  FrameScriptEdit.ScriptConvert(True, SQCG_DATA, SQCC_DATA_INT, SQCV_LONG );
-
-  actConvertDatatypeIntToInteger.Enabled := False;
-  actConvertDatatypeIntegerToInt.Enabled := True;
-end;
+//procedure TMainForm.actConvertDatatypeIntToIntegerExecute(Sender: TObject);
+//begin
+////FrameScriptEdit.ScriptConvert(True, SqlToysConvert_Datatype_IntToInteger );
+////SqlConvertExecute( SQCG_DATA, SQCC_DATA_INT, SQCV_LONG, FrameScriptEdit.Parser.QueryList );
+//  FrameScriptEdit.ScriptConvert(True, SQCG_DATA, SQCC_DATA_INT, SQCV_LONG );
+//
+//  actConvertDatatypeIntToInteger.Enabled := False;
+//  actConvertDatatypeIntegerToInt.Enabled := True;
+//end;
 
 { action Convert }
 //procedure TMainForm.actConvertCaseColAliasLowerExecute(Sender: TObject);
@@ -1055,15 +1053,15 @@ begin
 end;
 
 { action Convert }
-procedure TMainForm.actConvertExprAliasRemoveKeywordAsExecute(Sender: TObject);
-begin
-//FrameScriptEdit.ScriptConvert(True, SqlToysConvert_ExprAlias_RemoveKeyword_AS );
-//SqlConvertExecute( SQCG_KEYWORD, SQCC_KWD_AS_COLUMNS, SQCV_REMOVE, FrameScriptEdit.Parser.QueryList );
-  FrameScriptEdit.ScriptConvert(True, SQCG_KEYWORD, SQCC_KWD_AS_COLUMNS, SQCV_REMOVE );
-
-  actConvertExprAliasAddKeywordAs.Enabled := True;
-  actConvertExprAliasRemoveKeywordAs.Enabled := False;
-end;
+//procedure TMainForm.actConvertExprAliasRemoveKeywordAsExecute(Sender: TObject);
+//begin
+////FrameScriptEdit.ScriptConvert(True, SqlToysConvert_ExprAlias_RemoveKeyword_AS );
+////SqlConvertExecute( SQCG_KEYWORD, SQCC_KWD_AS_COLUMNS, SQCV_REMOVE, FrameScriptEdit.Parser.QueryList );
+//  FrameScriptEdit.ScriptConvert(True, SQCG_KEYWORD, SQCC_KWD_AS_COLUMNS, SQCV_REMOVE );
+//
+//  actConvertExprAliasAddKeywordAs.Enabled := True;
+//  actConvertExprAliasRemoveKeywordAs.Enabled := False;
+//end;
 
 { action Convert }
 procedure TMainForm.actConvertJoinCondRefToLeftExecute(Sender: TObject);
@@ -1119,27 +1117,83 @@ begin
   actConvertJoinsRemoveOuter.Enabled    := False;
 end;
 
-{ action Convert }
-procedure TMainForm.actConvertTableAliasAddKeywordAsExecute(Sender: TObject);
+procedure TMainForm.actConvertKeywordExprAsExecute(Sender: TObject);
 begin
-//FrameScriptEdit.ScriptConvert(True, SqlToysConvert_TableAlias_AddKeyword_AS );
-//SqlConvertExecute( SQCG_KEYWORD, SQCC_KWD_AS_TABLES, SQCV_ADD, FrameScriptEdit.Parser.QueryList );
-  FrameScriptEdit.ScriptConvert(True, SQCG_KEYWORD, SQCC_KWD_AS_TABLES, SQCV_ADD );
+  case actConvertKeywordExprAs.ImageIndex of
+    37 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_KEYWORD, SQCC_KWD_AS_COLUMNS, SQCV_ADD );
+           actConvertKeywordExprAs.ImageIndex := 38;
+         end;
+    38 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_KEYWORD, SQCC_KWD_AS_COLUMNS, SQCV_REMOVE );
+           actConvertKeywordExprAs.ImageIndex := 37;
+         end;
+  end;
+end;
 
-  actConvertTableAliasAddKeywordAs.Enabled       := False;
-  actConvertTableAliasRemoveKeywordAs.Enabled    := True;
+procedure TMainForm.actConvertKeywordInnerExecute(Sender: TObject);
+begin
+  case actConvertKeywordInner.ImageIndex of
+    37 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_JOIN, SQCC_JOIN_INNER, SQCV_ADD );
+           actConvertKeywordInner.ImageIndex := 38;
+         end;
+    38 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_JOIN, SQCC_JOIN_INNER, SQCV_REMOVE );
+           actConvertKeywordInner.ImageIndex := 37;
+         end;
+  end;
+end;
+
+procedure TMainForm.actConvertKeywordOuterExecute(Sender: TObject);
+begin
+  case actConvertKeywordOuter.ImageIndex of
+    37 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_JOIN, SQCC_JOIN_OUTER, SQCV_ADD );
+           actConvertKeywordOuter.ImageIndex := 38;
+         end;
+    38 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_JOIN, SQCC_JOIN_OUTER, SQCV_REMOVE );
+           actConvertKeywordOuter.ImageIndex := 37;
+         end;
+  end;
+end;
+
+procedure TMainForm.actConvertKeywordTableAsExecute(Sender: TObject);
+begin
+  case actConvertKeywordTableAs.ImageIndex of
+    37 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_KEYWORD, SQCC_KWD_AS_TABLES, SQCV_ADD );
+           actConvertKeywordTableAs.ImageIndex := 38;
+         end;
+    38 : begin
+           FrameScriptEdit.ScriptConvert(True, SQCG_KEYWORD, SQCC_KWD_AS_TABLES, SQCV_REMOVE );
+           actConvertKeywordTableAs.ImageIndex := 37;
+         end;
+  end;
 end;
 
 { action Convert }
-procedure TMainForm.actConvertTableAliasRemoveKeywordAsExecute(Sender: TObject);
-begin
-//FrameScriptEdit.ScriptConvert(True, SqlToysConvert_TableAlias_RemoveKeyword_AS );
-//SqlConvertExecute( SQCG_KEYWORD, SQCC_KWD_AS_TABLES, SQCV_REMOVE, FrameScriptEdit.Parser.QueryList );
-  FrameScriptEdit.ScriptConvert(True, SQCG_KEYWORD, SQCC_KWD_AS_TABLES, SQCV_REMOVE );
+//procedure TMainForm.actConvertTableAliasAddKeywordAsExecute(Sender: TObject);
+//begin
+////FrameScriptEdit.ScriptConvert(True, SqlToysConvert_TableAlias_AddKeyword_AS );
+////SqlConvertExecute( SQCG_KEYWORD, SQCC_KWD_AS_TABLES, SQCV_ADD, FrameScriptEdit.Parser.QueryList );
+//  FrameScriptEdit.ScriptConvert(True, SQCG_KEYWORD, SQCC_KWD_AS_TABLES, SQCV_ADD );
+//
+//  actConvertTableAliasAddKeywordAs.Enabled       := False;
+//  actConvertTableAliasRemoveKeywordAs.Enabled    := True;
+//end;
 
-  actConvertTableAliasAddKeywordAs.Enabled       := True;
-  actConvertTableAliasRemoveKeywordAs.Enabled    := False;
-end;
+{ action Convert }
+//procedure TMainForm.actConvertTableAliasRemoveKeywordAsExecute(Sender: TObject);
+//begin
+////FrameScriptEdit.ScriptConvert(True, SqlToysConvert_TableAlias_RemoveKeyword_AS );
+////SqlConvertExecute( SQCG_KEYWORD, SQCC_KWD_AS_TABLES, SQCV_REMOVE, FrameScriptEdit.Parser.QueryList );
+//  FrameScriptEdit.ScriptConvert(True, SQCG_KEYWORD, SQCC_KWD_AS_TABLES, SQCV_REMOVE );
+//
+//  actConvertTableAliasAddKeywordAs.Enabled       := True;
+//  actConvertTableAliasRemoveKeywordAs.Enabled    := False;
+//end;
 
 { action Convert }
 procedure TMainForm.actConvertSortOrderShortKeywordsExecute(Sender: TObject);

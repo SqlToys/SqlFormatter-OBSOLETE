@@ -1,4 +1,4 @@
-﻿(* $Header: /SQL Toys/SqlFormatter/FrameScriptEdit.pas 64    18-04-07 20:43 Tomek $
+﻿(* $Header: /SQL Toys/SqlFormatter/FrameScriptEdit.pas 65    18-04-22 15:53 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2014.08.16                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -338,7 +338,7 @@ begin
     ScriptEdit.Font.Style := [];
 
     ParseScript(ScriptLister.SL);
-    if aConverters then TokenListConvertExecuteAll(Parser.TokenList);
+    if aConverters then TokenListConvertExecuteAll(Parser.TokenList, Parser.QueryList);
     ListScriptByToken;
   finally
     ScriptLister.Free;
@@ -1347,7 +1347,7 @@ begin
 //SyntaxTreeConvertExecute( aGroup, aItem, aState, Parser.QueryList );
 //FormatScript(aScriptFormat, False);
 
-  TokenListConvertExecute( aGroup, aItem, aState, Parser.TokenList );
+  TokenListConvertExecute( aGroup, aItem, aState, Parser.TokenList, Parser.QueryList );
   ListScriptByToken;
 
   ScriptEdit.Modified := lModified;

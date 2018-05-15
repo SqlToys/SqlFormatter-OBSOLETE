@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormFormatter.pas 68    18-04-07 21:43 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormFormatter.pas 69    18-04-22 13:07 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2011.07.24                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}

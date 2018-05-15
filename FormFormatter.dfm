@@ -105,7 +105,6 @@ object MainForm: TMainForm
         Caption = 'Keywords'
         Page = RibbonPageConverters
       end>
-    TabIndex = 2
     OnRecentItemClick = RibbonRecentItemClick
     DesignSize = (
       1016
@@ -127,6 +126,67 @@ object MainForm: TMainForm
           Tag = 0
         end>
       RecentItems = <>
+    end
+    object RibbonPageCase: TRibbonPage
+      Left = 0
+      Top = 50
+      Width = 1015
+      Height = 93
+      Caption = 'Cases and spaces'
+      Index = 1
+      object RibbonGroupCases: TRibbonGroup
+        Left = 4
+        Top = 3
+        Width = 429
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Cases'
+        GroupIndex = 1
+      end
+      object RibbonGroupSpaces: TRibbonGroup
+        Left = 435
+        Top = 3
+        Width = 226
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Spaces'
+        GroupIndex = 2
+      end
+    end
+    object RibbonPageConverters: TRibbonPage
+      Left = 0
+      Top = 50
+      Width = 1015
+      Height = 93
+      Caption = 'Keywords'
+      Index = 2
+      object RibbonGroupConvertSortOrder: TRibbonGroup
+        Left = 4
+        Top = 3
+        Width = 131
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'ORDER BY keywords'
+        GroupIndex = 2
+      end
+      object RibbonGroupConvertJoins: TRibbonGroup
+        Left = 137
+        Top = 3
+        Width = 144
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Join keywords'
+        GroupIndex = 4
+      end
+      object RibbonGroupKeywords: TRibbonGroup
+        Left = 283
+        Top = 3
+        Width = 201
+        Height = 86
+        ActionManager = ActionManager
+        Caption = 'Keywords'
+        GroupIndex = 5
+      end
     end
     object RibbonPageGeneral: TRibbonPage
       Left = 0
@@ -188,67 +248,6 @@ object MainForm: TMainForm
         ActionManager = ActionManager
         Caption = 'About'
         GroupIndex = 6
-      end
-    end
-    object RibbonPageCase: TRibbonPage
-      Left = 0
-      Top = 50
-      Width = 1015
-      Height = 93
-      Caption = 'Cases and spaces'
-      Index = 1
-      object RibbonGroupCases: TRibbonGroup
-        Left = 4
-        Top = 3
-        Width = 429
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Cases'
-        GroupIndex = 1
-      end
-      object RibbonGroupSpaces: TRibbonGroup
-        Left = 435
-        Top = 3
-        Width = 226
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Spaces'
-        GroupIndex = 2
-      end
-    end
-    object RibbonPageConverters: TRibbonPage
-      Left = 0
-      Top = 50
-      Width = 1015
-      Height = 93
-      Caption = 'Keywords'
-      Index = 2
-      object RibbonGroupConvertSortOrder: TRibbonGroup
-        Left = 4
-        Top = 3
-        Width = 131
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'ORDER BY keywords'
-        GroupIndex = 2
-      end
-      object RibbonGroupConvertJoins: TRibbonGroup
-        Left = 137
-        Top = 3
-        Width = 144
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Join keywords'
-        GroupIndex = 4
-      end
-      object RibbonGroupKeywords: TRibbonGroup
-        Left = 283
-        Top = 3
-        Width = 201
-        Height = 86
-        ActionManager = ActionManager
-        Caption = 'Keywords'
-        GroupIndex = 5
       end
     end
   end

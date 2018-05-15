@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 40    18-04-08 15:18 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 42    18-04-22 15:53 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -75,6 +75,8 @@ const { converters settings values, same as icon numbers }
 //SQCC_LINE_CASE_END     = 5; {should be subnode}
   SQCC_LINE_BEF_CONSTR   = 6;
 //SQCC_LINE_AFT_CONSTR   = 7;
+  SQCC_LINE_BEF_EXPR     = 8;
+  SQCC_LINE_BEF_COND     = 9;
 
   SQCC_EMPTY_BEF_CLAUSE  = 1;
   SQCC_EXC_SUBQUERY      = 2; {should be subnode}
@@ -93,7 +95,7 @@ const { converters settings values, same as icon numbers }
   SQCC_SPACE_INSIDE_BRACKET_DATA = 9; { TODO }
   SQCC_SPACE_OUTSIDE_BRACKET     =10; { TODO }
 
-procedure TokenListConvertExecute( aGroup, aItem, aState: Integer; aTokenList: TGtLexTokenList );
+procedure TokenListConvertExecute( aGroup, aItem, aState: Integer; aTokenList: TGtLexTokenList; aNode: TGtSqlNode );
 procedure SyntaxTreeConvertExecute( aGroup, aItem, aState: Integer; aNode: TGtSqlNode );
 
 {---------------------------- Navigation procedures ---------------------------}
@@ -1280,6 +1282,54 @@ end;
 //  if aNode.Check(gtsiConstraint) then aNode.NewLineAfter := False;
 //end;
 
+{ adds new line before expression }
+procedure SqlToysConvert_NewLine_Bef_Expression_Add(aNode: TGtSqlNode);
+var lFirstToken: TGtLexToken;
+begin
+  if not Assigned(aNode) then Exit;
+
+  if aNode.Check(gtsiExprTree) and aNode.Owner.Check(gtsiExprList) and aNode.Owner.Owner.Check(gtsiDml) then begin
+    lFirstToken := aNode.GetFirstToken;
+    if not Assigned(lFirstToken) then Exit;
+
+    lFirstToken.AddNewLineBeforeToken;
+  end;
+end;
+
+{ removes new line before expression }
+procedure SqlToysConvert_NewLine_Bef_Expression_Remove(aNode: TGtSqlNode);
+var lFirstToken: TGtLexToken;
+begin
+  if not Assigned(aNode) then Exit;
+
+  if aNode.Check(gtsiExprTree) and aNode.Owner.Check(gtsiExprList) and aNode.Owner.Owner.Check(gtsiDml) then begin
+    lFirstToken := aNode.GetFirstToken;
+    if not Assigned(lFirstToken) then Exit;
+
+    lFirstToken.RemoveNewLineBeforeToken;
+  end;
+end;
+
+{ adds new line before condition }
+procedure SqlToysConvert_NewLine_Bef_Condition_Add(aNode: TGtSqlNode);
+var lFirstToken: TGtLexToken;
+begin
+  if not Assigned(aNode) then Exit;
+
+  if aNode.Check(gtsiCond) and aNode.Owner.Check(gtsiCondTree) and aNode.Owner.Owner.Check(gtsiDml) then begin
+    lFirstToken := aNode.GetFirstToken;
+    if not Assigned(lFirstToken) then Exit;
+
+    lFirstToken.AddNewLineBeforeToken;
+  end;
+end;
+
+{ removes new line before condition }
+procedure SqlToysConvert_NewLine_Bef_Condition_Remove(aNode: TGtSqlNode);
+begin
+  if not Assigned(aNode) then Exit;
+end;
+
 { adds empty line before complex CONSTRAINT }
 procedure SqlToysConvert_EmptyLine_Complex_Constraint_Add(aNode: TGtSqlNode);
 begin
@@ -1301,7 +1351,7 @@ end;
 {----------------------------------- General ----------------------------------}
 
 { executes token list converter }
-procedure TokenListConvertExecute( aGroup, aItem, aState: Integer; aTokenList: TGtLexTokenList );
+procedure TokenListConvertExecute( aGroup, aItem, aState: Integer; aTokenList: TGtLexTokenList; aNode: TGtSqlNode );
 begin
   case aGroup of
 //  SQCG_GENERAL  : case aItem of
@@ -1407,7 +1457,16 @@ begin
 //                                               end;
                     end;
 //  SQCG_ORDER    : case aItem of
-//  SQCG_LINES    : case aItem of
+    SQCG_LINES    : case aItem of
+                      SQCC_LINE_BEF_EXPR        : case aState of
+                                                   SQCV_ADD    : aNode.ForEach( SqlToysConvert_NewLine_Bef_Expression_Add, True );
+                                                   SQCV_REMOVE : aNode.ForEach( SqlToysConvert_NewLine_Bef_Expression_Remove, True );
+                                                  end;
+                      SQCC_LINE_BEF_COND        : case aState of
+                                                   SQCV_ADD    : aNode.ForEach( SqlToysConvert_NewLine_Bef_Condition_Add, True );
+                                                   SQCV_REMOVE : aNode.ForEach( SqlToysConvert_NewLine_Bef_Condition_Remove, True );
+                                                  end;
+                    end;
 //  SQCG_EMPTY    : case aItem of
     SQCG_SPACES   : case aItem of
                       SQCC_SPACE_BEF_SEMICOLON  : case aState of
@@ -1596,6 +1655,10 @@ begin
 //                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_NewLine_Aft_Constraint_Add, True );
 //                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_NewLine_Aft_Constraint_Remove, True );
 //                                               end;
+//                      SQCC_LINE_BEF_EXPR        : case aState of
+//                                                   SQCV_ADD    : aNode.ForEach( SqlToysConvert_NewLine_Bef_Expression_Add, True );
+//                                                   SQCV_REMOVE : aNode.ForEach( SqlToysConvert_NewLine_Bef_Expression_Remove, True );
+//                                                  end;
                     end;
     SQCG_EMPTY    : case aItem of
                       SQCC_EMPTY_BEF_CLAUSE  : case aState of

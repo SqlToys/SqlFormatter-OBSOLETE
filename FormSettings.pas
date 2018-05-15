@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 120   18-04-07 21:43 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 121   18-04-22 15:53 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -108,7 +108,7 @@ procedure SqlConvertSetValue( aGroup, aItem, aState: Integer );
 function  SqlConvertDefValue( aGroup, aItem: Integer ): Integer;
 
 //procedure SqlConvertExecuteAll( aNode: TGtSqlNode; aTokenList: TGtLexTokenList );
-procedure TokenListConvertExecuteAll( aTokenList: TGtLexTokenList );
+procedure TokenListConvertExecuteAll( aTokenList: TGtLexTokenList; aNode: TGtSqlNode );
 procedure SyntaxTreeConvertExecuteAll( aNode: TGtSqlNode );
 
 implementation
@@ -573,6 +573,7 @@ begin
                     //SQCC_LINE_CASE_END     : Result := SQCV_NONE;
                       SQCC_LINE_BEF_CONSTR   : Result := SQCV_ADD;
                     //SQCC_LINE_AFT_CONSTR   : Result := SQCV_ADD;
+                    //SQCC_LINE_BEF_EXPR     : Result := SQCV_ADD;
                     end;
     SQCG_EMPTY    : case aItem of
                       SQCC_EMPTY_BEF_CLAUSE  : Result := SQCV_ADD;
@@ -655,6 +656,8 @@ begin
                     //SQCC_LINE_CASE_END     : Result := 'before END  in CASE expr.';
                       SQCC_LINE_BEF_CONSTR   : Result := 'before CONSTRAINT';
                     //SQCC_LINE_AFT_CONSTR   : Result := 'after  CONSTRAINT';
+                      SQCC_LINE_BEF_EXPR     : Result := 'before expression';
+                      SQCC_LINE_BEF_COND     : Result := 'before condition';
                     end;
     SQCG_EMPTY    : case aItem of
                       SQCC_NONE              : Result := 'Empty lines';
@@ -681,12 +684,12 @@ begin
 end;
 
 { executes all token list converters }
-procedure TokenListConvertExecuteAll( aTokenList: TGtLexTokenList );
+procedure TokenListConvertExecuteAll( aTokenList: TGtLexTokenList; aNode: TGtSqlNode );
 var Group, Item: Integer;
 begin
   for Group := 1 to SQCG_MAX do
     for Item := 1 to SQCC_MAX do
-      TokenListConvertExecute( Group, Item, SqlConvertGetValue( Group, Item ), aTokenList );
+      TokenListConvertExecute( Group, Item, SqlConvertGetValue( Group, Item ), aTokenList, aNode );
 end;
 
 { executes all syntax tree converters }

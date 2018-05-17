@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 42    18-04-22 15:53 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 43    18-04-22 19:08 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -68,15 +68,17 @@ const { converters settings values, same as icon numbers }
   SQCC_ORDER_KWD_LEN     = 1;
   SQCC_ORDER_KWD_DEF     = 2;
 
-//SQCC_LINE_CASE_CASE    = 1;
-  SQCC_LINE_CASE_WHEN    = 2; {should be subnode}
-  SQCC_LINE_CASE_THEN    = 3; {should be subnode}
-  SQCC_LINE_CASE_ELSE    = 4; {should be subnode}
-//SQCC_LINE_CASE_END     = 5; {should be subnode}
-  SQCC_LINE_BEF_CONSTR   = 6;
-//SQCC_LINE_AFT_CONSTR   = 7;
-  SQCC_LINE_BEF_EXPR     = 8;
-  SQCC_LINE_BEF_COND     = 9;
+  SQCC_LINE_BEF_EXPR_RIGHT=  1;
+  SQCC_LINE_BEF_EXPR_LEFT =  2;
+  SQCC_LINE_BEF_EXPR_1ST  =  3;
+  SQCC_LINE_BEF_COND      =  4;
+//SQCC_LINE_CASE_CASE     =  5;
+  SQCC_LINE_CASE_WHEN     =  6; {should be subnode}
+  SQCC_LINE_CASE_THEN     =  7; {should be subnode}
+  SQCC_LINE_CASE_ELSE     =  8; {should be subnode}
+//SQCC_LINE_CASE_END      =  9; {should be subnode}
+  SQCC_LINE_BEF_CONSTR    = 10;
+//SQCC_LINE_AFT_CONSTR    = 11;
 
   SQCC_EMPTY_BEF_CLAUSE  = 1;
   SQCC_EXC_SUBQUERY      = 2; {should be subnode}
@@ -1310,6 +1312,112 @@ begin
   end;
 end;
 
+{ adds new line before expression with comma }
+procedure SqlToysConvert_NewLine_Bef_Expression_Comma_Add (aNode: TGtSqlNode);
+var lFirstToken, lPrevToken, lPrevToken2: TGtLexToken;
+begin
+  if not Assigned(aNode) then Exit;
+
+  if aNode.Check(gtsiExprTree) and aNode.Owner.Check(gtsiExprList) and aNode.Owner.Owner.Check(gtsiDml) then begin
+    lFirstToken := aNode.GetFirstToken;
+    if not Assigned(lFirstToken) then Exit;
+
+    lPrevToken := lFirstToken.GetPrevToken(1);
+    if not Assigned(lPrevToken) then Exit;
+
+    if lPrevToken.TokenDef = gttkComma then begin
+      lPrevToken.AddNewLineBeforeToken;
+      Exit;
+    end;
+    if lPrevToken.TokenKind <> gtttWhiteSpace then Exit;
+
+    lPrevToken2 := lPrevToken.GetPrevToken(1);
+    if not Assigned(lPrevToken2) then Exit;
+    if lPrevToken2.TokenDef <> gttkComma then Exit;
+
+    lPrevToken2.AddNewLineBeforeToken;
+  end;
+end;
+
+{ removes new line before expression with comma }
+procedure SqlToysConvert_NewLine_Bef_Expression_Comma_Remove (aNode: TGtSqlNode);
+var lFirstToken, lPrevToken, lPrevToken2: TGtLexToken;
+begin
+  if not Assigned(aNode) then Exit;
+
+  if aNode.Check(gtsiExprTree) and aNode.Owner.Check(gtsiExprList) and aNode.Owner.Owner.Check(gtsiDml) then begin
+    lFirstToken := aNode.GetFirstToken;
+    if not Assigned(lFirstToken) then Exit;
+
+    lPrevToken := lFirstToken.GetPrevToken(1);
+    if not Assigned(lPrevToken) then Exit;
+
+    if lPrevToken.TokenDef = gttkComma then begin
+      lPrevToken.RemoveNewLineBeforeToken;
+      Exit;
+    end;
+    if lPrevToken.TokenKind <> gtttWhiteSpace then Exit;
+
+    lPrevToken2 := lPrevToken.GetPrevToken(1);
+    if not Assigned(lPrevToken2) then Exit;
+    if lPrevToken2.TokenDef <> gttkComma then Exit;
+
+    lPrevToken2.RemoveNewLineBeforeToken;
+  end;
+end;
+
+{ adds new line before 1st expression when other expressions with comma on left }
+procedure SqlToysConvert_NewLine_Bef_Expression_1st_Add (aNode: TGtSqlNode);
+var lFirstToken, lPrevToken, lPrevToken2: TGtLexToken;
+begin
+  if not Assigned(aNode) then Exit;
+
+  if aNode.Check(gtsiExprTree) and aNode.Owner.Check(gtsiExprList) and
+     aNode.Owner.Owner.Check(gtsiDml) and (aNode.Owner.Items[0] = aNode) then begin
+    lFirstToken := aNode.GetFirstToken;
+    if not Assigned(lFirstToken) then Exit;
+
+    lPrevToken := lFirstToken.GetPrevToken(1);
+    if not Assigned(lPrevToken) then Exit;
+    if lPrevToken.TokenKind = gtttEndOfLine then Exit;
+    if lPrevToken.TokenKind <> gtttWhiteSpace then begin
+      lFirstToken.AddNewLineBeforeToken;
+      Exit;
+    end;
+
+    lPrevToken2 := lPrevToken.GetPrevToken(1);
+    if lPrevToken2.TokenKind = gtttEndOfLine then Exit;
+
+    lFirstToken.AddNewLineBeforeToken;
+  end;
+end;
+
+{ removes new line before 1st expression when other expressions with comma on left }
+procedure SqlToysConvert_NewLine_Bef_Expression_1st_Remove (aNode: TGtSqlNode);
+var lFirstToken, lPrevToken, lPrevToken2: TGtLexToken;
+begin
+  if not Assigned(aNode) then Exit;
+
+  if aNode.Check(gtsiExprTree) and aNode.Owner.Check(gtsiExprList) and
+     aNode.Owner.Owner.Check(gtsiDml) and (aNode.Owner.Items[0] = aNode) then begin
+    lFirstToken := aNode.GetFirstToken;
+    if not Assigned(lFirstToken) then Exit;
+
+    lPrevToken := lFirstToken.GetPrevToken(1);
+    if not Assigned(lPrevToken) then Exit;
+    if lPrevToken.TokenKind = gtttEndOfLine then begin
+      lFirstToken.RemoveNewLineBeforeToken;
+      Exit;
+    end;
+    if lPrevToken.TokenKind <> gtttWhiteSpace then Exit;
+
+    lPrevToken2 := lPrevToken.GetPrevToken(1);
+    if lPrevToken2.TokenKind = gtttEndOfLine then begin
+      lPrevToken.RemoveNewLineBeforeToken;
+    end;
+  end;
+end;
+
 { adds new line before condition }
 procedure SqlToysConvert_NewLine_Bef_Condition_Add(aNode: TGtSqlNode);
 var lFirstToken: TGtLexToken;
@@ -1458,9 +1566,17 @@ begin
                     end;
 //  SQCG_ORDER    : case aItem of
     SQCG_LINES    : case aItem of
-                      SQCC_LINE_BEF_EXPR        : case aState of
+                      SQCC_LINE_BEF_EXPR_RIGHT  : case aState of
                                                    SQCV_ADD    : aNode.ForEach( SqlToysConvert_NewLine_Bef_Expression_Add, True );
                                                    SQCV_REMOVE : aNode.ForEach( SqlToysConvert_NewLine_Bef_Expression_Remove, True );
+                                                  end;
+                      SQCC_LINE_BEF_EXPR_LEFT   : case aState of
+                                                   SQCV_ADD    : aNode.ForEach( SqlToysConvert_NewLine_Bef_Expression_Comma_Add, True );
+                                                   SQCV_REMOVE : aNode.ForEach( SqlToysConvert_NewLine_Bef_Expression_Comma_Remove, True );
+                                                  end;
+                      SQCC_LINE_BEF_EXPR_1ST   : case aState of
+                                                   SQCV_ADD    : aNode.ForEach( SqlToysConvert_NewLine_Bef_Expression_1st_Add, True );
+                                                   SQCV_REMOVE : aNode.ForEach( SqlToysConvert_NewLine_Bef_Expression_1st_Remove, True );
                                                   end;
                       SQCC_LINE_BEF_COND        : case aState of
                                                    SQCV_ADD    : aNode.ForEach( SqlToysConvert_NewLine_Bef_Condition_Add, True );

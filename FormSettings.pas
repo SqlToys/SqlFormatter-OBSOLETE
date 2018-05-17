@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 121   18-04-22 15:53 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 122   18-04-22 19:08 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -150,6 +150,24 @@ end;
 
 { TreeView1 Double Click }
 procedure TFormSettings.TreeView1DblClick(Sender: TObject);
+
+  function CheckNode( aGroup, aItem, aState: Integer ): Boolean;
+  begin
+    Result :=  (SqlConvertGroup( TreeView1.Selected.StateIndex ) = aGroup) and
+               (SqlConvertItem( TreeView1.Selected.StateIndex ) = aItem) and
+               (TreeView1.Selected.ImageIndex = aState);
+  end;
+
+  procedure ChangeNodeState( aGroup, aItem, aState: Integer );
+  var i: Integer;
+  begin
+    for i := 0 to TreeView1.Items.Count - 1 do
+      if TreeView1.Items[i].StateIndex = SqlConvertIndex( aGroup, aItem ) then begin
+         TreeView1.Items[i].ImageIndex := aState ;
+         TreeView1.Items[i].SelectedIndex := aState ;
+      end;
+  end;
+
 begin
   if not Assigned(TreeView1.Selected) then Exit;
   if TreeView1.Selected.Level = 0 then Exit;
@@ -165,6 +183,17 @@ begin
 //  SqlConvertSetValue( SqlConvertGroup( TreeView1.Selected.StateIndex )
 //                    , SqlConvertItem( TreeView1.Selected.StateIndex )
 //                    , TreeView1.Selected.ImageIndex );
+
+  if CheckNode( SQCG_LINES, SQCC_LINE_BEF_EXPR_LEFT, SQCV_ADD) then begin
+    ChangeNodeState ( SQCG_LINES, SQCC_LINE_BEF_EXPR_RIGHT, SQCV_REMOVE );
+  end else
+  if CheckNode( SQCG_LINES, SQCC_LINE_BEF_EXPR_LEFT, SQCV_REMOVE ) then begin
+    ChangeNodeState ( SQCG_LINES, SQCC_LINE_BEF_EXPR_1ST, SQCV_REMOVE );
+  end else
+  if CheckNode( SQCG_LINES, SQCC_LINE_BEF_EXPR_RIGHT, SQCV_ADD) then begin
+    ChangeNodeState ( SQCG_LINES, SQCC_LINE_BEF_EXPR_LEFT, SQCV_REMOVE );
+    ChangeNodeState ( SQCG_LINES, SQCC_LINE_BEF_EXPR_1ST,  SQCV_REMOVE );
+  end;
 
   TreeView1.Repaint;
 end;
@@ -649,6 +678,10 @@ begin
                     end;
     SQCG_LINES    : case aItem of
                       SQCC_NONE              : Result := 'New lines';
+                      SQCC_LINE_BEF_EXPR_RIGHT:Result := 'before expression (comma on right side)';
+                      SQCC_LINE_BEF_EXPR_LEFT: Result := 'before expression (comma on left side)';
+                      SQCC_LINE_BEF_EXPR_1ST : Result := '    1st expression too';
+                      SQCC_LINE_BEF_COND     : Result := 'before condition';
                     //SQCC_LINE_CASE_CASE    : Result := 'before CASE in CASE expr.';
                       SQCC_LINE_CASE_WHEN    : Result := 'before WHEN in CASE expr.';
                       SQCC_LINE_CASE_THEN    : Result := 'before THEN in CASE expr.';
@@ -656,8 +689,6 @@ begin
                     //SQCC_LINE_CASE_END     : Result := 'before END  in CASE expr.';
                       SQCC_LINE_BEF_CONSTR   : Result := 'before CONSTRAINT';
                     //SQCC_LINE_AFT_CONSTR   : Result := 'after  CONSTRAINT';
-                      SQCC_LINE_BEF_EXPR     : Result := 'before expression';
-                      SQCC_LINE_BEF_COND     : Result := 'before condition';
                     end;
     SQCG_EMPTY    : case aItem of
                       SQCC_NONE              : Result := 'Empty lines';

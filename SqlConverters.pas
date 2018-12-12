@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 43    18-04-22 19:08 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 44    18-12-11 18:53 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -910,11 +910,12 @@ procedure SqlToysConvert_SortOrder_ShortKeywords(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree) then begin
+  if (aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree))
+  and aNode.Owner.Check(gtsiExprList) and (aNode.Owner.Keyword = gtkwOrder_By) then begin
     if aNode.SortOrder = gtkwAscending  then aNode.SortOrder := gtkwAsc else
     if aNode.SortOrder = gtkwDescending then aNode.SortOrder := gtkwDesc ;
-//  end else begin
-//    SqlToysConvert_SortOrder_Iteration( SqlToysConvert_SortOrder_ShortKeywords, aNode );
+  end else begin
+    SqlToysConvert_SortOrder_Iteration( SqlToysConvert_SortOrder_ShortKeywords, aNode );
   end;
 end;
 
@@ -923,11 +924,12 @@ procedure SqlToysConvert_SortOrder_LongKeywords(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree) then begin
+  if (aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree))
+  and aNode.Owner.Check(gtsiExprList) and (aNode.Owner.Keyword = gtkwOrder_By) then begin
     if aNode.SortOrder = gtkwAsc  then aNode.SortOrder := gtkwAscending else
     if aNode.SortOrder = gtkwDesc then aNode.SortOrder := gtkwDescending ;
-//  end else begin
-//    SqlToysConvert_SortOrder_Iteration( SqlToysConvert_SortOrder_LongKeywords, aNode );
+  end else begin
+    SqlToysConvert_SortOrder_Iteration( SqlToysConvert_SortOrder_LongKeywords, aNode );
   end;
 end;
 
@@ -936,10 +938,11 @@ procedure SqlToysConvert_SortOrder_AddDefaultKeywords(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree) then begin
+  if (aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree))
+  and aNode.Owner.Check(gtsiExprList) and (aNode.Owner.Keyword = gtkwOrder_By) then begin
     if aNode.SortOrder = gttkNone then aNode.SortOrder := gtkwAscending;
-//  end else begin
-//    SqlToysConvert_SortOrder_Iteration( SqlToysConvert_SortOrder_AddDefaultKeywords, aNode );
+  end else begin
+    SqlToysConvert_SortOrder_Iteration( SqlToysConvert_SortOrder_AddDefaultKeywords, aNode );
   end;
 end;
 
@@ -948,10 +951,11 @@ procedure SqlToysConvert_SortOrder_RemoveDefaultKeywords(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree) then begin
+  if (aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree))
+  and aNode.Owner.Check(gtsiExprList) and (aNode.Owner.Keyword = gtkwOrder_By) then begin
     if (aNode.SortOrder = gtkwAsc) or (aNode.SortOrder = gtkwAscending) then aNode.SortOrder := gttkNone;
-//  end else begin
-//    SqlToysConvert_SortOrder_Iteration( SqlToysConvert_SortOrder_RemoveDefaultKeywords, aNode );
+  end else begin
+    SqlToysConvert_SortOrder_Iteration( SqlToysConvert_SortOrder_RemoveDefaultKeywords, aNode );
   end;
 end;
 

@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 44    18-12-11 18:53 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 45    18-12-14 21:30 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -200,7 +200,8 @@ procedure SqlToysConvert_Semicolon_Add(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) then aNode.Semicolon := True;
+//if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) then aNode.Semicolon := True;
+  if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) then aNode.KeywordAfter1 := gttkSemicolon;
 end;
 
 { removes semicolon from query }
@@ -208,7 +209,8 @@ procedure SqlToysConvert_Semicolon_Remove(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) then aNode.Semicolon := False;
+//if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) then aNode.Semicolon := False;
+  if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) then aNode.KeywordAfter1 := gttkNone;
 end;
 
 { adds semicolon to single query }
@@ -218,7 +220,8 @@ begin
 
   if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) and
      (aNode.Owner.Kind = gtsiQueryList) and (aNode.Owner.Count = 1)
-      then aNode.Semicolon := True;
+//    then aNode.Semicolon := True;
+      then aNode.KeywordAfter1 := gttkSemicolon;
 end;
 
 { removed semicolon from single query }
@@ -228,7 +231,8 @@ begin
 
   if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) and
      (aNode.Owner.Kind = gtsiQueryList) and (aNode.Owner.Count = 1)
-      then aNode.Semicolon := False;
+//    then aNode.Semicolon := False;
+      then aNode.KeywordAfter1 := gttkSemicolon;
 end;
 
 //procedure SqlToysConvert_ExecuteAll(aNode: TGtSqlNode; aOptions: TGtListerSettingsArray;

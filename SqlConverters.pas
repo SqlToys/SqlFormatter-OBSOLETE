@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 45    18-12-14 21:30 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 46    18-12-16 18:33 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -916,8 +916,8 @@ begin
 
   if (aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree))
   and aNode.Owner.Check(gtsiExprList) and (aNode.Owner.Keyword = gtkwOrder_By) then begin
-    if aNode.SortOrder = gtkwAscending  then aNode.SortOrder := gtkwAsc else
-    if aNode.SortOrder = gtkwDescending then aNode.SortOrder := gtkwDesc ;
+    if aNode.KeywordAfter1 {SortOrder} = gtkwAscending  then aNode.KeywordAfter1 {SortOrder} := gtkwAsc else
+    if aNode.KeywordAfter1 {SortOrder} = gtkwDescending then aNode.KeywordAfter1 {SortOrder} := gtkwDesc ;
   end else begin
     SqlToysConvert_SortOrder_Iteration( SqlToysConvert_SortOrder_ShortKeywords, aNode );
   end;
@@ -930,8 +930,8 @@ begin
 
   if (aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree))
   and aNode.Owner.Check(gtsiExprList) and (aNode.Owner.Keyword = gtkwOrder_By) then begin
-    if aNode.SortOrder = gtkwAsc  then aNode.SortOrder := gtkwAscending else
-    if aNode.SortOrder = gtkwDesc then aNode.SortOrder := gtkwDescending ;
+    if aNode.KeywordAfter1 {SortOrder} = gtkwAsc  then aNode.KeywordAfter1 {SortOrder} := gtkwAscending else
+    if aNode.KeywordAfter1 {SortOrder} = gtkwDesc then aNode.KeywordAfter1 {SortOrder} := gtkwDescending ;
   end else begin
     SqlToysConvert_SortOrder_Iteration( SqlToysConvert_SortOrder_LongKeywords, aNode );
   end;
@@ -944,7 +944,7 @@ begin
 
   if (aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree))
   and aNode.Owner.Check(gtsiExprList) and (aNode.Owner.Keyword = gtkwOrder_By) then begin
-    if aNode.SortOrder = gttkNone then aNode.SortOrder := gtkwAscending;
+    if aNode.KeywordAfter1 {SortOrder} = gttkNone then aNode.KeywordAfter1 {SortOrder} := gtkwAscending;
   end else begin
     SqlToysConvert_SortOrder_Iteration( SqlToysConvert_SortOrder_AddDefaultKeywords, aNode );
   end;
@@ -957,7 +957,7 @@ begin
 
   if (aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree))
   and aNode.Owner.Check(gtsiExprList) and (aNode.Owner.Keyword = gtkwOrder_By) then begin
-    if (aNode.SortOrder = gtkwAsc) or (aNode.SortOrder = gtkwAscending) then aNode.SortOrder := gttkNone;
+    if (aNode.KeywordAfter1 {SortOrder} = gtkwAsc) or (aNode.KeywordAfter1 {SortOrder} = gtkwAscending) then aNode.KeywordAfter1 {SortOrder} := gttkNone;
   end else begin
     SqlToysConvert_SortOrder_Iteration( SqlToysConvert_SortOrder_RemoveDefaultKeywords, aNode );
   end;
@@ -970,8 +970,8 @@ procedure SqlToysConvert_DataType_IntToInteger(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.DataType = gtkwInt then begin
-    aNode.DataType := gtkwInteger;
+  if aNode.Keyword {DataType} = gtkwInt then begin
+    aNode.Keyword {DataType} := gtkwInteger;
   end;
 
 //  SqlToysExec_ForEach_DeepInside ( SqlToysConvert_DataType_IntToInteger, aNode );
@@ -982,8 +982,8 @@ procedure SqlToysConvert_DataType_IntegerToInt(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.DataType = gtkwInteger then begin
-    aNode.DataType := gtkwInt;
+  if aNode.Keyword {DataType} = gtkwInteger then begin
+    aNode.Keyword {DataType} := gtkwInt;
   end;
 
 //  SqlToysExec_ForEach_DeepInside ( SqlToysConvert_DataType_IntegerToInt, aNode );
@@ -996,7 +996,7 @@ procedure SqlToysConvert_Joins_AddInner(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.{JoinOp} Operand = gtkwInner then aNode.JoinInnerKeyword := True;
+  if aNode.Keyword {Operand} = gtkwInner then aNode.JoinInnerKeyword := True;
 
 //  SqlToysExec_ForEach_DeepInside ( SqlToysConvert_Joins_AddInner, aNode );
 end;
@@ -1006,7 +1006,7 @@ procedure SqlToysConvert_Joins_RemoveInner(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.{JoinOp} Operand = gtkwInner then aNode.JoinInnerKeyword := False;
+  if aNode.Keyword {Operand} = gtkwInner then aNode.JoinInnerKeyword := False;
 
 //  SqlToysExec_ForEach_DeepInside ( SqlToysConvert_Joins_RemoveInner, aNode );
 end;
@@ -1016,7 +1016,7 @@ procedure SqlToysConvert_Joins_AddOuter(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if (aNode.{JoinOp} Operand = gtkwLeft) or (aNode.{JoinOp} Operand = gtkwRight) or (aNode.{JoinOp} Operand = gtkwFull) then aNode.JoinOuterKeyword := True;
+  if (aNode.Keyword {Operand} = gtkwLeft) or (aNode.Keyword {Operand} = gtkwRight) or (aNode.Keyword {Operand} = gtkwFull) then aNode.JoinOuterKeyword := True;
 
 //  SqlToysExec_ForEach_DeepInside ( SqlToysConvert_Joins_AddOuter, aNode );
 end;
@@ -1026,7 +1026,7 @@ procedure SqlToysConvert_Joins_RemoveOuter(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if (aNode.{JoinOp} Operand = gtkwLeft) or (aNode.{JoinOp} Operand = gtkwRight) or (aNode.{JoinOp} Operand = gtkwFull) then aNode.JoinOuterKeyword := False;
+  if (aNode.Keyword {Operand} = gtkwLeft) or (aNode.Keyword {Operand} = gtkwRight) or (aNode.Keyword {Operand} = gtkwFull) then aNode.JoinOuterKeyword := False;
 
 //  SqlToysExec_ForEach_DeepInside ( SqlToysConvert_Joins_RemoveOuter, aNode );
 end;
@@ -1044,7 +1044,7 @@ var sTableNameOrAlias: String;
   begin
     if not Assigned(aCond) then Exit;
     if aCond.Kind <> gtsiCond then Exit;
-    if aCond.{CompOp} Operand <> gttkEqual then Exit;
+    if aCond.Keyword {Operand} <> gttkEqual then Exit;
     if aCond.Count <> 2 then Exit;
 
     if aCond[0].ExprHasReferenceTo(sTableNameOrAlias) then Exit;

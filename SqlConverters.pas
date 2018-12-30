@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 46    18-12-16 18:33 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 47    18-12-29 18:57 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -72,7 +72,7 @@ const { converters settings values, same as icon numbers }
   SQCC_LINE_BEF_EXPR_LEFT =  2;
   SQCC_LINE_BEF_EXPR_1ST  =  3;
   SQCC_LINE_BEF_COND      =  4;
-//SQCC_LINE_CASE_CASE     =  5;
+  SQCC_LINE_CASE_CASE     =  5;
   SQCC_LINE_CASE_WHEN     =  6; {should be subnode}
   SQCC_LINE_CASE_THEN     =  7; {should be subnode}
   SQCC_LINE_CASE_ELSE     =  8; {should be subnode}
@@ -1179,20 +1179,20 @@ begin
 end;
 
 { procedure adds empty line before CASE }
-//procedure SqlToysConvert_NewLine_Case_Add(aNode: TGtSqlNode);
-//begin
-//  if not Assigned(aNode) then Exit;
-//
-//  if aNode.Check(gtsiExpr, gtkwCase) then aNode.NewLineBefore := True;
-//end;
+procedure SqlToysConvert_NewLine_Case_Add(aNode: TGtSqlNode);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if aNode.Check(gtsiExpr, gtkwCase) then aNode.NewLineBefore := True;
+end;
 
 { procedure removes empty line before CASE }
-//procedure SqlToysConvert_NewLine_Case_Remove(aNode: TGtSqlNode);
-//begin
-//  if not Assigned(aNode) then Exit;
-//
-//  if aNode.Check(gtsiExpr, gtkwCase) then aNode.NewLineBefore := False;
-//end;
+procedure SqlToysConvert_NewLine_Case_Remove(aNode: TGtSqlNode);
+begin
+  if not Assigned(aNode) then Exit;
+
+  if aNode.Check(gtsiExpr, gtkwCase) then aNode.NewLineBefore := False;
+end;
 
 { procedure adds empty line before WHEN }
 procedure SqlToysConvert_NewLine_When_Add(aNode: TGtSqlNode);
@@ -1751,10 +1751,10 @@ begin
                       end;
                     end;
     SQCG_LINES    : case aItem of
-//                      SQCC_LINE_CASE_CASE    : case aState of
-//                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_NewLine_Case_Add, True );
-//                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_NewLine_Case_Remove, True );
-//                                               end;
+                      SQCC_LINE_CASE_CASE    : case aState of
+                                                 SQCV_ADD    : aNode.ForEach( SqlToysConvert_NewLine_Case_Add, True );
+                                                 SQCV_REMOVE : aNode.ForEach( SqlToysConvert_NewLine_Case_Remove, True );
+                                               end;
                       SQCC_LINE_CASE_WHEN    : case aState of
                                                  SQCV_ADD    : aNode.ForEach( SqlToysConvert_NewLine_When_Add, True );
                                                  SQCV_REMOVE : aNode.ForEach( SqlToysConvert_NewLine_When_Remove, True );

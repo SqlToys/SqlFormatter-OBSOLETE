@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 122   18-04-22 19:08 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/FormSettings.pas 123   18-12-29 18:57 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2012.03.31                          *)
 {--------------------------------------  --------------------------------------}
 {$IFDEF RELEASE}
@@ -595,7 +595,7 @@ begin
                       SQCC_ORDER_KWD_DEF     : Result := SQCV_REMOVE;
                     end;
     SQCG_LINES    : case aItem of
-                    //SQCC_LINE_CASE_CASE    : Result := SQCV_NONE;
+                      SQCC_LINE_CASE_CASE    : Result := SQCV_NONE;
                       SQCC_LINE_CASE_WHEN    : Result := SQCV_NONE;
                       SQCC_LINE_CASE_THEN    : Result := SQCV_NONE;
                       SQCC_LINE_CASE_ELSE    : Result := SQCV_NONE;
@@ -682,7 +682,7 @@ begin
                       SQCC_LINE_BEF_EXPR_LEFT: Result := 'before expression (comma on left side)';
                       SQCC_LINE_BEF_EXPR_1ST : Result := '    1st expression too';
                       SQCC_LINE_BEF_COND     : Result := 'before condition';
-                    //SQCC_LINE_CASE_CASE    : Result := 'before CASE in CASE expr.';
+                      SQCC_LINE_CASE_CASE    : Result := 'before CASE in CASE expr.';
                       SQCC_LINE_CASE_WHEN    : Result := 'before WHEN in CASE expr.';
                       SQCC_LINE_CASE_THEN    : Result := 'before THEN in CASE expr.';
                       SQCC_LINE_CASE_ELSE    : Result := 'before ELSE in CASE expr.';

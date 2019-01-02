@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 47    18-12-29 18:57 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 48    18-12-30 14:23 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -996,7 +996,8 @@ procedure SqlToysConvert_Joins_AddInner(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Keyword {Operand} = gtkwInner then aNode.JoinInnerKeyword := True;
+//if aNode.Keyword {Operand} = gtkwInner then aNode.JoinInnerKeyword := True;
+  if aNode.Keyword {Operand} = gtkwInner then aNode.KeywordExt := gtkwInner_Join;
 
 //  SqlToysExec_ForEach_DeepInside ( SqlToysConvert_Joins_AddInner, aNode );
 end;
@@ -1006,7 +1007,8 @@ procedure SqlToysConvert_Joins_RemoveInner(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Keyword {Operand} = gtkwInner then aNode.JoinInnerKeyword := False;
+//if aNode.Keyword {Operand} = gtkwInner then aNode.JoinInnerKeyword := False;
+  if aNode.Keyword {Operand} = gtkwInner then aNode.KeywordExt := gtkwJoin;
 
 //  SqlToysExec_ForEach_DeepInside ( SqlToysConvert_Joins_RemoveInner, aNode );
 end;
@@ -1016,7 +1018,10 @@ procedure SqlToysConvert_Joins_AddOuter(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if (aNode.Keyword {Operand} = gtkwLeft) or (aNode.Keyword {Operand} = gtkwRight) or (aNode.Keyword {Operand} = gtkwFull) then aNode.JoinOuterKeyword := True;
+//if (aNode.Keyword {Operand} = gtkwLeft) or (aNode.Keyword {Operand} = gtkwRight) or (aNode.Keyword {Operand} = gtkwFull) then aNode.JoinOuterKeyword := True;
+  if (aNode.Keyword = gtkwLeft) then aNode.KeywordExt := gtkwLeft_Outer_Join else
+  if (aNode.Keyword = gtkwRight)then aNode.KeywordExt := gtkwRight_Outer_Join else
+  if (aNode.Keyword = gtkwFull) then aNode.KeywordExt := gtkwFull_Outer_Join;
 
 //  SqlToysExec_ForEach_DeepInside ( SqlToysConvert_Joins_AddOuter, aNode );
 end;
@@ -1026,7 +1031,10 @@ procedure SqlToysConvert_Joins_RemoveOuter(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if (aNode.Keyword {Operand} = gtkwLeft) or (aNode.Keyword {Operand} = gtkwRight) or (aNode.Keyword {Operand} = gtkwFull) then aNode.JoinOuterKeyword := False;
+//if (aNode.Keyword {Operand} = gtkwLeft) or (aNode.Keyword {Operand} = gtkwRight) or (aNode.Keyword {Operand} = gtkwFull) then aNode.JoinOuterKeyword := False;
+  if (aNode.Keyword = gtkwLeft) then aNode.KeywordExt := gtkwLeft_Join else
+  if (aNode.Keyword = gtkwRight)then aNode.KeywordExt := gtkwRight_Join else
+  if (aNode.Keyword = gtkwFull) then aNode.KeywordExt := gtkwFull_Join;
 
 //  SqlToysExec_ForEach_DeepInside ( SqlToysConvert_Joins_RemoveOuter, aNode );
 end;

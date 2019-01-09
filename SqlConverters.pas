@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 48    18-12-30 14:23 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 49    18-12-30 16:15 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -418,7 +418,8 @@ begin
   if not Assigned(aNode) then Exit;
 
   if aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree) then begin
-    aNode.AliasAsToken := aNode.AliasName <> '';
+  //aNode.AliasAsToken := aNode.AliasName <> '';
+    if aNode.AliasName <> '' then aNode.KeywordAfter1 := gtkwAs;
   end else begin
     SqlToysConvert_ExprAlias_Iteration( SqlToysConvert_ExprAlias_AddKeyword_AS, aNode );
   end;
@@ -430,7 +431,8 @@ begin
   if not Assigned(aNode) then Exit;
 
   if aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree) then begin
-    aNode.AliasAsToken := False;
+  //aNode.AliasAsToken := False;
+    aNode.KeywordAfter1 := gttkNone;
   end else begin
     SqlToysConvert_ExprAlias_Iteration( SqlToysConvert_ExprAlias_RemoveKeyword_AS, aNode );
   end;
@@ -458,7 +460,8 @@ begin
   if not Assigned(aNode) then Exit;
 
   if aNode.Check(gtsiTableRef) then begin
-    aNode.AliasAsToken := aNode.AliasName <> '';
+  //aNode.AliasAsToken := aNode.AliasName <> '';
+    if aNode.AliasName <> '' then aNode.KeywordAfter1 := gtkwAs;
   end else begin
     SqlToysConvert_TableAlias_Iteration( SqlToysConvert_TableAlias_AddKeyword_AS, aNode );
   end;
@@ -470,7 +473,8 @@ begin
   if not Assigned(aNode) then Exit;
 
   if aNode.Check(gtsiTableRef) then begin
-    aNode.AliasAsToken := False;
+  //aNode.AliasAsToken := False;
+    aNode.KeywordAfter1 := gttkNone;
   end else begin
     SqlToysConvert_TableAlias_Iteration( SqlToysConvert_TableAlias_RemoveKeyword_AS, aNode );
   end;

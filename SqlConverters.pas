@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 49    18-12-30 16:15 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 50    18-12-30 20:57 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -419,7 +419,8 @@ begin
 
   if aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree) then begin
   //aNode.AliasAsToken := aNode.AliasName <> '';
-    if aNode.AliasName <> '' then aNode.KeywordAfter1 := gtkwAs;
+  //if aNode.AliasName <> '' then aNode.KeywordAfter1 := gtkwAs;
+    if aNode.Name1 <> '' then aNode.KeywordAfter1 := gtkwAs;
   end else begin
     SqlToysConvert_ExprAlias_Iteration( SqlToysConvert_ExprAlias_AddKeyword_AS, aNode );
   end;
@@ -461,7 +462,8 @@ begin
 
   if aNode.Check(gtsiTableRef) then begin
   //aNode.AliasAsToken := aNode.AliasName <> '';
-    if aNode.AliasName <> '' then aNode.KeywordAfter1 := gtkwAs;
+  //if aNode.AliasName <> '' then aNode.KeywordAfter1 := gtkwAs;
+    if aNode.Name1 <> '' then aNode.KeywordAfter1 := gtkwAs;
   end else begin
     SqlToysConvert_TableAlias_Iteration( SqlToysConvert_TableAlias_AddKeyword_AS, aNode );
   end;
@@ -696,7 +698,8 @@ begin
   if not Assigned(aNode) then Exit;
 
   if aNode.Kind = gtsiTableRef
-    then aNode.AliasName := AnsiLowerCase( aNode.AliasName );
+  //then aNode.AliasName := AnsiLowerCase( aNode.AliasName );
+    then aNode.Name1 := AnsiLowerCase( aNode.Name1 );
 
 //  SqlToysExec_ForEach_Node( SqlToysConvert_CaseTableAlias_Lower, aNode );
 end;
@@ -706,7 +709,8 @@ begin
   if not Assigned(aNode) then Exit;
 
   if aNode.Kind = gtsiTableRef
-    then aNode.AliasName := AnsiUpperCase( aNode.AliasName );
+  //then aNode.AliasName := AnsiUpperCase( aNode.AliasName );
+    then aNode.Name1 := AnsiUpperCase( aNode.Name1 );
 
 //  SqlToysExec_ForEach_Node( SqlToysConvert_CaseTableAlias_Upper, aNode );
 end;
@@ -758,8 +762,10 @@ procedure SqlToysConvert_CaseColumnAlias_Lower(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if (aNode.Kind = gtsiExprTree) and (aNode.AliasName <> '')
-    then aNode.AliasName := AnsiLowerCase( aNode.AliasName );
+//if (aNode.Kind = gtsiExprTree) and (aNode.AliasName <> '')
+//  then aNode.AliasName := AnsiLowerCase( aNode.AliasName );
+  if (aNode.Kind = gtsiExprTree) and (aNode.Name1 <> '')
+    then aNode.Name1 := AnsiLowerCase( aNode.Name1 );
 
 //  SqlToysExec_ForEach_Node( SqlToysConvert_CaseColumnAlias_Lower, aNode );
 end;
@@ -768,8 +774,10 @@ procedure SqlToysConvert_CaseColumnAlias_Upper(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if (aNode.Kind = gtsiExprTree) and (aNode.AliasName <> '')
-    then aNode.AliasName := AnsiUpperCase( aNode.AliasName );
+//if (aNode.Kind = gtsiExprTree) and (aNode.AliasName <> '')
+//  then aNode.AliasName := AnsiUpperCase( aNode.AliasName );
+  if (aNode.Kind = gtsiExprTree) and (aNode.Name1 <> '')
+    then aNode.Name1 := AnsiUpperCase( aNode.Name1 );
 
 //  SqlToysExec_ForEach_Node( SqlToysConvert_CaseColumnAlias_Upper, aNode );
 end;

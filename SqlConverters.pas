@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 50    18-12-30 20:57 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 51    19-01-10 19:05 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -201,7 +201,8 @@ begin
   if not Assigned(aNode) then Exit;
 
 //if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) then aNode.Semicolon := True;
-  if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) then aNode.KeywordAfter1 := gttkSemicolon;
+//if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) then aNode.KeywordAfter1 := gttkSemicolon;
+  if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) then aNode.KeywordAuxAdd( gttkSemicolon );
 end;
 
 { removes semicolon from query }
@@ -210,7 +211,7 @@ begin
   if not Assigned(aNode) then Exit;
 
 //if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) then aNode.Semicolon := False;
-  if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) then aNode.KeywordAfter1 := gttkNone;
+  if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) then aNode.KeywordAuxRemove( gttkSemicolon );
 end;
 
 { adds semicolon to single query }
@@ -221,7 +222,8 @@ begin
   if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) and
      (aNode.Owner.Kind = gtsiQueryList) and (aNode.Owner.Count = 1)
 //    then aNode.Semicolon := True;
-      then aNode.KeywordAfter1 := gttkSemicolon;
+//    then aNode.KeywordAfter1 := gttkSemicolon;
+      then aNode.KeywordAuxAdd( gttkSemicolon );
 end;
 
 { removed semicolon from single query }
@@ -232,7 +234,8 @@ begin
   if (aNode.Kind in [gtsiDml, gtsiDdl, gtsiDcl, gtsiTcl]) and
      (aNode.Owner.Kind = gtsiQueryList) and (aNode.Owner.Count = 1)
 //    then aNode.Semicolon := False;
-      then aNode.KeywordAfter1 := gttkSemicolon;
+//    then aNode.KeywordAfter1 := gttkSemicolon;
+      then aNode.KeywordAuxRemove( gttkSemicolon );
 end;
 
 //procedure SqlToysConvert_ExecuteAll(aNode: TGtSqlNode; aOptions: TGtListerSettingsArray;
@@ -420,7 +423,8 @@ begin
   if aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree) then begin
   //aNode.AliasAsToken := aNode.AliasName <> '';
   //if aNode.AliasName <> '' then aNode.KeywordAfter1 := gtkwAs;
-    if aNode.Name1 <> '' then aNode.KeywordAfter1 := gtkwAs;
+  //if aNode.Name1 <> '' then aNode.KeywordAfter1 := gtkwAs;
+    if aNode.Name1 <> '' then aNode.KeywordAuxAdd( gtkwAs );
   end else begin
     SqlToysConvert_ExprAlias_Iteration( SqlToysConvert_ExprAlias_AddKeyword_AS, aNode );
   end;
@@ -433,7 +437,8 @@ begin
 
   if aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree) then begin
   //aNode.AliasAsToken := False;
-    aNode.KeywordAfter1 := gttkNone;
+  //aNode.KeywordAfter1 := gttkNone;
+    aNode.KeywordAuxRemove( gtkwAs );
   end else begin
     SqlToysConvert_ExprAlias_Iteration( SqlToysConvert_ExprAlias_RemoveKeyword_AS, aNode );
   end;
@@ -463,7 +468,8 @@ begin
   if aNode.Check(gtsiTableRef) then begin
   //aNode.AliasAsToken := aNode.AliasName <> '';
   //if aNode.AliasName <> '' then aNode.KeywordAfter1 := gtkwAs;
-    if aNode.Name1 <> '' then aNode.KeywordAfter1 := gtkwAs;
+  //if aNode.Name1 <> '' then aNode.KeywordAfter1 := gtkwAs;
+    if aNode.Name1 <> '' then aNode.KeywordAuxAdd( gtkwAs );
   end else begin
     SqlToysConvert_TableAlias_Iteration( SqlToysConvert_TableAlias_AddKeyword_AS, aNode );
   end;
@@ -476,7 +482,8 @@ begin
 
   if aNode.Check(gtsiTableRef) then begin
   //aNode.AliasAsToken := False;
-    aNode.KeywordAfter1 := gttkNone;
+  //aNode.KeywordAfter1 := gttkNone;
+    aNode.KeywordAuxRemove( gtkwAs );
   end else begin
     SqlToysConvert_TableAlias_Iteration( SqlToysConvert_TableAlias_RemoveKeyword_AS, aNode );
   end;
@@ -928,8 +935,17 @@ begin
 
   if (aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree))
   and aNode.Owner.Check(gtsiExprList) and (aNode.Owner.Keyword = gtkwOrder_By) then begin
-    if aNode.KeywordAfter1 {SortOrder} = gtkwAscending  then aNode.KeywordAfter1 {SortOrder} := gtkwAsc else
-    if aNode.KeywordAfter1 {SortOrder} = gtkwDescending then aNode.KeywordAfter1 {SortOrder} := gtkwDesc ;
+//    if aNode.KeywordAfter1 {SortOrder} = gtkwAscending  then aNode.KeywordAfter1 {SortOrder} := gtkwAsc else
+//    if aNode.KeywordAfter1 {SortOrder} = gtkwDescending then aNode.KeywordAfter1 {SortOrder} := gtkwDesc ;
+
+    if aNode.KeywordAuxCheck(gtkwAscending) then begin
+      aNode.KeywordAuxRemove(gtkwAscending);
+      aNode.KeywordAuxAdd(gtkwAsc);
+    end;
+    if aNode.KeywordAuxCheck(gtkwDescending) then begin
+      aNode.KeywordAuxRemove(gtkwDescending);
+      aNode.KeywordAuxAdd(gtkwDesc);
+    end;
   end else begin
     SqlToysConvert_SortOrder_Iteration( SqlToysConvert_SortOrder_ShortKeywords, aNode );
   end;
@@ -942,8 +958,17 @@ begin
 
   if (aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree))
   and aNode.Owner.Check(gtsiExprList) and (aNode.Owner.Keyword = gtkwOrder_By) then begin
-    if aNode.KeywordAfter1 {SortOrder} = gtkwAsc  then aNode.KeywordAfter1 {SortOrder} := gtkwAscending else
-    if aNode.KeywordAfter1 {SortOrder} = gtkwDesc then aNode.KeywordAfter1 {SortOrder} := gtkwDescending ;
+//    if aNode.KeywordAfter1 {SortOrder} = gtkwAsc  then aNode.KeywordAfter1 {SortOrder} := gtkwAscending else
+//    if aNode.KeywordAfter1 {SortOrder} = gtkwDesc then aNode.KeywordAfter1 {SortOrder} := gtkwDescending ;
+
+    if aNode.KeywordAuxCheck(gtkwAsc) then begin
+      aNode.KeywordAuxRemove(gtkwAsc);
+      aNode.KeywordAuxAdd(gtkwAscending);
+    end;
+    if aNode.KeywordAuxCheck(gtkwDesc) then begin
+      aNode.KeywordAuxRemove(gtkwDesc);
+      aNode.KeywordAuxAdd(gtkwDescending);
+    end;
   end else begin
     SqlToysConvert_SortOrder_Iteration( SqlToysConvert_SortOrder_LongKeywords, aNode );
   end;
@@ -956,7 +981,10 @@ begin
 
   if (aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree))
   and aNode.Owner.Check(gtsiExprList) and (aNode.Owner.Keyword = gtkwOrder_By) then begin
-    if aNode.KeywordAfter1 {SortOrder} = gttkNone then aNode.KeywordAfter1 {SortOrder} := gtkwAscending;
+//  if aNode.KeywordAfter1 {SortOrder} = gttkNone then aNode.KeywordAfter1 {SortOrder} := gtkwAscending;
+
+    if not aNode.KeywordAuxCheck(gtkwAsc, gtkwAscending, gtkwDesc, gtkwDescending)
+      then aNode.KeywordAuxAdd(gtkwAscending);
   end else begin
     SqlToysConvert_SortOrder_Iteration( SqlToysConvert_SortOrder_AddDefaultKeywords, aNode );
   end;
@@ -969,7 +997,9 @@ begin
 
   if (aNode.Check(gtsiExpr) or aNode.Check(gtsiExprTree))
   and aNode.Owner.Check(gtsiExprList) and (aNode.Owner.Keyword = gtkwOrder_By) then begin
-    if (aNode.KeywordAfter1 {SortOrder} = gtkwAsc) or (aNode.KeywordAfter1 {SortOrder} = gtkwAscending) then aNode.KeywordAfter1 {SortOrder} := gttkNone;
+//    if (aNode.KeywordAfter1 {SortOrder} = gtkwAsc) or (aNode.KeywordAfter1 {SortOrder} = gtkwAscending) then aNode.KeywordAfter1 {SortOrder} := gttkNone;
+    aNode.KeywordAuxRemove(gtkwAsc);
+    aNode.KeywordAuxRemove(gtkwAscending);
   end else begin
     SqlToysConvert_SortOrder_Iteration( SqlToysConvert_SortOrder_RemoveDefaultKeywords, aNode );
   end;

@@ -1,4 +1,4 @@
-(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 52    19-01-13 12:35 Tomek $
+(* $Header: /SQL Toys/SqlFormatter/SqlConverters.pas 53    19-01-13 15:22 Tomek $
    (c) Tomasz Gierka, github.com/SqlToys, 2015.06.14                          *)
 {--------------------------------------  --------------------------------------}
 unit SqlConverters;
@@ -1162,7 +1162,8 @@ begin
 //      (aNode.Keyword = gtkwFrom) or (aNode.Keyword = gtkwWhere) or (aNode.Keyword = gtkwGroup_By) or
 //      (aNode.Keyword = gtkwHaving) or (aNode.Keyword = gtkwOrder_By) or (aNode.Keyword = gtkwConnect_By) or
 //      (aNode.Keyword = gtkwSet) or (aNode.Keyword = gtkwValues))
-    then aNode.EmptyLineBefore := True;
+//  then aNode.EmptyLineBefore := True;
+    then aNode.KeywordAuxAdd(gttkEmptyLineBefore);
 end;
 
 { procedure removes empty line before clause }
@@ -1175,7 +1176,8 @@ begin
 //      (aNode.Keyword = gtkwFrom) or (aNode.Keyword = gtkwWhere) or (aNode.Keyword = gtkwGroup_By) or
 //      (aNode.Keyword = gtkwHaving) or (aNode.Keyword = gtkwOrder_By) or (aNode.Keyword = gtkwConnect_By) or
 //      (aNode.Keyword = gtkwSet) or (aNode.Keyword = gtkwValues))
-    then aNode.EmptyLineBefore := False;
+//  then aNode.EmptyLineBefore := False;
+    then aNode.KeywordAuxRemove(gttkEmptyLineBefore);
 end;
 
 { procedure adds empty line before clause in subqueries }
@@ -1188,7 +1190,8 @@ begin
 //      (aNode.Keyword = gtkwFrom) or (aNode.Keyword = gtkwWhere) or (aNode.Keyword = gtkwGroup_By) or
 //      (aNode.Keyword = gtkwHaving) or (aNode.Keyword = gtkwOrder_By) or (aNode.Keyword = gtkwConnect_By) or
 //      (aNode.Keyword = gtkwSet) or (aNode.Keyword = gtkwValues))
-    then aNode.EmptyLineBefore := True;
+//  then aNode.EmptyLineBefore := True;
+    then aNode.KeywordAuxAdd(gttkEmptyLineBefore);
 end;
 
 { procedure removes empty line before clause in subqueries }
@@ -1201,7 +1204,8 @@ begin
 //      (aNode.Keyword = gtkwFrom) or (aNode.Keyword = gtkwWhere) or (aNode.Keyword = gtkwGroup_By) or
 //      (aNode.Keyword = gtkwHaving) or (aNode.Keyword = gtkwOrder_By) or (aNode.Keyword = gtkwConnect_By) or
 //      (aNode.Keyword = gtkwSet) or (aNode.Keyword = gtkwValues))
-    then aNode.EmptyLineBefore := False;
+//  then aNode.EmptyLineBefore := False;
+    then aNode.KeywordAuxRemove(gttkEmptyLineBefore);
 end;
 
 { procedure adds empty line before clause in short queries }
@@ -1236,8 +1240,10 @@ begin
   if not Assigned(aNode) then Exit;
 
   if (aNode.Kind = gtsiUnions) then begin
-    aNode.EmptyLineBefore := True;
-    aNode.EmptyLineAfter  := True;
+  //aNode.EmptyLineBefore := True;
+  //aNode.EmptyLineAfter  := True;
+    aNode.KeywordAuxAdd(gttkEmptyLineBefore);
+    aNode.KeywordAuxAdd(gttkEmptyLineAfter);
   end;
 end;
 
@@ -1247,8 +1253,10 @@ begin
   if not Assigned(aNode) then Exit;
 
   if (aNode.Kind = gtsiUnions) then begin
-    aNode.EmptyLineBefore := False;
-    aNode.EmptyLineAfter  := False;
+  //aNode.EmptyLineBefore := False;
+  //aNode.EmptyLineAfter  := False;
+    aNode.KeywordAuxRemove(gttkEmptyLineBefore);
+    aNode.KeywordAuxRemove(gttkEmptyLineAfter);
   end;
 end;
 
@@ -1257,7 +1265,8 @@ procedure SqlToysConvert_NewLine_Case_Add(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiExpr, gtkwCase) then aNode.NewLineBefore := True;
+//if aNode.Check(gtsiExpr, gtkwCase) then aNode.NewLineBefore := True;
+  if aNode.Check(gtsiExpr, gtkwCase) then aNode.KeywordAuxAdd(gttkNewLineBefore);
 end;
 
 { procedure removes empty line before CASE }
@@ -1265,7 +1274,8 @@ procedure SqlToysConvert_NewLine_Case_Remove(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiExpr, gtkwCase) then aNode.NewLineBefore := False;
+//if aNode.Check(gtsiExpr, gtkwCase) then aNode.NewLineBefore := False;
+  if aNode.Check(gtsiExpr, gtkwCase) then aNode.KeywordAuxRemove(gttkNewLineBefore);
 end;
 
 { procedure adds empty line before WHEN }
@@ -1274,7 +1284,8 @@ begin
   if not Assigned(aNode) then Exit;
 
   if aNode.Check(gtsiCondTree, gtkwWhen) or aNode.Check(gtsiExprTree, gtkwWhen)
-    then aNode.NewLineBefore := True;
+//  then aNode.NewLineBefore := True;
+    then aNode.KeywordAuxAdd(gttkNewLineBefore);
 end;
 
 { procedure removes empty line before WHEN }
@@ -1283,7 +1294,8 @@ begin
   if not Assigned(aNode) then Exit;
 
   if aNode.Check(gtsiCondTree, gtkwWhen) or aNode.Check(gtsiExprTree, gtkwWhen)
-    then aNode.NewLineBefore := False;
+//  then aNode.NewLineBefore := False;
+    then aNode.KeywordAuxRemove(gttkNewLineBefore);
 end;
 
 { procedure adds empty line before THEN }
@@ -1291,7 +1303,8 @@ procedure SqlToysConvert_NewLine_Then_Add(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiExprTree, gtkwThen) then aNode.NewLineBefore := True;
+//if aNode.Check(gtsiExprTree, gtkwThen) then aNode.NewLineBefore := True;
+  if aNode.Check(gtsiExprTree, gtkwThen) then aNode.KeywordAuxAdd(gttkNewLineBefore);
 end;
 
 { procedure removes empty line before THEN }
@@ -1299,7 +1312,8 @@ procedure SqlToysConvert_NewLine_Then_Remove(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiExprTree, gtkwThen) then aNode.NewLineBefore := False;
+//if aNode.Check(gtsiExprTree, gtkwThen) then aNode.NewLineBefore := False;
+  if aNode.Check(gtsiExprTree, gtkwThen) then aNode.KeywordAuxRemove(gttkNewLineBefore);
 end;
 
 { procedure adds empty line before ELSE }
@@ -1307,7 +1321,8 @@ procedure SqlToysConvert_NewLine_Else_Add(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiExprTree, gtkwElse) then aNode.NewLineBefore := True;
+//if aNode.Check(gtsiExprTree, gtkwElse) then aNode.NewLineBefore := True;
+  if aNode.Check(gtsiExprTree, gtkwElse) then aNode.KeywordAuxAdd(gttkNewLineBefore);
 end;
 
 { procedure removes empty line before ELSE }
@@ -1315,7 +1330,8 @@ procedure SqlToysConvert_NewLine_Else_Remove(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiExprTree, gtkwElse) then aNode.NewLineBefore := False;
+//if aNode.Check(gtsiExprTree, gtkwElse) then aNode.NewLineBefore := False;
+  if aNode.Check(gtsiExprTree, gtkwElse) then aNode.KeywordAuxRemove(gttkNewLineBefore);
 end;
 
 { procedure adds empty line before END }
@@ -1339,7 +1355,8 @@ procedure SqlToysConvert_NewLine_Bef_Constraint_Add(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiConstraint) then aNode.NewLineBefore := True;
+//if aNode.Check(gtsiConstraint) then aNode.NewLineBefore := True;
+  if aNode.Check(gtsiConstraint) then aNode.KeywordAuxAdd(gttkNewLineBefore);
 end;
 
 { removes empty line before CREATE TABLE CONSTRAINT }
@@ -1347,7 +1364,8 @@ procedure SqlToysConvert_NewLine_Bef_Constraint_Remove(aNode: TGtSqlNode);
 begin
   if not Assigned(aNode) then Exit;
 
-  if aNode.Check(gtsiConstraint) then aNode.NewLineBefore := False;
+//if aNode.Check(gtsiConstraint) then aNode.NewLineBefore := False;
+  if aNode.Check(gtsiConstraint) then aNode.KeywordAuxRemove(gttkNewLineBefore);
 end;
 
 { adds empty line after CREATE TABLE CONSTRAINT }
@@ -1526,7 +1544,8 @@ begin
   if not Assigned(aNode) then Exit;
 
   if aNode.Check(gtsiConstraint) and not aNode.SingleColumnConstraint
-    then aNode.EmptyLineBefore := True;
+  //then aNode.EmptyLineBefore := True;
+    then aNode.KeywordAuxAdd(gttkEmptyLineBefore);
 end;
 
 { removes empty line before complex CONSTRAINT }
@@ -1535,7 +1554,8 @@ begin
   if not Assigned(aNode) then Exit;
 
   if aNode.Check(gtsiConstraint) and not aNode.SingleColumnConstraint
-    then aNode.EmptyLineBefore := False;
+  //then aNode.EmptyLineBefore := False;
+    then aNode.KeywordAuxRemove(gttkEmptyLineBefore);
 end;
 
 {----------------------------------- General ----------------------------------}

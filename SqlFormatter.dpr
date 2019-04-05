@@ -30,6 +30,8 @@ uses
 begin
   VER_NAME := 'SQL Formatter';
 
+  GtSqlTestRun;
+
   Application.Initialize;
   Application.Title := VER_NAME;
   Application.CreateForm(TMainForm, MainForm);

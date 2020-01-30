@@ -408,7 +408,7 @@ begin
     Ribbon.AddRecentItem(FrameScriptEdit.RecentFiles[i]);
 end;
 
-{ message WM_DROPFILES, otwiera przeciagniêty plik w aplikacji }
+{ message WM_DROPFILES, otwiera przeciagniÃªty plik w aplikacji }
 procedure TMainForm.WMDropFiles;
 begin
   inherited;
@@ -474,7 +474,7 @@ begin
   try
     lSL.Text := FrameScriptEdit.ScriptEdit.Lines.Text;
 
-    { dla unitu testów }
+    { dla unitu testÃ³w }
 //    for i := 0 to lSL.Count -1 do
 //      lSL[i] := strif(i=0, '  TestQuery( ', '             ') +
 //                gttkApostrophe.Text +

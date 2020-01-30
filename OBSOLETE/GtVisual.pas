@@ -13,9 +13,9 @@ uses Classes, Controls, ActnList, Menus, Forms, ComCtrls, SysUtils, Graphics;
      // RzCommon;
 
 {--------------------------------------  --------------------------------------}
-{------------------------------- Klasy wyj¹tków -------------------------------}
+{------------------------------- Klasy wyjÂ¹tkÃ³w -------------------------------}
 
-// Dwie praktycznie identyczne klasy, bo maj¹ pe³niæ analogiczne funkcje
+// Dwie praktycznie identyczne klasy, bo majÂ¹ peÂ³niÃ¦ analogiczne funkcje
 
 type
   EGtException = class(Exception)
@@ -36,7 +36,7 @@ type
   EGtCanceled = class(EGtException);   // operacja anulowana
 
 {--------------------------------------  --------------------------------------}
-{------------------------------- Funkcje modu³u -------------------------------}
+{------------------------------- Funkcje moduÂ³u -------------------------------}
 
 procedure SetCtlFocus(aComponent: TWinControl);
 
@@ -201,9 +201,9 @@ uses Windows, Dialogs, ExtDlgs, Messages, ComObj,
      {$IF CompilerVersion >= 24} , System.Actions {$ELSE}  {$IFEND} ;
 
 {--------------------------------------  --------------------------------------}
-{------------------------------- Klasy wyj¹tków -------------------------------}
+{------------------------------- Klasy wyjÂ¹tkÃ³w -------------------------------}
 
-{ kreator wyj¹tku z tytu³em }
+{ kreator wyjÂ¹tku z tytuÂ³em }
 constructor EGtException.CreateTitle(aTitle, aMessage: String);
 begin
   Title:=aTitle;
@@ -211,7 +211,7 @@ begin
   Create(aMessage);
 end;
 
-{ kreator wyj¹tku z tytu³em i informacjami dodatkowymi }
+{ kreator wyjÂ¹tku z tytuÂ³em i informacjami dodatkowymi }
 constructor EGtException.CreateTitleAdd(aTitle, aMessage, aAdditional: String);
 begin
   Title:=aTitle;
@@ -220,10 +220,10 @@ begin
 end;
 
 {--------------------------------------  --------------------------------------}
-{------------------------------- Funkcje modu³u -------------------------------}
+{------------------------------- Funkcje moduÂ³u -------------------------------}
 
 { ustawia Focus na kontrolce }
-{ dodatkowo wymusza zaznacza zawartoœæ kontrolek edycyjnych na wypadek gdyby otrzyma³y Focus wczeœniej i w miêdzyczasie zmieni³a siê ich zawartoœæ }
+{ dodatkowo wymusza zaznacza zawartoÂœÃ¦ kontrolek edycyjnych na wypadek gdyby otrzymaÂ³y Focus wczeÂœniej i w miÃªdzyczasie zmieniÂ³a siÃª ich zawartoÂœÃ¦ }
 procedure SetCtlFocus(aComponent: TWinControl);
 begin
   if not Assigned(aComponent) then Exit;
@@ -235,7 +235,7 @@ begin
 //  if aComponent is TRzNumericEdit then TRzEdit(aComponent).SelectAll else
 end;
 
-{ wzraca Tag wskazanego obiektu, funkcja niepotrzebna ale u³atwia zrozumienie i czytelnoœæ kodu ;-) }
+{ wzraca Tag wskazanego obiektu, funkcja niepotrzebna ale uÂ³atwia zrozumienie i czytelnoÂœÃ¦ kodu ;-) }
 function  GetSenderTag(Sender: TObject): Integer;
 begin
   Result := 0;
@@ -247,7 +247,7 @@ begin
   end;
 end;
 
-{ buduje akcjê }
+{ buduje akcjÃª }
 function  ActionCreate (aOwner: TComponent; aActList: TCustomActionList; aTag: Integer;
                         aCapt,aShortCut: String; aOnExec: TNotifyEvent): TAction;
 begin
@@ -286,7 +286,7 @@ begin
   end;
 end;
 
-{ uruchamia akcjê z ActionList-y o podanym Tag-u }
+{ uruchamia akcjÃª z ActionList-y o podanym Tag-u }
 function  ActionTagExec(aActList: TActionList; aTag: Integer): Boolean;
 var Act: TAction;
 begin
@@ -302,7 +302,7 @@ begin
 end;
 
 { pokazuje MessageBox z przyciskami Tak, Nie, Cancel }
-{ zwraca True jeœli wybrano Tak lub Nie }
+{ zwraca True jeÂœli wybrano Tak lub Nie }
 function  MsgBoxYesNoCanc(aCapt,aText: String;var aYesNo: Boolean): Boolean;
 var i: Integer;
 begin
@@ -319,7 +319,7 @@ begin
 end;
 
 { pokazuje MessageBox z przyciskami Tak, Nie }
-{ zwraca True jeœli wybrano Tak }
+{ zwraca True jeÂœli wybrano Tak }
 function  MsgBoxYesNo(aCapt,aText: String): Boolean;
 var i: Integer;
 begin
@@ -339,7 +339,7 @@ begin
   Result := MsgBoxYesNo('WYDRUK', aText);
 end;
 
-{ otwiera MessgaeBox z informacj¹ o wyj¹tku }
+{ otwiera MessgaeBox z informacjÂ¹ o wyjÂ¹tku }
 procedure MsgBoxException(aTitle: String=''; aText: String='');
 // var aTitle: String;
 begin
@@ -415,8 +415,8 @@ end;
 //    MenuItemCopy(aMenuFrom.Items[i], aNewOwner, aNewMenu);
 //end;
 
-{ przenosi Menu item do innego menu, wykorzystuje w³asnoœæ GroupIndex }
-{ TODO: co jeœli pozycja o danej nazwie ju¿ istnieje ??? }
+{ przenosi Menu item do innego menu, wykorzystuje wÂ³asnoÂœÃ¦ GroupIndex }
+{ TODO: co jeÂœli pozycja o danej nazwie juÂ¿ istnieje ??? }
 procedure MenuItemMove(aMenuItem, aMoveTo: TMenuItem);
 var i, j: Integer;
 begin
@@ -440,7 +440,7 @@ begin
   end;
 end;
 
-{ przenosi ca³e menu do innego }
+{ przenosi caÂ³e menu do innego }
 procedure MenuMove(aMoveFrom, aMoveTo: TMenu);
 var lItem, lAddTo: TMenuItem;
     i, j: Integer;
@@ -476,7 +476,7 @@ begin
   end;
 end;
 
-{ dodaje formê do listy otwartych okienek }
+{ dodaje formÃª do listy otwartych okienek }
 procedure WindowListAdd(Form: TForm);
 var NewItem: TMenuItem;
     i,j,k: Integer;
@@ -508,7 +508,7 @@ begin
   WindowListMenu.Visible:= WindowListMenu.Count>1;
 end;
 
-{ usuwa formê z listy otwartych okienek }
+{ usuwa formÃª z listy otwartych okienek }
 procedure WindowListDel(Form: TForm);
 var i: Integer;
     B: Boolean;
@@ -723,7 +723,7 @@ begin
   FileClose(LH);
 end;
 
-{ zwraca iloœæ zajêtej pamiêci jako string, odpowiednio sformatowany jako kB, MB, GB itp }
+{ zwraca iloÂœÃ¦ zajÃªtej pamiÃªci jako string, odpowiednio sformatowany jako kB, MB, GB itp }
 function GtFileOrMemSizeToStr(aSize: Integer; aPrec: Integer=-1): String;
 begin
   if (aSize > 1024*1024*1024) and (aPrec = -1) or (aPrec = 3) then Result := Format('%.1n GiB', [aSize/1024/1024/1024]) else
@@ -794,7 +794,7 @@ begin
   Result := (aBinValue shr (8 * aByteNo)) and $ff;
 end;
 
-{ zwiêksza rozmiar fonta }
+{ zwiÃªksza rozmiar fonta }
 function FontSizeUp(aFont: TFont; aMaxSize: Integer = 0): Boolean;
 begin
   Result := False;
